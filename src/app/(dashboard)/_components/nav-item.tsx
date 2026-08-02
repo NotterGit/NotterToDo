@@ -2,8 +2,9 @@
 
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
-import { Gem, Layout, Settings } from "lucide-react"
+import { Activity, Gem, Layout, Settings } from "lucide-react"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 
@@ -32,9 +33,14 @@ export function NavItem({isExpanded, isActive, organization, onExpand}: NavItemP
             href: `/organization/${organization.id}`
         },
         {
+            label: "Activity",
+            icon: <Activity className="h-4 w-4 mr-2"/>,
+            href: `/organization/${organization.id}/activity`
+        },
+        {
             label: "Settings",
             icon: <Settings className="h-4 w-4 mr-2"/>,
-            href: `/organization/${organization.id}/activity`
+            href: `/organization/${organization.id}/settings`
         },
         {
             label: "Subscribe",
@@ -85,5 +91,16 @@ export function NavItem({isExpanded, isActive, organization, onExpand}: NavItemP
                 ))}
             </AccordionContent>
         </AccordionItem>
+    )
+}
+
+NavItem.Skeleton = function SkeletonNavItem() {
+    return (
+        <div className="flex items-center gap-x-2">
+            <div className="w-10 h-10 relative shrink-0">
+                <Skeleton className="h-full w-full absolute"/>
+            </div>
+            <Skeleton className="h-10 w-full"/>
+        </div>
     )
 }
