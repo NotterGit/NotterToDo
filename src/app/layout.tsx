@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ToasterProvider } from "@/components/providers/toaster-provider";
 
 const inter = Inter({subsets:['latin'], variable:'--font-sans'});
 
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="ru" className={`${inter.variable} h-full`}>
       <body className={`antialiased h-full`}>
         <ClerkProvider>
+          <ToasterProvider />
           {children}
         </ClerkProvider>
       </body>

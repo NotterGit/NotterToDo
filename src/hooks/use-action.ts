@@ -1,3 +1,5 @@
+"use client"
+
 import { ActionState, FieldsErrors } from "@/lib/create-safe-action";
 import { useCallback, useState } from "react";
 
@@ -29,9 +31,7 @@ export const useAction = <TInput, TOutput>(
                     return
                 }
 
-                if(result.fieldErrors) {
-                    setFieldErrors(result.fieldErrors)
-                }
+                setFieldErrors(result.fieldErrors)
 
                 if(result.error){
                     setError(result.error)
