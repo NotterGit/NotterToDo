@@ -8,6 +8,9 @@ import { FormSubmit } from "./form-button";
 import { useAction } from "@/hooks/use-action";
 import { createBoard } from "@/actions/create-board";
 import toast from "react-hot-toast";
+import { FormPicker } from "./form-picker";
+import { ElementRef, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 interface FormPopoverProps {
   children: React.ReactNode
@@ -19,21 +22,25 @@ interface FormPopoverProps {
 export const FormPopover = ({
   children, side = "bottom", align, sideOffset = 0
 }: FormPopoverProps) => {
+    const router = useRouter()
+    const closeRef = useRef<ElementRef<"button">>(null)
+
     const { execute, fieldErrors } = useAction(createBoard, {
         onSuccess: (data) => {
-            console.log({data})
             toast.success("Board created!")
+            closeRef.current?.click()
+            router.push(`/board/${data.id}`)
         },
         onError: (err) => {
-            console.error({err})
             toast.error(err)
         }
     })
 
     const onSubmit = (formData: FormData) => {
         const title = formData.get("title") as string
+        const image = formData.get("image") as string
 
-        execute({title})
+        execute({title, image})
     }
 
     return (
@@ -50,13 +57,17 @@ export const FormPopover = ({
                 <div className="text-sm font-medium text-center text-neutral-600">
                     Create board
                 </div>
-                <PopoverClose>
+                <PopoverClose ref={closeRef}>
                     <Button className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600" variant="ghost">
                         <X className="w-4 h-4"/>
                     </Button>
                 </PopoverClose>
                 <form className="space-y-4" action={onSubmit}>
                     <div className="space-y-4">
+                        <FormPicker
+                            id="image"
+                            errors={fieldErrors}
+                        />
                         <FormInput
                             id="title"
                             label="Board title"
