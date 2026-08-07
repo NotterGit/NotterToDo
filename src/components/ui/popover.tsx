@@ -13,9 +13,13 @@ function PopoverTrigger({ ...props }: PopoverPrimitive.Trigger.Props) {
   return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />
 }
 
-function PopoverClose({ ...props }: PopoverPrimitive.Close.Props) {
-  return <PopoverPrimitive.Close data-slot="popover-close" {...props} />
-}
+const PopoverClose = React.forwardRef<
+  React.ElementRef<typeof PopoverPrimitive.Close>,
+  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Close>
+>(({ ...props }, ref) => (
+  <PopoverPrimitive.Close ref={ref} data-slot="popover-close" {...props} />
+))
+PopoverClose.displayName = "PopoverClose"
 
 function PopoverContent({
   className,

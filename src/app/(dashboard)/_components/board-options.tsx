@@ -32,11 +32,11 @@ export default function BoardOptions({
                 </Button>
             </PopoverTrigger>
             <PopoverContent
-                className="px-0 pt-3 pb-3"
+                className="px-0 pt-3 pb-3 gap-1"
                 side="bottom"
                 align="start"
             >
-                <div className="text-sm font-medium text-center text-neutral-600 pb-4">
+                <div className="text-sm font-medium text-center text-neutral-600 pb-1">
                     Board actions
                 </div>
                 <PopoverClose>
@@ -51,7 +51,7 @@ export default function BoardOptions({
                     variant="ghost"
                     onClick={onDelete}
                     disabled={isLoading}
-                    className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm hover:bg-rose-500 hover:text-white"
+                    className="rounded-none w-full h-auto py-2 px-5 justify-start font-normal text-sm hover:bg-rose-500 hover:text-white"
                 >
                     Delete this board
                 </Button>
