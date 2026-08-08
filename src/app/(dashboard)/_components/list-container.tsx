@@ -77,7 +77,7 @@ export function ListContainer({
     }
 
     if (type === "card") {
-      let newOrderedData = [...orderedData]
+      const newOrderedData = [...orderedData]
 
       const sourceList = newOrderedData.find(list => list.id === source.droppableId)
       const destList = newOrderedData.find(list => list.id === destination.droppableId)
@@ -157,6 +157,7 @@ export function ListContainer({
                 />
               )
             })}
+            {provided.placeholder}
             <ListForm/>
             <div className="flex-shrink-0 w-1"/>
           </ol>
