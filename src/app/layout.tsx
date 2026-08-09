@@ -3,6 +3,8 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ToasterProvider } from "@/components/providers/toaster-provider";
+import { ModalProvider } from "@/components/providers/modal-provider";
+import { QueryProvider } from "@/components/providers/query-provider";
 
 const inter = Inter({subsets:['latin'], variable:'--font-sans'});
 
@@ -23,8 +25,11 @@ export default function RootLayout({
     <html lang="ru" className={`${inter.variable} h-full`}>
       <body className={`antialiased h-full`}>
         <ClerkProvider>
-          <ToasterProvider />
-          {children}
+          <QueryProvider>
+            <ToasterProvider />
+            <ModalProvider/>
+            {children}
+          </QueryProvider>
         </ClerkProvider>
       </body>
     </html>
