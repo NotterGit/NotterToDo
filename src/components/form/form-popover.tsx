@@ -27,12 +27,8 @@ export const FormPopover = ({
 
     const { execute, fieldErrors } = useAction(createBoard, {
         onSuccess: (data) => {
-            toast.success("Board created!")
             closeRef.current?.click()
             router.push(`/board/${data.id}`)
-        },
-        onError: (err) => {
-            toast.error(err)
         }
     })
 
@@ -40,7 +36,11 @@ export const FormPopover = ({
         const title = formData.get("title") as string
         const image = formData.get("image") as string
 
-        execute({title, image})
+        toast.promise(execute({title, image}), {
+            loading: "Creating board...",
+            success: "Board created!",
+            error: (err) => err
+        })
     }
 
     return (

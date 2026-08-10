@@ -23,38 +23,38 @@ export default function Actions({
 
     const { execute: executeCopyCard, isLoading: isLoadingCopy } = useAction(copyCard, {
         onSuccess: (data) => {
-            toast.success(`Card '${data.title}' copied`)
             cardModal.onClose()
-        },
-        onError: (error) => {
-            toast.error(error)
         }
     })
     const { execute: executeDeleteCard, isLoading: isLoadingDelete } = useAction(deleteCard, {
         onSuccess: (data) => {
-            toast.success(`Card '${data.title}' deleted`)
             cardModal.onClose()
-        },
-        onError: (error) => {
-            toast.error(error)
         }
     })
 
     const onCopy = () => {
         const boardId = params.boardId as string
 
-        executeCopyCard({
+        toast.promise(executeCopyCard({
             id: data.id,
             boardId
+        }), {
+            loading: "Copying...",
+            success: (data) => `Card '${data.title}' copied`,
+            error: (err) => err
         })
     }
 
     const onDelete = () => {
         const boardId = params.boardId as string
 
-        executeDeleteCard({
+        toast.promise(executeDeleteCard({
             id: data.id,
             boardId
+        }), {
+            loading: "Deleting...",
+            success: (data) => `Card '${data.title}' deleted`,
+            error: (err) => err
         })
     }
 

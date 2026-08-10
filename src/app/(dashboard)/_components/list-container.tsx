@@ -28,23 +28,9 @@ export function ListContainer({
 }: ListContainerProps) {
   const [orderedData, setOrderedData] = useState(data)
 
-  const { execute: executeUpdateListOrder } = useAction(updateListOrder, {
-    onSuccess: () => {
-      toast.success("List reordered")
-    },
-    onError: (error) => {
-      toast.error(error)
-    }
-  })
+  const { execute: executeUpdateListOrder } = useAction(updateListOrder)
 
-  const { execute: executeUpdateCardOrder } = useAction(updateCardOrder, {
-    onSuccess: () => {
-      toast.success("Card reordered")
-    },
-    onError: (error) => {
-      toast.error(error)
-    }
-  })
+  const { execute: executeUpdateCardOrder } = useAction(updateCardOrder)
 
   useEffect(() => {
     setOrderedData(data)
@@ -73,7 +59,11 @@ export function ListContainer({
       ).map((item, index) => ({ ...item, order: index }))
 
       setOrderedData(items)
-      executeUpdateListOrder({ items, boardId })
+      toast.promise(executeUpdateListOrder({ items, boardId }), {
+        loading: "Reordering lists...",
+        success: "Lists reordered",
+        error: (err) => err
+      })
     }
 
     if (type === "card") {
@@ -109,8 +99,12 @@ export function ListContainer({
 
         setOrderedData(newOrderedData)
 
-        executeUpdateCardOrder({
+        toast.promise(executeUpdateCardOrder({
           boardId, items: reorderedCards
+        }), {
+          loading: "Reordering cards...",
+          success: "Cards reordered",
+          error: (err) => err
         })
       } else {
         const [movedCard] = sourceList.cards.splice(source.index, 1)
@@ -128,8 +122,12 @@ export function ListContainer({
         })
 
         setOrderedData(newOrderedData)
-        executeUpdateCardOrder({
+        toast.promise(executeUpdateCardOrder({
           boardId, items: destList.cards
+        }), {
+          loading: "Reordering cards...",
+          success: "Cards reordered",
+          error: (err) => err
         })
       }
     } 

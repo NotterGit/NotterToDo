@@ -31,11 +31,7 @@ export function Header({
                 queryKey: ["card-logs", data.id]
             })
 
-            toast.success(`Renamed to '${data.title}'`)
             setTitle(data.title);
-        },
-        onError: (error) => {
-            toast.error(error)
         }
     })
 
@@ -55,10 +51,14 @@ export function Header({
             return
         }
 
-        execute({
+        toast.promise(execute({
             title,
             boardId,
             id: data.id
+        }), {
+            loading: "Renaming...",
+            success: (data) => `Renamed to '${data.title}'`,
+            error: (err) => err
         })
     }
 

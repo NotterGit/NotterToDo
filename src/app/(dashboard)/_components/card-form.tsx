@@ -26,11 +26,7 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(({
 
     const { execute, fieldErrors } = useAction(createCard, {
         onSuccess: (data) => {
-            toast.success(`Card "${data.title}" created`)
             formRef.current?.reset()
-        },
-        onError: (error) => {
-            toast.error(error)
         }
     })
 
@@ -55,7 +51,11 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(({
         const listId = formData.get("listId") as string
         const boardId = params.boardId as string
 
-        execute({ title, listId, boardId })
+        toast.promise(execute({ title, listId, boardId }), {
+            loading: "Creating card...",
+            success: (data) => `Card "${data.title}" created`,
+            error: (error) => error
+        })
     }
 
     if(isEditing){

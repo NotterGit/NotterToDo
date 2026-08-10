@@ -15,16 +15,7 @@ interface BoardTitleProps {
 export function BoardTitle({
     data
 }: BoardTitleProps) {
-    const { execute } = useAction(updateBoard, {
-        onSuccess: (data) => {
-            toast.success(`Board '${data.title}' updated!`)
-            setTitle(data.title)
-            disableEditing()
-        },
-        onError: (err) => {
-            toast.error(err)
-        }
-    })
+    const { execute } = useAction(updateBoard)
 
     const formRef = useRef<ElementRef<"form">>(null)
     const inputRef = useRef<ElementRef<"input">>(null)
@@ -47,9 +38,18 @@ export function BoardTitle({
     const onSubmit = (formData: FormData) => {
         const title = formData.get("title") as string
         
-        execute({
+        toast.promise(execute({
             title,
             id: data.id
+        }), {
+            loading: "Updating title...",
+            success: `Board '${title}' updated!`,
+            error: (err) => err
+        }).then(() => {
+            setTitle(title)
+            disableEditing()
+        }).catch(() => {
+            disableEditing()
         })
     }
 

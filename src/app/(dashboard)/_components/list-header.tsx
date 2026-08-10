@@ -33,16 +33,7 @@ export function ListHeader({
         setIsEditing(false)
     }
 
-    const { execute } = useAction(updateList, {
-        onSuccess: (data) => {
-            toast.success(`Renamed to '${data.title}'`)
-            setTitle(data.title)
-            disableEditing()
-        },
-        onError: (error) => {
-            toast.error(error)
-        }
-    })
+    const { execute } = useAction(updateList)
 
     const handleSubmit = (formData: FormData) => {
         const title = formData.get("title") as string
@@ -53,10 +44,19 @@ export function ListHeader({
             return disableEditing()
         }
 
-        execute({
+        toast.promise(execute({
             title,
             id,
             boardId
+        }), {
+            loading: "Updating title...",
+            success: (data) => `Renamed to '${data.title}'`,
+            error: (err) => err
+        }).then((data) => {
+            setTitle(data.title)
+            disableEditing()
+        }).catch(() => {
+            disableEditing()
         })
     }
 

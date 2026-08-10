@@ -36,12 +36,20 @@ export const useAction = <TInput, TOutput>(
                 if(result.error){
                     setError(result.error)
                     options.onError?.(result.error)
+                    return Promise.reject(result.error)
+                }
+
+                if(result.fieldErrors) {
+                    return Promise.reject("Please check the input fields")
                 }
 
                 if(result.data){
                     setData(result.data)
                     options.onSuccess?.(result.data)
+                    return result.data
                 }
+                
+                return Promise.reject("Something went wrong")
             } finally {
                 setIsLoading(false)
                 options.onComplete?.()

@@ -24,21 +24,13 @@ export function ListOptions({
     
     const { execute: executeDelete } = useAction(deleteList, {
         onSuccess: (data) => {
-            toast.success(`List '${data.title}' deleted`)
             closeRef.current?.click()
-        },
-        onError: (error) => {
-            toast.error(error)
         }
     })
 
     const { execute: executeCopy } = useAction(copyList, {
         onSuccess: (data) => {
-            toast.success(`List '${data.title}' copied`)
             closeRef.current?.click()
-        },
-        onError: (error) => {
-            toast.error(error)
         }
     })
 
@@ -46,14 +38,22 @@ export function ListOptions({
         const id = formData.get("id") as string;
         const boardId = formData.get("boardId") as string
 
-        executeDelete({id, boardId})
+        toast.promise(executeDelete({id, boardId}), {
+            loading: "Deleting list...",
+            success: (data) => `List '${data.title}' deleted`,
+            error: (err) => err
+        })
     }
 
     const onCopy = (formData: FormData) => {
         const id = formData.get("id") as string;
         const boardId = formData.get("boardId") as string
 
-        executeCopy({id, boardId})
+        toast.promise(executeCopy({id, boardId}), {
+            loading: "Copying list...",
+            success: (data) => `List '${data.title}' copied`,
+            error: (err) => err
+        })
     }
 
     return (

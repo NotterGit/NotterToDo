@@ -34,12 +34,8 @@ export default function ListForm() {
 
     const { execute, fieldErrors } = useAction(createList, {
         onSuccess: (data) => {
-            toast.success(`List '${data.title}' created`);
             disableEditing();
             router.refresh()
-        },
-        onError: (err) => {
-            toast.error(err)
         }
     })
 
@@ -56,9 +52,13 @@ export default function ListForm() {
         const title = formData.get("title") as string
         const boardId = formData.get("boardId") as string
 
-        execute({
+        toast.promise(execute({
             title,
             boardId
+        }), {
+            loading: "Creating list...",
+            success: (data) => `List '${data.title}' created`,
+            error: (err) => err
         })
     }
 

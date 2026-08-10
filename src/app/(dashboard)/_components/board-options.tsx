@@ -14,14 +14,14 @@ interface BoardOptionsProps {
 export default function BoardOptions({
     id
 }: BoardOptionsProps) {
-    const { execute, isLoading } = useAction(deleteBoard, {
-        onError: (err) => {
-            toast.error(err)
-        }
-    })
+    const { execute, isLoading } = useAction(deleteBoard)
 
     const onDelete = () => {
-        execute({ id })
+        toast.promise(execute({ id }), {
+            loading: "Deleting board...",
+            success: "Board deleted!",
+            error: (err) => err
+        })
     }
 
     return (
