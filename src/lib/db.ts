@@ -13,7 +13,6 @@ function createPrismaClient() {
     }
 
     try {
-        // Ensure protocol is mariadb:// for URL parser if mysql:// is supplied
         const normalizedUrl = urlString.replace(/^mysql:\/\//, "mariadb://");
         const dbUrl = new URL(normalizedUrl);
         const adapter = new PrismaMariaDb({
