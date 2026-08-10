@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     template: "%s | ToDo",
   },
   description: "Make task, make plan, make To, make Do. This - is Notter ToDo",
+  icons: {
+    icon: "/icon.png"
+  }
 };
 
 export default function RootLayout({

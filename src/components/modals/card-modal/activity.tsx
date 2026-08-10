@@ -33,7 +33,7 @@ Activity.Skeleton = function ActivitySkeleton() {
     return (
         <div className="flex items-center gap-x-3 w-full">
             <Skeleton className="h-6 w-6 bg-neutral-200"/>
-            <div className="w-full">
+            <div className="w-full space-y-2">
                 <Skeleton className="w-24 h-6 bg-neutral-200"/>
                 <Skeleton className="w-full h-10 bg-neutral-200"/>
             </div>
