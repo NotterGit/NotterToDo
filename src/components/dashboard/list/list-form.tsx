@@ -68,7 +68,7 @@ export default function ListForm() {
                 <form 
                     action={onSubmit}
                     ref={formRef}
-                    className="w-full p-3 rounded-md bg-white space-y-4 shadow-md"
+                    className="w-full p-3 rounded-md bg-white dark:bg-neutral-900 space-y-4 shadow-md"
                 >
                     <FormInput
                         ref={inputRef}
@@ -101,7 +101,7 @@ export default function ListForm() {
     return (
         <ListWrapper>
             <button 
-                className="w-full rounded-md bg-white/80 hover:bg-white/50 transition p-3 flex items-center font-medium text-xs"
+                className="w-full rounded-md bg-white/80 hover:bg-white/50 dark:bg-neutral-900/80 dark:hover:bg-neutral-900/60 dark:text-neutral-200 transition p-3 flex items-center font-medium text-xs"
                 onClick={enableEditing}
             >
                 <Plus className="h-4 w-4 mr-2"/>

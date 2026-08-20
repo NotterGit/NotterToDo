@@ -33,12 +33,12 @@ export default function BoardOptions({
                 side="bottom"
                 align="start"
             >
-                <div className="text-sm font-medium text-center text-neutral-600 pb-1">
+                <div className="text-sm font-medium text-center text-neutral-600 dark:text-neutral-300 pb-1">
                     Board actions
                 </div>
                 <PopoverClose>
                     <Button 
-                        className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600"
+                        className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600 dark:text-neutral-300"
                         variant="ghost"
                     >
                         <X className="h-4 w-4"/>

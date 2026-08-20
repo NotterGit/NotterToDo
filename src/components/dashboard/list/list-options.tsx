@@ -59,11 +59,11 @@ export function ListOptions({
             </Button>
             </PopoverTrigger>
             <PopoverContent className="px-0 pt-3 pb-3 gap-1" side="bottom" align="start">
-                <div className="text-sm font-medium text-center text-neutral-600 ">
+                <div className="text-sm font-medium text-center text-neutral-600 dark:text-neutral-300">
                     List actions
                 </div>
                 <PopoverClose ref={closeRef}>
-                    <Button className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600" variant="ghost">
+                    <Button className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600 dark:text-neutral-300" variant="ghost">
                         <X className="h-4 w-4"/>
                     </Button>
                 </PopoverClose>

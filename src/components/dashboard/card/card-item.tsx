@@ -13,7 +13,7 @@ export function CardItem({
         <Draggable draggableId={data.id} index={index}>
             {(provided) => (
                 <div 
-                    className="truncate border-2 border-transparent hover:border-black py-2 px-3 text-sm bg-white rounded-md shadow-sm" 
+                    className="truncate border-2 border-transparent hover:border-black dark:hover:border-neutral-400 py-2 px-3 text-sm bg-white dark:bg-neutral-800 dark:text-neutral-100 rounded-md shadow-sm" 
                     role="button"
                     onClick={() => cardModal.onOpen(data.id)}
                     {...provided.draggableProps}

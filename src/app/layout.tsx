@@ -7,6 +7,7 @@ import { ModalProvider } from "@/components/providers/modal-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { APP_DESCRIPTION, APP_NAME } from "@/config/const/app.const";
 import { images } from "@/config/const/image.const";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -27,15 +28,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${inter.variable} h-full`}>
+    <html lang="ru" className={`${inter.variable} h-full`} suppressHydrationWarning>
       <body className={`antialiased h-full`}>
-        <ClerkProvider>
-          <QueryProvider>
-            <ToasterProvider />
-            <ModalProvider/>
-            {children}
-          </QueryProvider>
-        </ClerkProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ClerkProvider>
+            <QueryProvider>
+              <ToasterProvider />
+              <ModalProvider/>
+              {children}
+            </QueryProvider>
+          </ClerkProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

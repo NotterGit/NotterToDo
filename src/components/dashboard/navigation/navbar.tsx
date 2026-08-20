@@ -7,10 +7,11 @@ import { MobileSidebar } from "./mobile-sidebar";
 import { FormPopover } from "@/components/form/form-popover";
 import { images } from "@/config/const/image.const";
 import { pages } from "@/config/routing/pages.route";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 export function Navbar() {
     return (
-        <nav className="fixed z-50 top-0 w-full h-14 border-b shadow-sm bg-white flex items-center px-4">
+        <nav className="fixed z-50 top-0 w-full h-14 border-b border-border shadow-sm bg-background flex items-center px-4">
             <MobileSidebar/>
             <div className="flex items-center gap-x-4">
                 <div className="hidden md:flex">
@@ -19,8 +20,8 @@ export function Navbar() {
                     </Link>
                 </div>
                 <FormPopover align="start" side="bottom" sideOffset={18}>
-                    <Button className="rounded-sm hidden md:block h-auto py-1.5 px-2">
-                        Create
+                    <Button className="rounded-sm hidden md:flex h-auto py-1.5 px-2 flex-row">
+                        <Plus className="h-4 w-4"/> Create
                     </Button>
                 </FormPopover>
                 <FormPopover>
@@ -54,6 +55,8 @@ export function Navbar() {
                         }
                     }}
                 />
+
+                <ModeToggle/>
             </div>
         </nav>
     )

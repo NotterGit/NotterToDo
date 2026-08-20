@@ -33,7 +33,7 @@ export function MobileSidebar() {
         <>
             <Button
                 onClick={onOpen}
-                className="block md:hidden mr-2"
+                className="block md:hidden"
                 variant="ghost"
                 size="sm"
             >
