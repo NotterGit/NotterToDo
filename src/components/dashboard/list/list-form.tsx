@@ -1,7 +1,7 @@
 "use client"
 
 import { Plus, X } from "lucide-react"
-import { ListWrapper } from "./list-wapper"
+import { ListWrapper } from "../../../app/(dashboard)/_components/list-wapper"
 import { ElementRef, useRef, useState } from "react";
 import { useEventListener, useOnClickOutside } from "usehooks-ts";
 import { FormInput } from "@/components/form/form-input";

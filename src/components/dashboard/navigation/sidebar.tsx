@@ -7,7 +7,7 @@ import { useOrganization, useOrganizationList } from "@clerk/nextjs"
 import { Plus } from "lucide-react"
 import Link from "next/link"
 import { useLocalStorage } from "usehooks-ts"
-import { NavItem, Organization } from "./nav-item"
+import { NavItem, Organization } from "./navitem"
 
 interface SidebarProps {
     storageKey?: string

@@ -1,5 +1,5 @@
-import { ActivityList } from "@/app/(dashboard)/_components/activity-list";
-import { Info } from "@/app/(dashboard)/_components/info";
+import { ActivityList } from "@/components/dashboard/activity-list";
+import { Info } from "@/components/dashboard/info";
 import { Separator } from "@/components/ui/separator";
 import { Suspense } from "react";
 

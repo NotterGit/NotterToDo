@@ -1,7 +1,7 @@
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs/server"
 import { notFound, redirect } from "next/navigation"
-import BoardNav from "../../_components/board-nav"
+import BoardNav from "../../../../components/dashboard/board/board-nav"
 
 export async function generateMetadata({
     params

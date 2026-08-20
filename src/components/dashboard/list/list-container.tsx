@@ -3,7 +3,7 @@
 import { ListWithCards } from "@/types"
 import ListForm from "./list-form"
 import { useEffect, useState } from "react"
-import { ListItem } from "./list-item"
+import { ListItem } from "../../../app/(dashboard)/_components/list-item"
 import { DragDropContext, Droppable } from "@hello-pangea/dnd"
 import { useAction } from "@/hooks/use-action"
 import { updateListOrder } from "@/actions/update-list-order"
