@@ -68,7 +68,7 @@ export function ListHeader({
     useEventListener("keydown", onKeyDown)
     
     return (
-        <div className="pt-2 px-2 text-sm font-semibold flex justify-between items-start gap-x-2">
+        <div className="pt-2 px-2 text-sm font-semibold flex justify-between items-start gap-x-2 shrink-0">
             {isEditing ? (
                 <form
                     action={handleSubmit}

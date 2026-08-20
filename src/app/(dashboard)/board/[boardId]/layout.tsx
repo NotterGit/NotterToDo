@@ -60,7 +60,7 @@ export default async function OrganizationIdLayout({
         >
             <BoardNav data={board}/>
             <div className="absolute inset-0 bg-black/15"/>
-            <main className="relative py-28 h-full">
+            <main className="relative pt-28 h-full">
                 {children}
             </main>
         </div>

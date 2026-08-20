@@ -36,7 +36,7 @@ export function ListItem({
                 >
                     <div 
                         {...provided.dragHandleProps}
-                        className="w-full rounded-md bg-[#f1f2f4] shadow-sm pb-2"
+                        className="w-full max-h-full rounded-md bg-[#f1f2f4] shadow-sm pb-2 flex flex-col"
                     >
                         <ListHeader data={data} onAddCard={enableEditing}/>
                         <Droppable droppableId={data.id} type="card">
@@ -45,7 +45,7 @@ export function ListItem({
                                     ref={provided.innerRef}
                                     {...provided.droppableProps}
                                     className={cn(
-                                        "mx-1 px-1 py-0.5 flex flex-col gap-y-2",
+                                        "mx-1 px-1 py-0.5 flex flex-col gap-y-2 overflow-y-auto overflow-x-hidden flex-1 min-h-0",
                                         data.cards.length > 0 ? "mt-2" : "mt-0",
                                     )}
                                 >
