@@ -2,12 +2,8 @@
 
 import { ActivityItem } from "@/components/ui/activity-item"
 import { Skeleton } from "@/components/ui/skeleton"
-import { AuditLog } from "@prisma/client"
 import { ActivityIcon } from "lucide-react"
-
-interface ActivityProps {
-    items: AuditLog[]    
-}
+import type { ActivityProps } from "@/config/types/modals.types"
 
 export function Activity({
     items

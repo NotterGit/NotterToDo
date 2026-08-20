@@ -1,7 +1,7 @@
 "use client"
 
 import { Plus, X } from "lucide-react"
-import { ListWrapper } from "../../../app/(dashboard)/_components/list-wapper"
+import { ListWrapper } from "./list-wapper"
 import { ElementRef, useRef, useState } from "react";
 import { useEventListener, useOnClickOutside } from "usehooks-ts";
 import { FormInput } from "@/components/form/form-input";
@@ -33,7 +33,7 @@ export default function ListForm() {
     }
 
     const { execute, fieldErrors } = useAction(createList, {
-        onSuccess: (data) => {
+        onSuccess: () => {
             disableEditing();
             router.refresh()
         }

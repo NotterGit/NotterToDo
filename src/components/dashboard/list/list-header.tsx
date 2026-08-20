@@ -1,16 +1,11 @@
 import { updateList } from "@/actions/update-list"
 import { FormInput } from "@/components/form/form-input"
 import { useAction } from "@/hooks/use-action"
-import { List } from "@prisma/client"
 import { ElementRef, useRef, useState } from "react"
 import toast from "react-hot-toast"
 import { useEventListener } from "usehooks-ts"
 import { ListOptions } from "./list-options"
-
-interface ListHeaderProps {
-    data: List
-    onAddCard: () => void
-}
+import type { ListHeaderProps } from "@/config/types/main.types"
 
 export function ListHeader({
     data, onAddCard

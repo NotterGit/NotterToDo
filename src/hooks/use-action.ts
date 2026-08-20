@@ -1,15 +1,7 @@
 "use client"
 
-import { ActionState, FieldsErrors } from "@/lib/create-safe-action";
+import type { Action, FieldsErrors, UseActionOptions } from "@/config/types/actions.types";
 import { useCallback, useState } from "react";
-
-type Action<TInput, TOutput> = (data: TInput) => Promise<ActionState<TInput, TOutput>> 
-
-interface UseActionOptions<TOutput> {
-    onSuccess?: (data: TOutput) => void
-    onError?: (error: string) => void
-    onComplete?: () => void
-}
 
 export const useAction = <TInput, TOutput>(
     action: Action<TInput, TOutput>,
@@ -21,29 +13,29 @@ export const useAction = <TInput, TOutput>(
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const execute = useCallback(
-        async(input: TInput) => {
+        async (input: TInput): Promise<TOutput> => {
             setIsLoading(true)
 
             try {
                 const result = await action(input)
 
-                if(!result){
-                    return
+                if (!result) {
+                    return Promise.reject("Something went wrong")
                 }
 
                 setFieldErrors(result.fieldErrors)
 
-                if(result.error){
+                if (result.error) {
                     setError(result.error)
                     options.onError?.(result.error)
                     return Promise.reject(result.error)
                 }
 
-                if(result.fieldErrors) {
+                if (result.fieldErrors) {
                     return Promise.reject("Please check the input fields")
                 }
 
-                if(result.data){
+                if (result.data) {
                     setData(result.data)
                     options.onSuccess?.(result.data)
                     return result.data

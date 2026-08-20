@@ -1,19 +1,14 @@
 "use client"
 
-import { ListWithCards } from "@/types"
 import ListForm from "./list-form"
 import { useEffect, useState } from "react"
-import { ListItem } from "../../../app/(dashboard)/_components/list-item"
-import { DragDropContext, Droppable } from "@hello-pangea/dnd"
+import { ListItem } from "./list-item"
+import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd"
 import { useAction } from "@/hooks/use-action"
 import { updateListOrder } from "@/actions/update-list-order"
 import toast from "react-hot-toast"
 import { updateCardOrder } from "@/actions/update-card-order"
-
-interface ListContainerProps {
-  data: ListWithCards[]
-  boardId: string
-}
+import type { ListContainerProps } from "@/config/types/main.types"
 
 function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   const result = Array.from(list)
@@ -29,15 +24,13 @@ export function ListContainer({
   const [orderedData, setOrderedData] = useState(data)
 
   const { execute: executeUpdateListOrder } = useAction(updateListOrder)
-
   const { execute: executeUpdateCardOrder } = useAction(updateCardOrder)
 
   useEffect(() => {
     setOrderedData(data)
   }, [data])
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: DropResult) => {
     const { destination, source, type } = result
 
     if (!destination) {

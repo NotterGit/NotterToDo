@@ -1,10 +1,6 @@
-import { Board } from "@prisma/client"
 import { BoardTitle } from "./board-title"
 import BoardOptions from "./board-options"
-
-interface BoardNavProps {
-    data: Board
-}
+import type { BoardNavProps } from "@/config/types/main.types"
 
 export default async function BoardNav({
     data

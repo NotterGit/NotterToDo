@@ -11,13 +11,8 @@ import toast from "react-hot-toast";
 import { FormPicker } from "./form-picker";
 import { ElementRef, useRef } from "react";
 import { useRouter } from "next/navigation";
-
-interface FormPopoverProps {
-  children: React.ReactNode
-  side?: "left" | "right" | "top" | "bottom"
-  align?: "start" | "center" | "end"
-  sideOffset?: number
-}
+import { pages } from "@/config/routing/pages.route";
+import type { FormPopoverProps } from "@/config/types/components.types";
 
 export const FormPopover = ({
   children, side = "bottom", align, sideOffset = 0
@@ -28,7 +23,7 @@ export const FormPopover = ({
     const { execute, fieldErrors } = useAction(createBoard, {
         onSuccess: (data) => {
             closeRef.current?.click()
-            router.push(`/board/${data.id}`)
+            router.push(pages.BOARD(data.id))
         }
     })
 

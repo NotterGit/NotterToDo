@@ -1,11 +1,5 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip"
-
-interface HintProps {
-    children: React.ReactNode
-    description?: string
-    side?: "left" | "right" | "top" | "bottom"
-    sideOffset?: number
-}
+import type { HintProps } from "@/config/types/components.types"
 
 export function Hint({
     children, description, side = "bottom", sideOffset = 0

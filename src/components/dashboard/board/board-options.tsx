@@ -6,10 +6,7 @@ import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/compone
 import { useAction } from "@/hooks/use-action";
 import { MoreHorizontal, X } from "lucide-react";
 import toast from "react-hot-toast";
-
-interface BoardOptionsProps {
-    id: string
-}
+import type { BoardOptionsProps } from "@/config/types/main.types";
 
 export default function BoardOptions({
     id

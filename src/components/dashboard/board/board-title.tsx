@@ -4,13 +4,9 @@ import { updateBoard } from "@/actions/update-board"
 import { FormInput } from "@/components/form/form-input"
 import { Button } from "@/components/ui/button"
 import { useAction } from "@/hooks/use-action"
-import { Board } from "@prisma/client"
 import { ElementRef, useRef, useState } from "react"
 import toast from "react-hot-toast"
-
-interface BoardTitleProps {
-    data: Board
-}
+import type { BoardTitleProps } from "@/config/types/main.types"
 
 export function BoardTitle({
     data

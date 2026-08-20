@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
-import { Info } from "../../../../components/dashboard/info";
-import BoardList from "../../../../components/dashboard/board/board-list";
+import { Info } from "@/components/dashboard/info";
+import BoardList from "@/components/dashboard/board/board-list";
 import { Suspense } from "react";
 
 export default async function OrganizationIdPage() {

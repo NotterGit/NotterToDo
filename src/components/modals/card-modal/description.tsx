@@ -6,17 +6,13 @@ import { FormTextarea } from "@/components/form/form-textarea";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAction } from "@/hooks/use-action";
-import { CardWithList } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { AlignLeft } from "lucide-react";
 import { useParams } from "next/navigation";
 import { ElementRef, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useEventListener, useOnClickOutside } from "usehooks-ts";
-
-interface DescriptionProps {
-    data: CardWithList
-}
+import type { DescriptionProps } from "@/config/types/modals.types";
 
 export function Description({
     data

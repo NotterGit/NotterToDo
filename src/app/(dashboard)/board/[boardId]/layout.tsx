@@ -1,13 +1,13 @@
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs/server"
 import { notFound, redirect } from "next/navigation"
-import BoardNav from "../../../../components/dashboard/board/board-nav"
+import BoardNav from "@/components/dashboard/board/board-nav"
+import { pages } from "@/config/routing/pages.route"
+import type { BoardIdPageProps } from "@/config/types/main.types"
 
 export async function generateMetadata({
     params
-}: {
-    params: { boardId: string }
-}) {
+}: BoardIdPageProps) {
     const { orgId } = auth()
 
     if (!orgId) {
@@ -37,7 +37,7 @@ export default async function OrganizationIdLayout({
     const { orgId } = auth()
 
     if(!orgId){
-        redirect("/select-org")
+        redirect(pages.SELECT_ORG)
     }
      
     const board = await db.board.findUnique({

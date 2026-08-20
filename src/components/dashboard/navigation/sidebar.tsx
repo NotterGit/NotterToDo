@@ -7,13 +7,12 @@ import { useOrganization, useOrganizationList } from "@clerk/nextjs"
 import { Plus } from "lucide-react"
 import Link from "next/link"
 import { useLocalStorage } from "usehooks-ts"
-import { NavItem, Organization } from "./navitem"
+import { NavItem } from "./navitem"
+import { STORAGE_KEYS } from "@/config/const/app.const"
+import { pages } from "@/config/routing/pages.route"
+import type { Organization, SidebarProps } from "@/config/types/main.types"
 
-interface SidebarProps {
-    storageKey?: string
-}
-
-export function Sidebar({storageKey = "t-sidebar-state"}: SidebarProps) {
+export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
     const [expended, setExpended] = useLocalStorage<Record<string, boolean>>(storageKey, {})
 
     const { organization: activeOrg, isLoaded: isLoadedOrg } = useOrganization() 
@@ -62,7 +61,7 @@ export function Sidebar({storageKey = "t-sidebar-state"}: SidebarProps) {
                     Workspace
                 </span>
                 <Button type="button" size="icon" variant="ghost" className="ml-auto">
-                    <Link href="/auth/select-org">
+                    <Link href={pages.AUTH.SELECT_ORG}>
                         <Plus className="h-4 w-4"/>
                     </Link>
                 </Button>

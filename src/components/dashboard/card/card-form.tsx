@@ -10,13 +10,7 @@ import { useParams } from "next/navigation"
 import { ElementRef, forwardRef, KeyboardEventHandler, useRef } from "react"
 import toast from "react-hot-toast"
 import { useEventListener, useOnClickOutside } from "usehooks-ts"
-
-interface CardFormProps {
-    listId: string
-    enableEditing: () => void
-    disableEditing: () => void
-    isEditing: boolean
-}
+import type { CardFormProps } from "@/config/types/main.types"
 
 export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(({
     listId, enableEditing, disableEditing, isEditing
@@ -25,7 +19,7 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(({
     const formRef = useRef<ElementRef<"form">>(null)
 
     const { execute, fieldErrors } = useAction(createCard, {
-        onSuccess: (data) => {
+        onSuccess: () => {
             formRef.current?.reset()
         }
     })

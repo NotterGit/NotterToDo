@@ -6,14 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAction } from "@/hooks/use-action";
 import { useCardModal } from "@/hooks/use-card-modal";
-import { CardWithList } from "@/types";
 import { Copy, Trash } from "lucide-react";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
-
-interface ActionsProps {
-    data: CardWithList
-}
+import type { ActionsProps } from "@/config/types/modals.types";
 
 export default function Actions({
     data
@@ -22,12 +18,12 @@ export default function Actions({
     const cardModal = useCardModal()
 
     const { execute: executeCopyCard, isLoading: isLoadingCopy } = useAction(copyCard, {
-        onSuccess: (data) => {
+        onSuccess: () => {
             cardModal.onClose()
         }
     })
     const { execute: executeDeleteCard, isLoading: isLoadingDelete } = useAction(deleteCard, {
-        onSuccess: (data) => {
+        onSuccess: () => {
             cardModal.onClose()
         }
     })

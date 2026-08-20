@@ -6,19 +6,7 @@ import { Label } from "../ui/label"
 import { cn } from "@/lib/utils"
 import { FormErrors } from "./form-errors"
 import { Input } from "../ui/input"
-
-interface FormInputProps {
-    id: string
-    label?: string
-    type?: string
-    placeholder?: string
-    required?: boolean
-    disabled?: boolean
-    errors?: Record<string, string[] | undefined>
-    className?: string
-    defaultValue?: string
-    onBlur?: () => void
-}
+import type { FormInputProps } from "@/config/types/components.types"
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(({
     id, label, type, placeholder, required, disabled, errors, className, defaultValue = "", onBlur

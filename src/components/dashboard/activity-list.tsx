@@ -3,12 +3,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { pages } from "@/config/routing/pages.route";
 
 export async function ActivityList() {
   const { orgId } = auth()
 
   if (!orgId) {
-    redirect("/select-org")
+    redirect(pages.SELECT_ORG)
   }
 
   const auditLogs = await db.auditLog.findMany({

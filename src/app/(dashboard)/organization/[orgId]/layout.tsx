@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server"
-import { OrgControl } from "../../../../components/dashboard/org-control"
+import { OrgControl } from "@/components/dashboard/org-control"
 import { startCase } from "lodash"
 
 export async function generateMetadata() {

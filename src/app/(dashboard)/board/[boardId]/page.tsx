@@ -1,13 +1,9 @@
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { ListContainer } from "../../../../components/dashboard/list/list-container";
-
-interface BoardIdPageProps {
-  params: {
-    boardId: string
-  }
-}
+import { ListContainer } from "@/components/dashboard/list/list-container";
+import { pages } from "@/config/routing/pages.route";
+import type { BoardIdPageProps } from "@/config/types/main.types";
 
 export default async function BoardIdPage({
   params
@@ -15,7 +11,7 @@ export default async function BoardIdPage({
   const { orgId } = auth();
 
   if (!orgId) {
-    redirect("/select-org");
+    redirect(pages.SELECT_ORG);
   }
 
   const lists = await db.list.findMany({

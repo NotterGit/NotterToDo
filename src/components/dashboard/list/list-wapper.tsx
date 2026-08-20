@@ -1,6 +1,4 @@
-interface ListWrapperProps {
-    children: React.ReactNode
-}
+import type { ListWrapperProps } from "@/config/types/main.types";
 
 export function ListWrapper({
     children

@@ -3,8 +3,10 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
-import { MobileSidebar } from "../../../app/(dashboard)/_components/mobile-sidebar";
+import { MobileSidebar } from "./mobile-sidebar";
 import { FormPopover } from "@/components/form/form-popover";
+import { images } from "@/config/const/image.const";
+import { pages } from "@/config/routing/pages.route";
 
 export function Navbar() {
     return (
@@ -12,8 +14,8 @@ export function Navbar() {
             <MobileSidebar/>
             <div className="flex items-center gap-x-4">
                 <div className="hidden md:flex">
-                    <Link href="/" className="flex items-center gap-x-2 hover:opacity-90 transition">
-                        <Image src="/icon.png" alt="Notter Todo Icon" width={36} height={36} />
+                    <Link href={pages.ROOT} className="flex items-center gap-x-2 hover:opacity-90 transition">
+                        <Image src={images.ICON} alt="Notter Todo Icon" width={36} height={36} />
                     </Link>
                 </div>
                 <FormPopover align="start" side="bottom" sideOffset={18}>
@@ -29,14 +31,14 @@ export function Navbar() {
             </div>
             <div className="ml-auto flex items-center gap-x-2">
                 <OrganizationSwitcher 
-                    afterCreateOrganizationUrl="/organization/:id"
-                    afterSelectOrganizationUrl="/organization/:id"
-                    afterLeaveOrganizationUrl="/auth/select-org"
+                    afterCreateOrganizationUrl={pages.ORGANIZATION_CLERK_PATTERN}
+                    afterSelectOrganizationUrl={pages.ORGANIZATION_CLERK_PATTERN}
+                    afterLeaveOrganizationUrl={pages.AUTH.SELECT_ORG}
                     appearance={{
                         elements: {
                             rootBox: {
                                 display: "flex",
-                                justifyContent: "center",
+                                justifyCenter: "center",
                                 alignItems: "center"
                             }
                         }

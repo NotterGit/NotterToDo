@@ -7,22 +7,13 @@ import { cn } from "@/lib/utils"
 import { Activity, Gem, Layout, Settings } from "lucide-react"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
+import { pages } from "@/config/routing/pages.route"
+import { links } from "@/config/const/links.const"
+import type { NavItemProps, Organization } from "@/config/types/main.types"
 
-export type Organization = {
-    id: string
-    slug: string
-    imageUrl: string
-    name: string
-}
+export type { Organization }
 
-interface NavItemProps {
-    isExpanded: boolean
-    isActive: boolean
-    organization: Organization
-    onExpand: (id: string) => void
-}
-
-export function NavItem({isExpanded, isActive, organization, onExpand}: NavItemProps) {
+export function NavItem({ isExpanded, isActive, organization, onExpand }: NavItemProps) {
     const router = useRouter()
     const pathname = usePathname()
 
@@ -30,22 +21,22 @@ export function NavItem({isExpanded, isActive, organization, onExpand}: NavItemP
         {
             label: "Boards",
             icon: <Layout className="h-4 w-4 mr-2"/>,
-            href: `/organization/${organization.id}`
+            href: pages.ORGANIZATION(organization.id)
         },
         {
             label: "Activity",
             icon: <Activity className="h-4 w-4 mr-2"/>,
-            href: `/organization/${organization.id}/activity`
+            href: pages.ORGANIZATION_ACTIVITY(organization.id)
         },
         {
             label: "Settings",
             icon: <Settings className="h-4 w-4 mr-2"/>,
-            href: `/organization/${organization.id}/settings`
+            href: pages.ORGANIZATION_SETTINGS(organization.id)
         },
         {
             label: "Subscribe",
             icon: <Gem className="h-4 w-4 mr-2"/>,
-            href: `https://gem.notter.su`
+            href: links.NOTTER_GEM
         }
     ]
 

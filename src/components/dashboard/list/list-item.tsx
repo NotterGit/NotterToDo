@@ -1,17 +1,12 @@
 "use client"
 
-import { ListWithCards } from "@/types"
 import { ListHeader } from "./list-header"
 import { ElementRef, useRef, useState } from "react"
 import { CardForm } from "../card/card-form"
 import { cn } from "@/lib/utils"
 import { CardItem } from "../card/card-item"
 import { Draggable, Droppable } from "@hello-pangea/dnd"
-
-interface ListItemProps {
-    data: ListWithCards
-    index: number
-}
+import type { ListItemProps } from "@/config/types/main.types"
 
 export function ListItem({
     data, index

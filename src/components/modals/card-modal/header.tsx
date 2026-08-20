@@ -4,16 +4,12 @@ import { updateCard } from "@/actions/update-card";
 import { FormInput } from "@/components/form/form-input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAction } from "@/hooks/use-action";
-import { CardWithList } from "@/types"
 import { useQueryClient } from "@tanstack/react-query";
 import { Layout } from "lucide-react"
 import { useParams } from "next/navigation";
 import { ElementRef, useRef, useState } from "react";
 import toast from "react-hot-toast";
-
-interface HeaderProps {
-    data: CardWithList
-}
+import type { HeaderProps } from "@/config/types/modals.types";
 
 export function Header({
     data

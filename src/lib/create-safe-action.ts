@@ -1,27 +1,20 @@
-import { z } from "zod"
+import { z } from "zod";
+import type { ActionState, FieldsErrors } from "@/config/types/actions.types";
 
-export type FieldsErrors<T> = {
-    [K in keyof T]?: string[]
-}
+export type { ActionState, FieldsErrors };
 
-export type ActionState<TInput, TOutput> = {
-    fieldErrors?: FieldsErrors<TInput>
-    error?: string | null
-    data?: TOutput
-}
-
-export function createSafeAction <TInput, TOutput>(
+export function createSafeAction<TInput, TOutput>(
     schema: z.Schema<TInput>,
     handler: (validatedData: TInput) => Promise<ActionState<TInput, TOutput>>
 ) {
     return async (data: TInput): Promise<ActionState<TInput, TOutput>> => {
-        const validationResult = schema.safeParse(data)
+        const validationResult = schema.safeParse(data);
         if (!validationResult.success) {
             return {
                 fieldErrors: validationResult.error.flatten().fieldErrors as FieldsErrors<TInput>
-            }
+            };
         }
 
-        return handler(validationResult.data)
-    }
+        return handler(validationResult.data);
+    };
 }

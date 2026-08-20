@@ -1,4 +1,4 @@
-import { Sidebar } from "../../../components/dashboard/navigation/sidebar"
+import { Sidebar } from "@/components/dashboard/navigation/sidebar"
 
 export default function OrganizationLayout({ 
     children 

@@ -1,9 +1,5 @@
 import { XCircle } from "lucide-react"
-
-interface FormErrorsProps {
-    id: string
-    errors?: Record<string, string[] | undefined>
-}
+import type { FormErrorsProps } from "@/config/types/components.types"
 
 export const FormErrors = ({
     id, errors

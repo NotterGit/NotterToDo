@@ -1,6 +1,5 @@
 "use client"
 
-import { List } from "@prisma/client"
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { MoreHorizontal, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,11 +10,7 @@ import { deleteList } from "@/actions/delete-list";
 import toast from "react-hot-toast";
 import { ElementRef, useRef } from "react";
 import { copyList } from "@/actions/copy-list";
-
-interface ListOptionsProps {
-    data: List
-    onAddCard: () => void
-}
+import type { ListOptionsProps } from "@/config/types/main.types";
 
 export function ListOptions({
     data, onAddCard
@@ -23,13 +18,13 @@ export function ListOptions({
     const closeRef = useRef<ElementRef<"button">>(null)
     
     const { execute: executeDelete } = useAction(deleteList, {
-        onSuccess: (data) => {
+        onSuccess: () => {
             closeRef.current?.click()
         }
     })
 
     const { execute: executeCopy } = useAction(copyList, {
-        onSuccess: (data) => {
+        onSuccess: () => {
             closeRef.current?.click()
         }
     })

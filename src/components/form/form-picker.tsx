@@ -1,6 +1,6 @@
 "use client"
 
-import { defaultImages } from "@/config/const/images"
+import { defaultImages, UNSPLASH_CONFIG } from "@/config/const/banner-images.const"
 import { unsplash } from "@/lib/unsplash"
 import { cn } from "@/lib/utils"
 import { Check, Loader2 } from "lucide-react"
@@ -8,11 +8,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useFormStatus } from "react-dom"
 import { FormErrors } from "./form-errors"
-
-interface FormPickerProps {
-    id: string
-    errors?: Record<string, string[] | undefined>
-}
+import type { FormPickerProps } from "@/config/types/components.types"
 
 export const FormPicker = ({
     id, errors
@@ -20,7 +16,7 @@ export const FormPicker = ({
     const { pending } = useFormStatus()
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [images, setImages] = useState<Array<Record<string, any>>>(defaultImages) // []
+    const [images, setImages] = useState<Array<Record<string, any>>>(defaultImages)
     const [isLoading, setIsLoading] = useState(true)
     const [selectedImageId, setSelectedImageId] = useState(null)
 
@@ -30,16 +26,16 @@ export const FormPicker = ({
                 const result = await unsplash.GET("/photos/random", {
                     params: {
                         query: {
-                            collections: ["317099"],
-                            count: 9
+                            collections: [UNSPLASH_CONFIG.DEFAULT_COLLECTION_ID],
+                            count: UNSPLASH_CONFIG.DEFAULT_COUNT
                         }
                     }
                 })
 
                 if(result && result.data) {
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-                    const images = (result.data as Array<Record<string, any>>)
-                    setImages(defaultImages) // images
+                    const fetchedImages = (result.data as Array<Record<string, any>>)
+                    setImages(defaultImages)
                 } else {
                     console.error("Failed to get images")
                 }

@@ -983,3 +983,8 @@ export const defaultImages = [
         "downloads": 32526
     }
 ]
+
+export const UNSPLASH_CONFIG = {
+  DEFAULT_COLLECTION_ID: "317099",
+  DEFAULT_COUNT: 9,
+} as const;

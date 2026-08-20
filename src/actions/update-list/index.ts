@@ -8,6 +8,7 @@ import { createSafeAction } from "@/lib/create-safe-action";
 import { UpdateList } from "./schema";
 import { createAuditLog } from "@/lib/audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
+import { pages } from "@/config/routing/pages.route";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth()
@@ -48,7 +49,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     }
   }
 
-  revalidatePath(`/board/${boardId}`)
+  revalidatePath(pages.BOARD(boardId))
   return {data: list}
 }
 

@@ -6,12 +6,14 @@ import { auth } from "@clerk/nextjs/server";
 import { HelpCircle, User2 } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { MAX_FREE_BOARDS } from "@/config/const/limits.const";
+import { pages } from "@/config/routing/pages.route";
 
 export default async function BoardList() {
     const { orgId } = auth()
 
     if(!orgId) {
-        return redirect("/select-org")
+        return redirect(pages.SELECT_ORG)
     }
 
     const boards = await db.board.findMany({
@@ -33,7 +35,7 @@ export default async function BoardList() {
             {boards.map((board) => (
                 <Link
                     key={board.id}
-                    href={`/board/${board.id}`}
+                    href={pages.BOARD(board.id)}
                     className="group relative aspect-video bg-no-repeat bg-center bg-cover bg-neutral-700 rounded-sm h-full w-full p-2 overflow-hidden"
                     style={{ backgroundImage: `url(${board.imageThumbUrl})` }}
                 >
@@ -50,11 +52,11 @@ export default async function BoardList() {
                 >
                     <p className="text-sm">Create new board</p>
                     <span className="text-xs">
-                        5 remaining
+                        {`${MAX_FREE_BOARDS} remaining`}
                     </span>
                     <Hint
                         sideOffset={40}
-                        description={"In the free version, you can create up to 5 boards. To increase the limit, purchase a Notter Gem subscription for organizations."}
+                        description={`In the free version, you can create up to ${MAX_FREE_BOARDS} boards. To increase the limit, purchase a Notter Gem subscription for organizations.`}
                     >
                         <HelpCircle
                             className="absolute bottom-2 right-2 h-[14px] w-[14px]"

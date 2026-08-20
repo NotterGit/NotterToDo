@@ -3,13 +3,7 @@
 import { cn } from "@/lib/utils"
 import { Button } from "../ui/button"
 import { useFormStatus } from "react-dom"
-
-interface FormSubmitProps {
-    children: React.ReactNode
-    disabled?: boolean
-    className?: string
-    variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
-}
+import type { FormSubmitProps } from "@/config/types/components.types"
 
 export const FormSubmit = ({
     children, disabled, className, variant

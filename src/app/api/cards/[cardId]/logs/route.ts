@@ -2,6 +2,7 @@ import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs/server"
 import { ENTITY_TYPE } from "@prisma/client"
 import { NextResponse } from "next/server"
+import { AUDIT_LOG_LIMIT } from "@/config/const/limits.const"
 
 export async function GET(
   request: Request,
@@ -23,7 +24,7 @@ export async function GET(
       orderBy: {
         createdAt: "desc"
       },
-      take: 3
+      take: AUDIT_LOG_LIMIT
     })
 
     return NextResponse.json(auditLogs)

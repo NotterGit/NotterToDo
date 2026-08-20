@@ -1,11 +1,7 @@
-import { AuditLog } from "@prisma/client"
 import { Avatar, AvatarImage } from "./avatar"
 import { generateLogMessage } from "@/lib/generate-log"
 import { format } from "date-fns"
-
-interface ActivityItemProps {
-  data: AuditLog
-}
+import type { ActivityItemProps } from "@/config/types/components.types"
 
 export const ActivityItem = ({
   data,

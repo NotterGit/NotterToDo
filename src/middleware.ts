@@ -1,16 +1,17 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+import { pages } from '@/config/routing/pages.route';
 
-const isPublicRoute = createRouteMatcher(['/']);
+const isPublicRoute = createRouteMatcher([pages.ROOT]);
 
 export default clerkMiddleware((auth, req) => {
   const { userId, orgId } = auth();
 
   if (userId && isPublicRoute(req)) {
-    let path = "/auth/select-org";
+    let path: string = pages.AUTH.SELECT_ORG;
     
     if (orgId) {
-      path = `/organization/${orgId}`;
+      path = pages.ORGANIZATION(orgId);
     }
 
     const orgSelection = new URL(path, req.url);
@@ -21,8 +22,8 @@ export default clerkMiddleware((auth, req) => {
     auth().protect();
   }
 
-  if (userId && !orgId && req.nextUrl.pathname !== "/auth/select-org") {
-    const orgSelection = new URL("/auth/select-org", req.url);
+  if (userId && !orgId && req.nextUrl.pathname !== pages.AUTH.SELECT_ORG) {
+    const orgSelection = new URL(pages.AUTH.SELECT_ORG, req.url);
     return NextResponse.redirect(orgSelection);
   }
 });

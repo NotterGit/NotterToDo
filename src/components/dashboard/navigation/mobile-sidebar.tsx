@@ -7,6 +7,7 @@ import { Menu } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Sidebar } from "./sidebar"
+import { STORAGE_KEYS } from "@/config/const/app.const"
 
 export function MobileSidebar() {
     const pathname = usePathname()
@@ -44,7 +45,7 @@ export function MobileSidebar() {
                     className="p-2 pt-10"
                 >
                     <Sidebar
-                        storageKey="t-sidebar-mobile-state"
+                        storageKey={STORAGE_KEYS.MOBILE_SIDEBAR}
                     />
                 </SheetContent>
             </Sheet>

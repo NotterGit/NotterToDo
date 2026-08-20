@@ -5,17 +5,19 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ToasterProvider } from "@/components/providers/toaster-provider";
 import { ModalProvider } from "@/components/providers/modal-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
+import { APP_DESCRIPTION, APP_NAME } from "@/config/const/app.const";
+import { images } from "@/config/const/image.const";
 
-const inter = Inter({subsets:['latin'], variable:'--font-sans'});
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: {
-    default: "Notter ToDo",
+    default: APP_NAME,
     template: "%s | ToDo",
   },
-  description: "Make task, make plan, make To, make Do. This - is Notter ToDo",
+  description: APP_DESCRIPTION,
   icons: {
-    icon: "/icon.png"
+    icon: images.ICON,
   }
 };
 

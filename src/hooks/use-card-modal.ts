@@ -1,16 +1,9 @@
-import { create } from "zustand"
-
-
-type CardModalStore = {
-    id?: string
-    isOpen: boolean
-    onOpen: (id: string) => void
-    onClose: () => void
-}
+import { create } from "zustand";
+import type { CardModalStore } from "@/config/types/stores.types";
 
 export const useCardModal = create<CardModalStore>((set) => ({
     id: undefined,
     isOpen: false,
-    onOpen: (id: string) => set({isOpen: true, id}),
-    onClose: () => set({isOpen: false, id: undefined}),
-}))
+    onOpen: (id: string) => set({ isOpen: true, id }),
+    onClose: () => set({ isOpen: false, id: undefined }),
+}));

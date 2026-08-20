@@ -3,13 +3,14 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useCardModal } from "@/hooks/use-card-modal";
 import { fetcher } from "@/lib/fetcher";
-import { CardWithList } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { Header } from "./header";
 import { Description } from "./description";
 import Actions from "./actions";
 import { AuditLog } from "@prisma/client";
 import { Activity } from "./activity";
+import { apiRoutes } from "@/config/routing/api.route";
+import type { CardWithList } from "@/config/types/main.types";
 
 export function CardModal() {
     const id = useCardModal((state) => state.id)
@@ -18,13 +19,13 @@ export function CardModal() {
 
     const { data: cardData } = useQuery<CardWithList>({
         queryKey: ["card", id],
-        queryFn: () => fetcher(`/api/cards/${id}`),
+        queryFn: () => fetcher(apiRoutes.CARDS.BY_ID(id!)),
         enabled: !!id,
     })
 
     const { data: auditLogsData } = useQuery<AuditLog[]>({
         queryKey: ["card-logs", id],
-        queryFn: () => fetcher(`/api/cards/${id}/logs`),
+        queryFn: () => fetcher(apiRoutes.CARDS.LOGS(id!)),
         enabled: !!id,
     })
 

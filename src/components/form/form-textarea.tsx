@@ -1,25 +1,12 @@
 "use client"
 
-import { forwardRef, KeyboardEventHandler } from "react"
+import { forwardRef } from "react"
 import { Label } from "../ui/label"
 import { Textarea } from "../ui/textarea"
 import { cn } from "@/lib/utils"
 import { FormErrors } from "./form-errors"
 import { useFormStatus } from "react-dom"
-
-interface FormTextareaProps {
-    id: string
-    label?: string
-    placeholder?: string
-    required?: boolean
-    disabled?: boolean
-    errors?: Record<string, string[] | undefined>
-    className?: string
-    onBlur?: () => void
-    onClick: () => void
-    onKeyDown?: KeyboardEventHandler<HTMLTextAreaElement> | undefined
-    defaultValue?: string
-}
+import type { FormTextareaProps } from "@/config/types/components.types"
 
 export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(({
     id, label, placeholder, required, disabled, errors, onBlur, onClick, onKeyDown, className, defaultValue
