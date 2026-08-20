@@ -4,7 +4,7 @@ import type { CreateAuditLogProps } from "@/config/types/actions.types";
 
 export async function createAuditLog(props: CreateAuditLogProps) {
   try {
-    const { orgId } = auth();
+    const { orgId } = await auth();
     const user = await currentUser();
 
     if (!user || !orgId) {

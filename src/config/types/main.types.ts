@@ -12,9 +12,9 @@ export type Organization = {
 };
 
 export interface BoardIdPageProps {
-  params: {
+  params: Promise<{
     boardId: string;
-  };
+  }>;
 }
 
 export interface BoardNavProps {

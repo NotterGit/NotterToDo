@@ -4,8 +4,8 @@ import { pages } from '@/config/routing/pages.route';
 
 const isPublicRoute = createRouteMatcher([pages.ROOT]);
 
-export default clerkMiddleware((auth, req) => {
-  const { userId, orgId } = auth();
+export default clerkMiddleware(async (auth, req) => {
+  const { userId, orgId } = await auth();
 
   if (userId && isPublicRoute(req)) {
     let path: string = pages.AUTH.SELECT_ORG;
@@ -19,7 +19,7 @@ export default clerkMiddleware((auth, req) => {
   }
 
   if (!userId && !isPublicRoute(req)) {
-    auth().protect();
+    await auth.protect();
   }
 
   if (userId && !orgId && req.nextUrl.pathname !== pages.AUTH.SELECT_ORG) {

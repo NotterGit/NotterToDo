@@ -43,7 +43,7 @@ export function Description({
     }
 
     useEventListener("keydown", onKeyDown)
-    useOnClickOutside(formRef, disableEditing)
+    useOnClickOutside(formRef as React.RefObject<HTMLElement>, disableEditing)
 
     const { execute } = useAction(updateCard, {
         onSuccess: (data) => {

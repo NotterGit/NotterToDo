@@ -8,7 +8,8 @@ import type { BoardIdPageProps } from "@/config/types/main.types";
 export default async function BoardIdPage({
   params
 }: BoardIdPageProps) {
-  const { orgId } = auth();
+  const { boardId } = await params;
+  const { orgId } = await auth();
 
   if (!orgId) {
     redirect(pages.SELECT_ORG);
@@ -16,7 +17,7 @@ export default async function BoardIdPage({
 
   const lists = await db.list.findMany({
     where: {
-        boardId: params.boardId,
+        boardId,
         board: {
           orgId,
         },
@@ -36,7 +37,7 @@ export default async function BoardIdPage({
   return (
     <div className="p-4 h-full overflow-x-auto">
       <ListContainer
-        boardId={params.boardId}
+        boardId={boardId}
         data={lists}
       />
     </div>

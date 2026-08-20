@@ -12,7 +12,7 @@ import { createAuditLog } from "@/lib/audit-log";
 import { pages } from "@/config/routing/pages.route";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = auth()
+  const { userId, orgId } = await auth()
 
   if (!userId || !orgId) {
     return {

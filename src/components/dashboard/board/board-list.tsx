@@ -10,7 +10,7 @@ import { MAX_FREE_BOARDS } from "@/config/const/limits.const";
 import { pages } from "@/config/routing/pages.route";
 
 export default async function BoardList() {
-    const { orgId } = auth()
+    const { orgId } = await auth()
 
     if(!orgId) {
         return redirect(pages.SELECT_ORG)

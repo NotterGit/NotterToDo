@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { pages } from "@/config/routing/pages.route";
 
 export async function ActivityList() {
-  const { orgId } = auth()
+  const { orgId } = await auth()
 
   if (!orgId) {
     redirect(pages.SELECT_ORG)

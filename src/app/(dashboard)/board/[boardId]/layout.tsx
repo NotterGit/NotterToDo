@@ -8,7 +8,8 @@ import type { BoardIdPageProps } from "@/config/types/main.types"
 export async function generateMetadata({
     params
 }: BoardIdPageProps) {
-    const { orgId } = auth()
+    const { boardId } = await params
+    const { orgId } = await auth()
 
     if (!orgId) {
         return {
@@ -18,7 +19,7 @@ export async function generateMetadata({
 
     const board = await db.board.findUnique({
         where: {
-            id: params.boardId,
+            id: boardId,
             orgId
         }
     })
@@ -32,9 +33,10 @@ export default async function OrganizationIdLayout({
     children, params
 }: { 
     children: React.ReactNode,
-    params: { boardId: string }
+    params: Promise<{ boardId: string }>
 }) {
-    const { orgId } = auth()
+    const { boardId } = await params
+    const { orgId } = await auth()
 
     if(!orgId){
         redirect(pages.SELECT_ORG)
@@ -42,7 +44,7 @@ export default async function OrganizationIdLayout({
      
     const board = await db.board.findUnique({
         where: {
-            id: params.boardId,
+            id: boardId,
             orgId
         }
     })
