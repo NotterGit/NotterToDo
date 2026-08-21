@@ -41,11 +41,11 @@ export async function ActivityList({ orgId: propOrgId }: ActivityListProps = {})
 ActivityList.Skeleton = function ActivityListSkeleton() {
   return (
     <ol className="space-y-4 mt-4">
-      <Skeleton className="w-[18%] h-10" />
-      <Skeleton className="w-[15%] h-10" />
-      <Skeleton className="w-[17%] h-10" />
-      <Skeleton className="w-[18%] h-10" />
-      <Skeleton className="w-[17%] h-10" />
+      <Skeleton className="w-[38%] h-10" />
+      <Skeleton className="w-[35%] h-10" />
+      <Skeleton className="w-[37%] h-10" />
+      <Skeleton className="w-[38%] h-10" />
+      <Skeleton className="w-[37%] h-10" />
     </ol>
   )
 }

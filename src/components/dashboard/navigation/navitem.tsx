@@ -24,17 +24,17 @@ export function NavItem({ isExpanded, isActive, organization, onExpand }: NavIte
         {
             label: "Доски",
             icon: <Layout className="h-4 w-4 mr-2"/>,
-            href: pages.ORGANIZATION(organization.id)
+            href: pages.DASHBOARD(organization.id)
         },
         {
             label: "Активность",
             icon: <Activity className="h-4 w-4 mr-2"/>,
-            href: pages.ORGANIZATION_ACTIVITY(organization.id)
+            href: pages.DASHBOARD_ACTIVITY(organization.id)
         },
         {
             label: "Настройки",
             icon: <Settings className="h-4 w-4 mr-2"/>,
-            href: pages.ORGANIZATION_SETTINGS(organization.id)
+            href: pages.DASHBOARD_SETTINGS(organization.id)
         },
         {
             label: "Подписка",

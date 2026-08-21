@@ -15,7 +15,7 @@ export function Navbar() {
             </Link>
             <div className="flex items-center gap-x-3">
                 <SignedIn>
-                    <Link href={pages.DASHBOARD}>
+                    <Link href={pages.DASHBOARD()}>
                         <Button>Перейти</Button>
                     </Link>
                     <UserButton />

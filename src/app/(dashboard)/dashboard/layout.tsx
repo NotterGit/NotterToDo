@@ -1,6 +1,6 @@
 import { Sidebar } from "@/components/dashboard/navigation/sidebar"
 
-export default function OrganizationLayout({ 
+export default function DashboardLayout({ 
     children 
 }: { 
     children: React.ReactNode 

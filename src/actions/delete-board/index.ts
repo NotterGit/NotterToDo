@@ -43,8 +43,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     }
   }
 
-  revalidatePath(pages.ORGANIZATION(orgId))
-  redirect(pages.ORGANIZATION(orgId))
+  revalidatePath(pages.DASHBOARD(orgId))
+  redirect(pages.DASHBOARD(orgId))
 }
 
 export const deleteBoard = createSafeAction(DeleteBoard, handler)

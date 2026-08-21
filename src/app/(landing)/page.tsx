@@ -13,7 +13,7 @@ export default function Landing() {
                 <span className="text-muted-foreground font-medium text-lg">Скоро...</span> 
 
                 <Button>
-                    <Link href={pages.DASHBOARD}>
+                    <Link href={pages.DASHBOARD()}>
                         Начать
                     </Link>
                 </Button>

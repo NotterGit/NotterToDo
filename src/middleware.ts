@@ -8,10 +8,10 @@ export default clerkMiddleware(async (auth, req) => {
   const { userId, orgId } = await auth();
 
   if (userId && isPublicRoute(req)) {
-    let path: string = pages.ORGANIZATION(userId);
+    let path: string = pages.DASHBOARD(userId);
     
     if (orgId) {
-      path = pages.ORGANIZATION(orgId);
+      path = pages.DASHBOARD(orgId);
     }
 
     const orgSelection = new URL(path, req.url);
