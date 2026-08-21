@@ -4,14 +4,16 @@ import type { CreateAuditLogProps } from "@/config/types/actions.types";
 
 export async function createAuditLog(props: CreateAuditLogProps) {
   try {
-    const { orgId } = await auth();
+    const { orgId: clerkOrgId } = await auth();
     const user = await currentUser();
+    const orgId = clerkOrgId || user?.id;
 
     if (!user || !orgId) {
       throw new Error("User not found!");
     }
 
     const { entityId, entityTitle, entityType, action } = props;
+    const userName = [user.firstName, user.lastName].filter(Boolean).join(" ") || user.username || "Пользователь";
 
     await db.auditLog.create({
       data: {
@@ -22,7 +24,7 @@ export async function createAuditLog(props: CreateAuditLogProps) {
         action,
         userId: user.id,
         userImage: user?.imageUrl,
-        userName: user?.firstName + " " + user?.lastName,
+        userName,
       },
     });
   } catch (error) {

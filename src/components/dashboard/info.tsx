@@ -1,36 +1,54 @@
 "use client"
 
 import { Skeleton } from "@/components/ui/skeleton"
-import { useOrganization } from "@clerk/nextjs"
-import { Gem } from "lucide-react"
+import { useOrganization, useUser } from "@clerk/nextjs"
+import { Gem, User } from "lucide-react"
 import Image from "next/image"
+import { useParams } from "next/navigation"
 
 export function Info() {
-    const { organization, isLoaded } = useOrganization()
+    const params = useParams()
+    const { organization, isLoaded: isLoadedOrg } = useOrganization()
+    const { user, isLoaded: isLoadedUser } = useUser()
 
-    if(!isLoaded){
+    if(!isLoadedOrg || !isLoadedUser){
         return (
             <Info.Skeleton/>
         )
     }
 
+    const orgId = params?.orgId as string | undefined
+    const isPersonal = orgId ? !orgId.startsWith("org_") : !organization
+    const name = isPersonal
+        ? (user?.fullName || user?.firstName || user?.username || "Личный профиль")
+        : (organization?.name || "Организация")
+    const imageUrl = isPersonal
+        ? (user?.imageUrl || "")
+        : (organization?.imageUrl || "")
+
     return (
         <div className="flex items-center gap-x-4">
             <div className="w-[60px] h-[60px] relative">
-                <Image 
-                    fill
-                    src={organization?.imageUrl || ""}
-                    alt="Organization"
-                    className="rounded-md object-cover"
-                />
+                {imageUrl ? (
+                    <Image 
+                        fill
+                        src={imageUrl}
+                        alt={name}
+                        className="rounded-md object-cover"
+                    />
+                ) : (
+                    <div className="w-full h-full rounded-md bg-muted flex items-center justify-center">
+                        <User className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                )}
             </div>
             <div className="space-y-1">
                 <p className="font-semibold text-xl">
-                    {organization?.name}
+                    {name}
                 </p>
                 <div className="flex items-center text-xs text-muted-foreground">
                     <Gem className="w-3 h-3 mr-1"/>
-                    Бесплатно
+                    {isPersonal ? "Личный профиль" : "Бесплатно"}
                 </div>
             </div>
         </div>

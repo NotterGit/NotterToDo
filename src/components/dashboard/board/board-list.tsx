@@ -9,8 +9,13 @@ import { redirect } from "next/navigation";
 import { MAX_FREE_BOARDS } from "@/config/const/limits.const";
 import { pages } from "@/config/routing/pages.route";
 
-export default async function BoardList() {
-    const { orgId } = await auth()
+interface BoardListProps {
+    orgId?: string
+}
+
+export default async function BoardList({ orgId: propOrgId }: BoardListProps = {}) {
+    const { userId, orgId: clerkOrgId } = await auth()
+    const orgId = propOrgId || clerkOrgId || userId
 
     if(!orgId) {
         return redirect(pages.SELECT_ORG)

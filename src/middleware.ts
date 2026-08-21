@@ -8,7 +8,7 @@ export default clerkMiddleware(async (auth, req) => {
   const { userId, orgId } = await auth();
 
   if (userId && isPublicRoute(req)) {
-    let path: string = pages.AUTH.SELECT_ORG;
+    let path: string = pages.ORGANIZATION(userId);
     
     if (orgId) {
       path = pages.ORGANIZATION(orgId);
@@ -20,11 +20,6 @@ export default clerkMiddleware(async (auth, req) => {
 
   if (!userId && !isPublicRoute(req)) {
     await auth.protect();
-  }
-
-  if (userId && !orgId && req.nextUrl.pathname !== pages.AUTH.SELECT_ORG) {
-    const orgSelection = new URL(pages.AUTH.SELECT_ORG, req.url);
-    return NextResponse.redirect(orgSelection);
   }
 });
 

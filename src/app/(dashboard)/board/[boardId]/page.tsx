@@ -9,7 +9,8 @@ export default async function BoardIdPage({
   params
 }: BoardIdPageProps) {
   const { boardId } = await params;
-  const { orgId } = await auth();
+  const { userId, orgId: clerkOrgId } = await auth();
+  const orgId = clerkOrgId || userId;
 
   if (!orgId) {
     redirect(pages.SELECT_ORG);

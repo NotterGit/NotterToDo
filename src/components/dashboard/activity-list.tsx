@@ -5,8 +5,13 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { pages } from "@/config/routing/pages.route";
 
-export async function ActivityList() {
-  const { orgId } = await auth()
+interface ActivityListProps {
+  orgId?: string
+}
+
+export async function ActivityList({ orgId: propOrgId }: ActivityListProps = {}) {
+  const { userId, orgId: clerkOrgId } = await auth()
+  const orgId = propOrgId || clerkOrgId || userId
 
   if (!orgId) {
     redirect(pages.SELECT_ORG)
@@ -24,7 +29,7 @@ export async function ActivityList() {
   return (
     <ol className="space-y-4 mt-4">
       <p className="hidden last:block text-xs text-center text-muted-foreground">
-        В этой организации пока нет активности
+        Здесь пока нет активности
       </p>
       {auditLogs.map((log) => (
         <ActivityItem key={log.id} data={log} />
@@ -36,11 +41,11 @@ export async function ActivityList() {
 ActivityList.Skeleton = function ActivityListSkeleton() {
   return (
     <ol className="space-y-4 mt-4">
-      <Skeleton className="w-[180%] h-10" />
-      <Skeleton className="w-[150%] h-10" />
-      <Skeleton className="w-[170%] h-10" />
-      <Skeleton className="w-[180%] h-10" />
-      <Skeleton className="w-[175%] h-10" />
+      <Skeleton className="w-[18%] h-10" />
+      <Skeleton className="w-[15%] h-10" />
+      <Skeleton className="w-[17%] h-10" />
+      <Skeleton className="w-[18%] h-10" />
+      <Skeleton className="w-[17%] h-10" />
     </ol>
   )
 }

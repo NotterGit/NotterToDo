@@ -11,7 +11,8 @@ import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { pages } from "@/config/routing/pages.route";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = await auth()
+  const { userId, orgId: clerkOrgId } = await auth()
+  const orgId = clerkOrgId || userId
 
   if (!userId || !orgId) {
     return {

@@ -32,8 +32,10 @@ export function Navbar() {
             </div>
             <div className="ml-auto flex items-center gap-x-2">
                 <OrganizationSwitcher 
+                    hidePersonal={false}
                     afterCreateOrganizationUrl={pages.ORGANIZATION_CLERK_PATTERN}
                     afterSelectOrganizationUrl={pages.ORGANIZATION_CLERK_PATTERN}
+                    afterSelectPersonalUrl={pages.ORGANIZATION_CLERK_PATTERN}
                     afterLeaveOrganizationUrl={pages.AUTH.SELECT_ORG}
                     appearance={{
                         elements: {

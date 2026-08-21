@@ -3,13 +3,18 @@ import { Info } from "@/components/dashboard/info";
 import { Separator } from "@/components/ui/separator";
 import { Suspense } from "react";
 
-export default function ActivityPage() {
+export default async function ActivityPage({
+    params
+}: {
+    params: Promise<{ orgId: string }>
+}) {
+    const { orgId } = await params
     return (
-        <div className="w-ful">
+        <div className="w-full">
             <Info/>
             <Separator className="my-1 h-[1px]"/>
             <Suspense fallback={<ActivityList.Skeleton/>}>
-                <ActivityList/>
+                <ActivityList orgId={orgId}/>
             </Suspense>
         </div>
     )

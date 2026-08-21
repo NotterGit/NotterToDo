@@ -8,7 +8,8 @@ export async function GET(
 ) {
     try {
         const { cardId } = await params
-        const { userId, orgId } = await auth()
+        const { userId, orgId: clerkOrgId } = await auth()
+        const orgId = clerkOrgId || userId
 
         if (!userId || !orgId) {
             return new NextResponse("Unauthorized", { status: 401 })

@@ -9,7 +9,8 @@ export async function generateMetadata({
     params
 }: BoardIdPageProps) {
     const { boardId } = await params
-    const { orgId } = await auth()
+    const { userId, orgId: clerkOrgId } = await auth()
+    const orgId = clerkOrgId || userId
 
     if (!orgId) {
         return {
@@ -36,7 +37,8 @@ export default async function OrganizationIdLayout({
     params: Promise<{ boardId: string }>
 }) {
     const { boardId } = await params
-    const { orgId } = await auth()
+    const { userId, orgId: clerkOrgId } = await auth()
+    const orgId = clerkOrgId || userId
 
     if(!orgId){
         redirect(pages.SELECT_ORG)

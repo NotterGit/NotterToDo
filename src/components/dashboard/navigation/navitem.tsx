@@ -4,6 +4,7 @@ import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
+import { useOrganization, useOrganizationList } from "@clerk/nextjs"
 import { Activity, Gem, Layout, Settings } from "lucide-react"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
@@ -16,6 +17,8 @@ export type { Organization }
 export function NavItem({ isExpanded, isActive, organization, onExpand }: NavItemProps) {
     const router = useRouter()
     const pathname = usePathname()
+    const { organization: activeOrg } = useOrganization()
+    const { setActive } = useOrganizationList()
 
     const routes = [
         {
@@ -40,7 +43,18 @@ export function NavItem({ isExpanded, isActive, organization, onExpand }: NavIte
         }
     ]
 
-    const onClick = (href: string) => {
+    const onClick = async (href: string) => {
+        if (setActive) {
+            if (organization.id.startsWith("org_")) {
+                if (activeOrg?.id !== organization.id) {
+                    await setActive({ organization: organization.id })
+                }
+            } else {
+                if (activeOrg) {
+                    await setActive({ organization: null })
+                }
+            }
+        }
         router.push(href)
     }
     
@@ -53,12 +67,18 @@ export function NavItem({ isExpanded, isActive, organization, onExpand }: NavIte
             >
                 <div className="flex items-center gap-x-2">
                     <div className="w-7 h-7 relative">
-                        <Image
-                            fill
-                            src={organization.imageUrl}
-                            alt="Organization"
-                            className="rounded-sm object-cover"
-                        />
+                        {organization.imageUrl ? (
+                            <Image
+                                fill
+                                src={organization.imageUrl}
+                                alt={organization.name}
+                                className="rounded-sm object-cover"
+                            />
+                        ) : (
+                            <div className="w-full h-full bg-muted rounded-sm flex items-center justify-center">
+                                <Layout className="h-4 w-4 text-muted-foreground" />
+                            </div>
+                        )}
                     </div>
                     <span className="font-medium text-sm">
                         {organization.name}

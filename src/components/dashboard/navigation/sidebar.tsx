@@ -3,9 +3,10 @@
 import { Accordion } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useOrganization, useOrganizationList } from "@clerk/nextjs"
+import { useOrganization, useOrganizationList, useUser } from "@clerk/nextjs"
 import { Plus } from "lucide-react"
 import Link from "next/link"
+import { useParams } from "next/navigation"
 import { useLocalStorage } from "usehooks-ts"
 import { NavItem } from "./navitem"
 import { STORAGE_KEYS } from "@/config/const/app.const"
@@ -13,6 +14,7 @@ import { pages } from "@/config/routing/pages.route"
 import type { Organization, SidebarProps } from "@/config/types/main.types"
 
 export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
+    const params = useParams()
     const [expended, setExpended] = useLocalStorage<Record<string, boolean>>(storageKey, {})
 
     const { organization: activeOrg, isLoaded: isLoadedOrg } = useOrganization() 
@@ -21,6 +23,7 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
             infinite: true
         }
     })
+    const { user, isLoaded: isLoadedUser } = useUser()
 
     const defaultAccordionValue: string[] = Object.keys(expended)
         .reduce((acc: string[], key: string) => {
@@ -38,7 +41,7 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
         }))
     }
 
-    if(!isLoadedOrg || !isLoadedList || userMemberships.isLoading) {
+    if(!isLoadedOrg || !isLoadedList || !isLoadedUser || userMemberships.isLoading) {
         return (
             <>
                 <div className="flex items-center justify-between mb-2">
@@ -54,8 +57,38 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
         )
     }
 
+    const currentOrgId = params?.orgId as string | undefined
+    const isPersonalActive = currentOrgId ? (!currentOrgId.startsWith("org_") || currentOrgId === user?.id) : !activeOrg
+    const isOrgActive = (id: string) => currentOrgId ? currentOrgId === id : activeOrg?.id === id
+
     return (
         <>
+            <div className="font-medium text-xs flex items-center mb-1">
+                <span>
+                    Личный профиль
+                </span>
+            </div>
+            <Accordion 
+                multiple
+                defaultValue={defaultAccordionValue}
+                className="space-y-2 mb-4"
+            >
+                {user && (
+                    <NavItem 
+                        key={user.id}
+                        isActive={isPersonalActive}
+                        isExpanded={expended[user.id]}
+                        organization={{
+                            id: user.id,
+                            name: user.fullName || user.firstName || "Личный профиль",
+                            imageUrl: user.imageUrl,
+                            slug: user.username || user.id
+                        }}
+                        onExpand={onExpand}
+                    />
+                )}
+            </Accordion>
+
             <div className="font-medium text-xs flex items-center mb-1">
                 <span>
                     Организации
@@ -74,7 +107,7 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
                 {userMemberships.data.map(({ organization }) => (
                     <NavItem 
                         key={organization.id}
-                        isActive={activeOrg?.id === organization.id}
+                        isActive={isOrgActive(organization.id)}
                         isExpanded={expended[organization.id]}
                         organization={organization as Organization}
                         onExpand={onExpand}
