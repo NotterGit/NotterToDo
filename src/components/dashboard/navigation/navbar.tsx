@@ -42,22 +42,24 @@ export function Navbar() {
                 )}
             </div>
             <div className="ml-auto flex items-center gap-x-2">
-                <OrganizationSwitcher 
-                    hidePersonal={false}
-                    afterCreateOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
-                    afterSelectOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
-                    afterSelectPersonalUrl={pages.DASHBOARD_CLERK_PATTERN}
-                    afterLeaveOrganizationUrl={pages.DASHBOARD()}
-                    appearance={{
-                        elements: {
-                            rootBox: {
-                                display: "flex",
-                                justifyCenter: "center",
-                                alignItems: "center"
+                <div className="hidden md:block">
+                    <OrganizationSwitcher 
+                        hidePersonal={false}
+                        afterCreateOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
+                        afterSelectOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
+                        afterSelectPersonalUrl={pages.DASHBOARD_CLERK_PATTERN}
+                        afterLeaveOrganizationUrl={pages.DASHBOARD()}
+                        appearance={{
+                            elements: {
+                                rootBox: {
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center"
+                                }
                             }
-                        }
-                    }}
-                />
+                        }}
+                    />
+                </div>
                 <UserButton
                     appearance={{
                         elements: {

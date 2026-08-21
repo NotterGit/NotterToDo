@@ -3,7 +3,7 @@
 import { Accordion } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import { OrganizationSwitcher, useOrganization, useOrganizationList, useUser } from "@clerk/nextjs"
+import { useOrganization, useOrganizationList, useUser } from "@clerk/nextjs"
 import { Plus } from "lucide-react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
@@ -62,74 +62,62 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
     const isOrgActive = (id: string) => currentOrgId ? currentOrgId === id : activeOrg?.id === id
 
     return (
-        <>
-            <OrganizationSwitcher 
-                hidePersonal={false}
-                afterCreateOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
-                afterSelectOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
-                afterSelectPersonalUrl={pages.DASHBOARD_CLERK_PATTERN}
-                afterLeaveOrganizationUrl={pages.DASHBOARD()}
-                appearance={{
-                    elements: {
-                        rootBox: {
-                            display: "flex",
-                            justifyCenter: "center",
-                            alignItems: "center"
-                        }
-                    }
-                }}
-            />
-            <div className="font-medium text-xs flex items-center">
-                <span>
-                    Личный профиль
-                </span>
+        <div className="space-y-4">
+            <div>
+                <div className="font-medium text-xs flex items-center mb-1">
+                    <span>
+                        Личный профиль
+                    </span>
+                </div>
+                <Accordion 
+                    multiple
+                    defaultValue={defaultAccordionValue}
+                    className="space-y-2"
+                >
+                    {user && (
+                        <NavItem 
+                            key={user.id}
+                            isActive={isPersonalActive}
+                            isExpanded={expended[user.id]}
+                            organization={{
+                                id: user.id,
+                                name: user.fullName || user.firstName || "Личный профиль",
+                                imageUrl: user.imageUrl,
+                                slug: user.username || user.id
+                            }}
+                            onExpand={onExpand}
+                        />
+                    )}
+                </Accordion>
             </div>
-            <Accordion 
-                multiple
-                defaultValue={defaultAccordionValue}
-                className="space-y-2 "
-            >
-                {user && (
-                    <NavItem 
-                        key={user.id}
-                        isActive={isPersonalActive}
-                        isExpanded={expended[user.id]}
-                        organization={{
-                            id: user.id,
-                            name: user.fullName || user.firstName || "Личный профиль",
-                            imageUrl: user.imageUrl,
-                            slug: user.username || user.id
-                        }}
-                        onExpand={onExpand}
-                    />
-                )}
-            </Accordion>
 
-            <div className="font-medium text-xs flex items-center -mb-2">
-                <span>
-                    Организации
-                </span>
-                <Button type="button" size="icon" variant="ghost" className="ml-auto">
-                    <Link href={pages.AUTH.SELECT_ORG}>
-                        <Plus className="h-4 w-4"/>
-                    </Link>
-                </Button>
+            <div>
+                <div className="font-medium text-xs flex items-center mb-1">
+                    <span>
+                        Организации
+                    </span>
+                    <Button type="button" size="icon" variant="ghost" className="ml-auto">
+                        <Link href={pages.AUTH.SELECT_ORG}>
+                            <Plus className="h-4 w-4"/>
+                        </Link>
+                    </Button>
+                </div>
+                <Accordion 
+                    multiple
+                    defaultValue={defaultAccordionValue}
+                    className="space-y-2"
+                >
+                    {userMemberships.data.map(({ organization }) => (
+                        <NavItem 
+                            key={organization.id}
+                            isActive={isOrgActive(organization.id)}
+                            isExpanded={expended[organization.id]}
+                            organization={organization as Organization}
+                            onExpand={onExpand}
+                        />
+                    ))}
+                </Accordion>
             </div>
-            <Accordion 
-                multiple
-                defaultValue={defaultAccordionValue}
-                className="space-y-2"
-            >
-                {userMemberships.data.map(({ organization }) => (
-                    <NavItem 
-                        key={organization.id}
-                        isActive={isOrgActive(organization.id)}
-                        isExpanded={expended[organization.id]}
-                        organization={organization as Organization}
-                        onExpand={onExpand}
-                    />
-                ))}
-            </Accordion>
-        </>
+        </div>
     )
 }
