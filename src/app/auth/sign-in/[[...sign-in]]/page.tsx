@@ -1,6 +1,7 @@
 import { SignIn } from '@clerk/nextjs';
 import { Metadata } from 'next';
 import { images } from '@/config/const/image.const';
+import "../../style.css";
 
 export const metadata: Metadata = {
   title: "Qual ID Auth",

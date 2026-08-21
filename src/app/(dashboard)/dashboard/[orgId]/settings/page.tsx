@@ -16,9 +16,12 @@ export default function Settings() {
           routing="hash"
           appearance={{
             elements: {
-              rootBox: "w-full",
+              rootBox: "w-full shadow-none",
               cardBox: "shadow-none w-full border border-border rounded-xl",
-              card: "shadow-none w-full border border-border rounded-xl"
+              card: "shadow-none w-full border border-border rounded-xl",
+              scrollBox: "shadow-none",
+              pageScrollBox: "shadow-none",
+              navbar: "shadow-none"
             }
           }}
         />
@@ -27,9 +30,12 @@ export default function Settings() {
           routing="hash"
           appearance={{
             elements: {
-              rootBox: "w-full",
+              rootBox: "w-full shadow-none",
               cardBox: "shadow-none w-full border border-border rounded-xl",
-              card: "shadow-none w-full border border-border rounded-xl"
+              card: "shadow-none w-full border border-border rounded-xl",
+              scrollBox: "shadow-none",
+              pageScrollBox: "shadow-none",
+              navbar: "shadow-none"
             }
           }}
         />

@@ -181,3 +181,43 @@
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+/* Clerk custom styles */
+.cl-internal-1k7jtru, .cl-internal-15hkgn2 {
+  background: none;
+}
+
+.cl-internal-fcx671, .cl-internal-1j1lbor, .cl-internal-1fpq5at, .cl-internal-ej8kgm, .cl-internal-1dauvpw {
+  display: none;
+}
+
+.cl-internal-13hl4in::before {
+  content: "";
+  display: inline-block;
+  width: 100px;
+  height: 50px;
+  background-image: url("https://id.qual.su/image/logo.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.cl-userPreviewSecondaryIdentifier {
+  font-size: 12px;
+  color: rgb(199, 199, 199);
+}
+
+.cl-organizationSwitcherPopoverCard {
+  z-index: 999999;
+}
+
+/* Remove shadows in Clerk profile / organization settings */
+.cl-cardBox,
+.cl-card,
+.cl-rootBox,
+.cl-organizationProfile-root,
+.cl-organizationProfile-root *,
+.cl-userProfile-root,
+.cl-userProfile-root * {
+  box-shadow: none !important;
+}
