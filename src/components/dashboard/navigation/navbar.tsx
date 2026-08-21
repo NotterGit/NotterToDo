@@ -15,6 +15,8 @@ import { usePathname } from "next/navigation";
 export function Navbar() {
     const path = usePathname()
 
+    const isBoardPage = path?.startsWith("/board");
+
     return (
         <nav className="fixed z-50 top-0 w-full h-14 border-b border-border shadow-sm bg-background flex items-center px-4">
             <MobileSidebar/>
@@ -24,16 +26,20 @@ export function Navbar() {
                         <Image src={images.ICON} alt="Notter Todo Icon" width={36} height={36} />
                     </Link>
                 </div>
-                <FormPopover align="start" side="bottom" sideOffset={18}>
-                    <Button className="rounded-sm hidden md:flex h-auto py-1.5 px-2 flex-row">
-                        <Plus className="h-4 w-4"/> Создать
-                    </Button>
-                </FormPopover>
-                <FormPopover>
-                    <Button className="rounded-sm block md:hidden">
-                        <Plus className="h-4 w-4"/>
-                    </Button>
-                </FormPopover>
+                {!isBoardPage && (
+                    <>
+                        <FormPopover align="start" side="bottom" sideOffset={18}>
+                            <Button className="rounded-sm hidden md:flex h-auto py-1.5 px-2 flex-row">
+                                <Plus className="h-4 w-4"/> Создать
+                            </Button>
+                        </FormPopover>
+                        <FormPopover>
+                            <Button className="rounded-sm block md:hidden">
+                                <Plus className="h-4 w-4"/>
+                            </Button>
+                        </FormPopover>
+                    </>
+                )}
             </div>
             <div className="ml-auto flex items-center gap-x-2">
                 <OrganizationSwitcher 

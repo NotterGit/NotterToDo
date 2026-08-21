@@ -32,17 +32,21 @@ export function BoardTitle({
     }
 
     const onSubmit = (formData: FormData) => {
-        const title = formData.get("title") as string
+        const newTitle = formData.get("title") as string
         
+        if (newTitle === title) {
+            return disableEditing()
+        }
+
         toast.promise(execute({
-            title,
+            title: newTitle,
             id: data.id
         }), {
             loading: "Обновление названия...",
-            success: `Доска «${title}» обновлена!`,
+            success: `Доска «${newTitle}» обновлена!`,
             error: (err) => err
         }).then(() => {
-            setTitle(title)
+            setTitle(newTitle)
             disableEditing()
         }).catch(() => {
             disableEditing()

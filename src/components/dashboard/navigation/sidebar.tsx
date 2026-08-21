@@ -3,7 +3,7 @@
 import { Accordion } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useOrganization, useOrganizationList, useUser } from "@clerk/nextjs"
+import { OrganizationSwitcher, useOrganization, useOrganizationList, useUser } from "@clerk/nextjs"
 import { Plus } from "lucide-react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
@@ -63,7 +63,23 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
 
     return (
         <>
-            <div className="font-medium text-xs flex items-center mb-1">
+            <OrganizationSwitcher 
+                hidePersonal={false}
+                afterCreateOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
+                afterSelectOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
+                afterSelectPersonalUrl={pages.DASHBOARD_CLERK_PATTERN}
+                afterLeaveOrganizationUrl={pages.DASHBOARD()}
+                appearance={{
+                    elements: {
+                        rootBox: {
+                            display: "flex",
+                            justifyCenter: "center",
+                            alignItems: "center"
+                        }
+                    }
+                }}
+            />
+            <div className="font-medium text-xs flex items-center">
                 <span>
                     Личный профиль
                 </span>
@@ -71,7 +87,7 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
             <Accordion 
                 multiple
                 defaultValue={defaultAccordionValue}
-                className="space-y-2 mb-4"
+                className="space-y-2 "
             >
                 {user && (
                     <NavItem 
@@ -89,7 +105,7 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
                 )}
             </Accordion>
 
-            <div className="font-medium text-xs flex items-center mb-1">
+            <div className="font-medium text-xs flex items-center -mb-2">
                 <span>
                     Организации
                 </span>
