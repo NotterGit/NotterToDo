@@ -2,9 +2,9 @@ import { z } from "zod"
 
 export const UpdateList = z.object({
     title: z.string({
-        message: "Title is required"
+        message: "Название обязательно"
     }).min(3, {
-        message: "Title is too short"
+        message: "Название слишком короткое"
     }),
     id: z.string(),
     boardId: z.string()

@@ -30,7 +30,7 @@ export function Info() {
                 </p>
                 <div className="flex items-center text-xs text-muted-foreground">
                     <Gem className="w-3 h-3 mr-1"/>
-                    Free
+                    Бесплатно
                 </div>
             </div>
         </div>

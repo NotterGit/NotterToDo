@@ -32,8 +32,8 @@ export const FormPopover = ({
         const image = formData.get("image") as string
 
         toast.promise(execute({title, image}), {
-            loading: "Creating board...",
-            success: "Board created!",
+            loading: "Создание доски...",
+            success: "Доска создана!",
             error: (err) => err
         })
     }
@@ -50,7 +50,7 @@ export const FormPopover = ({
                 sideOffset={sideOffset}
             >
                 <div className="text-sm font-medium text-center text-neutral-600 dark:text-neutral-300">
-                    Create board
+                    Создание доски
                 </div>
                 <PopoverClose ref={closeRef}>
                     <Button className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600 dark:text-neutral-300" variant="ghost">
@@ -65,13 +65,13 @@ export const FormPopover = ({
                         />
                         <FormInput
                             id="title"
-                            label="Board title"
+                            label="Название доски"
                             type="text"
                             errors={fieldErrors}
                         />
                     </div>
                     <FormSubmit className="w-full">
-                        Create
+                        Создать
                     </FormSubmit>
                 </form>
             </PopoverContent>

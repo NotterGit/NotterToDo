@@ -15,8 +15,8 @@ export default function BoardOptions({
 
     const onDelete = () => {
         toast.promise(execute({ id }), {
-            loading: "Deleting board...",
-            success: "Board deleted!",
+            loading: "Удаление доски...",
+            success: "Доска удалена!",
             error: (err) => err
         })
     }
@@ -34,7 +34,7 @@ export default function BoardOptions({
                 align="start"
             >
                 <div className="text-sm font-medium text-center text-neutral-600 dark:text-neutral-300 pb-1">
-                    Board actions
+                    Действия с доской
                 </div>
                 <PopoverClose>
                     <Button 
@@ -50,7 +50,7 @@ export default function BoardOptions({
                     disabled={isLoading}
                     className="rounded-none w-full h-auto py-2 px-5 justify-start font-normal text-sm hover:bg-rose-500 hover:text-white"
                 >
-                    Delete this board
+                    Удалить эту доску
                 </Button>
             </PopoverContent>
         </Popover>

@@ -53,8 +53,8 @@ export function ListContainer({
 
       setOrderedData(items)
       toast.promise(executeUpdateListOrder({ items, boardId }), {
-        loading: "Reordering lists...",
-        success: "Lists reordered",
+        loading: "Перемещение списков...",
+        success: "Порядок списков обновлен",
         error: (err) => err
       })
     }
@@ -95,8 +95,8 @@ export function ListContainer({
         toast.promise(executeUpdateCardOrder({
           boardId, items: reorderedCards
         }), {
-          loading: "Reordering cards...",
-          success: "Cards reordered",
+          loading: "Перемещение карточек...",
+          success: "Порядок карточек обновлен",
           error: (err) => err
         })
       } else {
@@ -118,8 +118,8 @@ export function ListContainer({
         toast.promise(executeUpdateCardOrder({
           boardId, items: destList.cards
         }), {
-          loading: "Reordering cards...",
-          success: "Cards reordered",
+          loading: "Перемещение карточек...",
+          success: "Порядок карточек обновлен",
           error: (err) => err
         })
       }

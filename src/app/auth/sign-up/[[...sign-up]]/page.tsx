@@ -4,7 +4,7 @@ import { images } from '@/config/const/image.const';
 
 export const metadata: Metadata = {
   title: "Qual ID Auth",
-  description: "SignUp",
+  description: "Регистрация",
   icons: {
     icon: images.ICON,
   }

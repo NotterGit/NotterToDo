@@ -2,11 +2,11 @@ import { z } from "zod"
 
 export const CreateBoard = z.object({
     title: z.string({
-        message: "Title is required",
+        message: "Название обязательно",
     }).min(3, {
-        message: "Title is too short"
+        message: "Название слишком короткое"
     }),
     image: z.string({
-        message: "Image is required"
+        message: "Изображение обязательно"
     })
 })

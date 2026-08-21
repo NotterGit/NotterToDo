@@ -4,15 +4,15 @@ export const UpdateCard = z.object({
     boardId: z.string(),
     description: z.optional(
         z.string({
-            message: "Description is required"
+            message: "Описание обязательно"
         }).min(3, {
-            message: "Description is too short"
+            message: "Описание слишком короткое"
         })
     ),
     title: z.optional(z.string({
-        message: "Title is required"
+        message: "Название обязательно"
     }).min(3, {
-        message: "Title is too short"
+        message: "Название слишком короткое"
     })),
     id: z.string()
 })

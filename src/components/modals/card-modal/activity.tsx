@@ -13,7 +13,7 @@ export function Activity({
             <ActivityIcon className="h-5 w-5 mt-0.5 text-neutral-700 dark:text-neutral-300" />
             <div className="w-full">
                 <p className="font-semibold text-neutral-700 dark:text-neutral-200 mb-2">
-                    Activity
+                    Действия
                 </p>
                 <ol className="mt-2 space-y-4">
                     {items.map((item) => (

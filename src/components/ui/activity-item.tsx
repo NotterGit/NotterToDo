@@ -1,6 +1,7 @@
 import { Avatar, AvatarImage } from "./avatar"
 import { generateLogMessage } from "@/lib/generate-log"
 import { format } from "date-fns"
+import { ru } from "date-fns/locale"
 import type { ActivityItemProps } from "@/config/types/components.types"
 
 export const ActivityItem = ({
@@ -18,7 +19,7 @@ export const ActivityItem = ({
             </span> {generateLogMessage(data)}
             </p>
             <p className="text-xs text-muted-foreground">
-                {format(new Date(data.createdAt), "MMM d, yyyy 'at' h:mm a")}
+                {format(new Date(data.createdAt), "d MMM yyyy 'в' HH:mm", { locale: ru })}
             </p>
         </div>
     </li>

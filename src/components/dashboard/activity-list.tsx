@@ -24,7 +24,7 @@ export async function ActivityList() {
   return (
     <ol className="space-y-4 mt-4">
       <p className="hidden last:block text-xs text-center text-muted-foreground">
-        No activity found inside this organization
+        В этой организации пока нет активности
       </p>
       {auditLogs.map((log) => (
         <ActivityItem key={log.id} data={log} />

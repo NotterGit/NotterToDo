@@ -35,8 +35,8 @@ export default function Actions({
             id: data.id,
             boardId
         }), {
-            loading: "Copying...",
-            success: (data) => `Card '${data.title}' copied`,
+            loading: "Копирование...",
+            success: (data) => `Карточка «${data.title}» скопирована`,
             error: (err) => err
         })
     }
@@ -48,8 +48,8 @@ export default function Actions({
             id: data.id,
             boardId
         }), {
-            loading: "Deleting...",
-            success: (data) => `Card '${data.title}' deleted`,
+            loading: "Удаление...",
+            success: (data) => `Карточка «${data.title}» удалена`,
             error: (err) => err
         })
     }
@@ -57,7 +57,7 @@ export default function Actions({
   return (
     <div className="space-y-2 mt-2">
       <p className="text-xs font-semibold">
-        Actions
+        Действия
       </p>
       <Button
         variant="default"
@@ -66,7 +66,7 @@ export default function Actions({
         disabled={isLoadingCopy}
       >
         <Copy className="h-4 w-4" />
-        Copy
+        Копировать
       </Button>
       <Button
         className="w-full justify-start hover:bg-rose-500"
@@ -74,7 +74,7 @@ export default function Actions({
         disabled={isLoadingDelete}
       >
         <Trash className="h-4 w-4" />
-        Delete
+        Удалить
       </Button>
     </div>
   )

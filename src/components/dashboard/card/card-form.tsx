@@ -46,8 +46,8 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(({
         const boardId = params.boardId as string
 
         toast.promise(execute({ title, listId, boardId }), {
-            loading: "Creating card...",
-            success: (data) => `Card "${data.title}" created`,
+            loading: "Создание карточки...",
+            success: (data) => `Карточка «${data.title}» создана`,
             error: (error) => error
         })
     }
@@ -63,7 +63,7 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(({
                     id="title"
                     onKeyDown={onTextareaKeyDown}
                     ref={ref}
-                    placeholder="Enter a title for this card..."
+                    placeholder="Введите название карточки..."
                     errors={fieldErrors}
                     onClick={() => {}}
                 />
@@ -75,7 +75,7 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(({
                 />
                 <div className="flex items-center gap-x-1">
                     <FormSubmit>
-                        Add a card
+                        Добавить карточку
                     </FormSubmit>
                     <Button onClick={disableEditing} variant="ghost">
                         <X className="h-5 w-5"/>
@@ -94,7 +94,7 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(({
                 variant="ghost"
             >
                 <Plus className="h-4 w-4 mr-2" />
-                Add a card
+                Добавить карточку
             </Button>
         </div>
     )

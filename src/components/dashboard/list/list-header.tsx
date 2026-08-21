@@ -44,8 +44,8 @@ export function ListHeader({
             id,
             boardId
         }), {
-            loading: "Updating title...",
-            success: (data) => `Renamed to '${data.title}'`,
+            loading: "Обновление названия...",
+            success: (data) => `Переименовано в «${data.title}»`,
             error: (err) => err
         }).then((data) => {
             setTitle(data.title)
@@ -81,7 +81,7 @@ export function ListHeader({
                         ref={inputRef}
                         onBlur={onBlur}
                         id="title"
-                        placeholder="Enter list title"
+                        placeholder="Введите название списка"
                         defaultValue={title}
                         className="text-sm px-[7px] py-1 h-7 font-medium border-transparent hover:border-input focus:border-input transition truncate bg-transparent focus:bg-white dark:focus:bg-neutral-800"
                     />

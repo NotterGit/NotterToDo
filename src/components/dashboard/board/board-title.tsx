@@ -38,8 +38,8 @@ export function BoardTitle({
             title,
             id: data.id
         }), {
-            loading: "Updating title...",
-            success: `Board '${title}' updated!`,
+            loading: "Обновление названия...",
+            success: `Доска «${title}» обновлена!`,
             error: (err) => err
         }).then(() => {
             setTitle(title)

@@ -10,11 +10,11 @@ export default function Landing() {
             <div className="flex flex-col items-center justify-center gap-4">
                 <Image src={images.LOGO} alt="Notter Todo Logo" width={300} height={100} priority />
 
-                <span className="text-muted-foreground font-medium text-lg">Coming soon...</span> 
+                <span className="text-muted-foreground font-medium text-lg">Скоро...</span> 
 
                 <Button>
                     <Link href={pages.DASHBOARD}>
-                        Get started
+                        Начать
                     </Link>
                 </Button>
             </div>

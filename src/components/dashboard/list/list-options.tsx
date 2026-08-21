@@ -34,8 +34,8 @@ export function ListOptions({
         const boardId = formData.get("boardId") as string
 
         toast.promise(executeDelete({id, boardId}), {
-            loading: "Deleting list...",
-            success: (data) => `List '${data.title}' deleted`,
+            loading: "Удаление списка...",
+            success: (data) => `Список «${data.title}» удалён`,
             error: (err) => err
         })
     }
@@ -45,8 +45,8 @@ export function ListOptions({
         const boardId = formData.get("boardId") as string
 
         toast.promise(executeCopy({id, boardId}), {
-            loading: "Copying list...",
-            success: (data) => `List '${data.title}' copied`,
+            loading: "Копирование списка...",
+            success: (data) => `Список «${data.title}» скопирован`,
             error: (err) => err
         })
     }
@@ -60,7 +60,7 @@ export function ListOptions({
             </PopoverTrigger>
             <PopoverContent className="px-0 pt-3 pb-3 gap-1" side="bottom" align="start">
                 <div className="text-sm font-medium text-center text-neutral-600 dark:text-neutral-300">
-                    List actions
+                    Действия со списком
                 </div>
                 <PopoverClose ref={closeRef}>
                     <Button className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600 dark:text-neutral-300" variant="ghost">
@@ -73,7 +73,7 @@ export function ListOptions({
                     className="rounded-none w-full h-auto py-2 px-5 justify-start font-normal text-sm"
                     variant="ghost"
                 >
-                    Add card
+                    Добавить карточку
                 </Button>
 
                 <form action={onCopy}>
@@ -83,7 +83,7 @@ export function ListOptions({
                         variant="ghost"
                         className="rounded-none w-full h-auto py-2 px-5 justify-start font-normal text-sm"
                     >
-                        Copy list
+                        Копировать список
                     </FormSubmit>
                 </form>
 
@@ -96,7 +96,7 @@ export function ListOptions({
                         variant="ghost"
                         className="rounded-none w-full h-auto py-2 px-5 justify-start font-normal text-sm hover:bg-rose-500 hover:text-white"
                     >
-                        Delete list
+                        Удалить список
                     </FormSubmit>
                 </form>
             </PopoverContent>

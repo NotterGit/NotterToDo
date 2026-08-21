@@ -21,7 +21,7 @@ export function Navbar() {
                 </div>
                 <FormPopover align="start" side="bottom" sideOffset={18}>
                     <Button className="rounded-sm hidden md:flex h-auto py-1.5 px-2 flex-row">
-                        <Plus className="h-4 w-4"/> Create
+                        <Plus className="h-4 w-4"/> Создать
                     </Button>
                 </FormPopover>
                 <FormPopover>

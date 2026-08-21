@@ -64,8 +64,8 @@ export function Description({
         toast.promise(execute({ 
             id: data.id, description, boardId 
         }), {
-            loading: "Updating card...",
-            success: (data) => `Card "${data.title}" updated`,
+            loading: "Обновление карточки...",
+            success: (data) => `Карточка «${data.title}» обновлена`,
             error: (err) => err
         })
     }
@@ -75,7 +75,7 @@ export function Description({
             <AlignLeft className="h-5 w-5 mt-0.5 text-neutral-700 dark:text-neutral-300 mb-2"/>
             <div className="w-full">
                 <p className="font-semibold text-neutral-700 dark:text-neutral-200 mb-2">
-                    Description
+                    Описание
                 </p>
                 {isEditing ? (
                     <form 
@@ -86,21 +86,21 @@ export function Description({
                         <FormTextarea 
                             id="description"
                             className="w-full mt-2"
-                            placeholder="Add a more detailed description"
+                            placeholder="Добавьте более подробное описание"
                             defaultValue={data.description || undefined}
                             onClick={() => {}}
                             ref={textareaRef}
                         />
                         <div className="flex items-center gpa-x-2">
                             <FormSubmit>
-                                Save
+                                Сохранить
                             </FormSubmit>
                             <Button 
                                 type="button"
                                 onClick={disableEditing}
                                 variant="ghost"
                             >
-                                Cancel
+                                Отмена
                             </Button>
                         </div>
                     </form>
@@ -110,7 +110,7 @@ export function Description({
                         role="button"
                         className="min-h-[78px] bg-neutral-200 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 text-sm font-medium py-3 px-3.5 rounded-md"
                     >
-                        {data.description || "Add a more detailed description..."}
+                        {data.description || "Добавить более подробное описание..."}
                     </div>
                 )}
             </div>

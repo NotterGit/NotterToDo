@@ -52,8 +52,8 @@ export function Header({
             boardId,
             id: data.id
         }), {
-            loading: "Renaming...",
-            success: (data) => `Renamed to '${data.title}'`,
+            loading: "Переименование...",
+            success: (data) => `Переименовано в «${data.title}»`,
             error: (err) => err
         })
     }
@@ -72,7 +72,7 @@ export function Header({
                 />
             </form>
             <p className="text-sm text-muted-foreground">
-                in <span className="font-semibold">{data.list.title}</span>
+                в списке <span className="font-semibold">{data.list.title}</span>
             </p>
         </div>
     </div>

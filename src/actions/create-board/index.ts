@@ -15,7 +15,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 
     if(!userId || !orgId) {
         return {
-            error: "Unauthorized"
+            error: "Не авторизован"
         }
     }
 
@@ -39,7 +39,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 
     if(!imageId || !imageThumbUrl || !imageFullUrl || !imageLinkHtml || !imageUserName) {
         return {
-            error: "missing fields"
+            error: "Не все поля заполнены"
         }
     }
 
@@ -67,7 +67,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     } catch (err) {
         console.error(err)
         return {
-            error: "Failed to create"
+            error: "Не удалось создать"
         }
     }
 

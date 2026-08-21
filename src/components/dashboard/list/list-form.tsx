@@ -56,8 +56,8 @@ export default function ListForm() {
             title,
             boardId
         }), {
-            loading: "Creating list...",
-            success: (data) => `List '${data.title}' created`,
+            loading: "Создание списка...",
+            success: (data) => `Список «${data.title}» создан`,
             error: (err) => err
         })
     }
@@ -75,7 +75,7 @@ export default function ListForm() {
                         errors={fieldErrors}
                         id="title"
                         className="text-sm px-2 py-1 font-medium border-transparent hover:border-input focus:border-input transition" 
-                        placeholder="Enter list title"
+                        placeholder="Введите название списка"
                     />
                     <input 
                         hidden
@@ -84,7 +84,7 @@ export default function ListForm() {
                     />
                     <div className="flex items-center gap-x-1">
                         <FormSubmit>
-                            Add list
+                            Добавить список
                         </FormSubmit>
                         <Button
                             onClick={disableEditing}
@@ -105,7 +105,7 @@ export default function ListForm() {
                 onClick={enableEditing}
             >
                 <Plus className="h-4 w-4 mr-2"/>
-                Add a list
+                Добавить список
             </button>
         </ListWrapper>
     )

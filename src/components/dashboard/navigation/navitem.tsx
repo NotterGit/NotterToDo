@@ -19,22 +19,22 @@ export function NavItem({ isExpanded, isActive, organization, onExpand }: NavIte
 
     const routes = [
         {
-            label: "Boards",
+            label: "Доски",
             icon: <Layout className="h-4 w-4 mr-2"/>,
             href: pages.ORGANIZATION(organization.id)
         },
         {
-            label: "Activity",
+            label: "Активность",
             icon: <Activity className="h-4 w-4 mr-2"/>,
             href: pages.ORGANIZATION_ACTIVITY(organization.id)
         },
         {
-            label: "Settings",
+            label: "Настройки",
             icon: <Settings className="h-4 w-4 mr-2"/>,
             href: pages.ORGANIZATION_SETTINGS(organization.id)
         },
         {
-            label: "Subscribe",
+            label: "Подписка",
             icon: <Gem className="h-4 w-4 mr-2"/>,
             href: links.NOTTER_GEM
         }

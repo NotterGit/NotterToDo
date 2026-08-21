@@ -58,7 +58,7 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
         <>
             <div className="font-medium text-xs flex items-center mb-1">
                 <span>
-                    Workspace
+                    Организации
                 </span>
                 <Button type="button" size="icon" variant="ghost" className="ml-auto">
                     <Link href={pages.AUTH.SELECT_ORG}>
