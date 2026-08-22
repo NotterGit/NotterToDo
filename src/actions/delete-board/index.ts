@@ -6,13 +6,12 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { createSafeAction } from "@/lib/create-safe-action";
 import { DeleteBoard } from "./schema";
-import { redirect } from "next/navigation";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { createAuditLog } from "@/lib/audit-log";
 import { pages } from "@/config/routing/pages.route";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId: clerkOrgId } = await auth()
+  const { userId, orgId: clerkOrgId, orgRole } = await auth()
   const orgId = clerkOrgId || userId
 
   if (!userId || !orgId) {
@@ -21,10 +20,22 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     }
   }
 
+  const isOrgAdmin =
+    orgRole === "org:admin" ||
+    orgRole === "admin" ||
+    (typeof orgRole === "string" && orgRole.includes("admin"))
+
+  if (clerkOrgId && !isOrgAdmin) {
+    return {
+      error: "Удаление доски доступно только администраторам организации"
+    }
+  }
+
   const { id } = data
+  let board
 
   try {
-    const board = await db.board.delete({
+    board = await db.board.delete({
         where: {
             id,
             orgId
@@ -44,7 +55,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   }
 
   revalidatePath(pages.DASHBOARD(orgId))
-  redirect(pages.DASHBOARD(orgId))
+  return { data: board }
 }
 
 export const deleteBoard = createSafeAction(DeleteBoard, handler)

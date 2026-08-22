@@ -4,7 +4,7 @@ import { Accordion } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useOrganization, useOrganizationList, useUser } from "@clerk/nextjs"
-import { Plus, Settings } from "lucide-react"
+import { Plus, Settings2 } from "lucide-react"
 import { useParams } from "next/navigation"
 import { useLocalStorage } from "usehooks-ts"
 import { NavItem } from "./navitem"
@@ -136,7 +136,7 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
                     size="sm"
                     className="w-full justify-start text-neutral-700 dark:text-neutral-200 font-medium text-sm p-2 h-auto hover:bg-neutral-500/10"
                 >
-                    <Settings className="h-4 w-4 mr-2" />
+                    <Settings2 className="h-4 w-4 mr-2" />
                     <span>Настройки</span>
                 </Button>
             </div>
