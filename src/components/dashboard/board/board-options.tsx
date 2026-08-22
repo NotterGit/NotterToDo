@@ -4,7 +4,7 @@ import { deleteBoard } from "@/actions/delete-board/index";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useAction } from "@/hooks/use-action";
-import { MoreHorizontal, X } from "lucide-react";
+import { MoreHorizontal, Trash2, X } from "lucide-react";
 import toast from "react-hot-toast";
 import type { BoardOptionsProps } from "@/config/types/main.types";
 
@@ -48,8 +48,9 @@ export default function BoardOptions({
                     variant="ghost"
                     onClick={onDelete}
                     disabled={isLoading}
-                    className="rounded-none w-full h-auto py-2 px-5 justify-start font-normal text-sm hover:bg-rose-500 hover:text-white"
+                    className="rounded-none w-full h-auto py-2 px-5 justify-start font-normal text-sm hover:bg-rose-500 hover:text-white dark:hover:bg-rose-600 transition-colors"
                 >
+                    <Trash2 className="h-4 w-4 mr-2" />
                     Удалить эту доску
                 </Button>
             </PopoverContent>

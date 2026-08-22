@@ -91,7 +91,7 @@ export function Description({
                             onClick={() => {}}
                             ref={textareaRef}
                         />
-                        <div className="flex items-center gpa-x-2">
+                        <div className="flex items-center gap-x-2">
                             <FormSubmit>
                                 Сохранить
                             </FormSubmit>
@@ -110,7 +110,7 @@ export function Description({
                         role="button"
                         className="min-h-[78px] bg-neutral-200 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 text-sm font-medium py-3 px-3.5 rounded-md"
                     >
-                        {data.description || "Добавить более подробное описание..."}
+                        {data.description || (<span className="text-primary/50">Добавить более подробное описание...</span>)}
                     </div>
                 )}
             </div>

@@ -34,7 +34,7 @@ export function CardModal() {
             open={isOpen}
             onOpenChange={onClose}
         >
-            <DialogContent>
+            <DialogContent className="max-w-3xl sm:max-w-3xl">
                 {!cardData ? (
                     <Header.Skeleton/>
                 ) : (

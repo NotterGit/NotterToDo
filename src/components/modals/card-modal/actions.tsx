@@ -69,7 +69,8 @@ export default function Actions({
         Копировать
       </Button>
       <Button
-        className="w-full justify-start hover:bg-rose-500"
+        variant="default"
+        className="w-full justify-start hover:bg-rose-500 hover:text-white dark:hover:bg-rose-600 transition-colors"
         onClick={onDelete}
         disabled={isLoadingDelete}
       >

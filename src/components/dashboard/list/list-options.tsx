@@ -1,7 +1,7 @@
 "use client"
 
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { MoreHorizontal, X } from "lucide-react";
+import { Copy, MoreHorizontal, Plus, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormSubmit } from "@/components/form/form-button";
 import { Separator } from "@/components/ui/separator";
@@ -73,6 +73,7 @@ export function ListOptions({
                     className="rounded-none w-full h-auto py-2 px-5 justify-start font-normal text-sm"
                     variant="ghost"
                 >
+                    <Plus className="h-4 w-4 mr-2" />
                     Добавить карточку
                 </Button>
 
@@ -83,6 +84,7 @@ export function ListOptions({
                         variant="ghost"
                         className="rounded-none w-full h-auto py-2 px-5 justify-start font-normal text-sm"
                     >
+                        <Copy className="h-4 w-4 mr-2" />
                         Копировать список
                     </FormSubmit>
                 </form>
@@ -94,8 +96,9 @@ export function ListOptions({
                     <input hidden id="boardId" name="boardId" value={data.boardId} />
                     <FormSubmit
                         variant="ghost"
-                        className="rounded-none w-full h-auto py-2 px-5 justify-start font-normal text-sm hover:bg-rose-500 hover:text-white"
+                        className="rounded-none w-full h-auto py-2 px-5 justify-start font-normal text-sm hover:bg-rose-500 hover:text-white dark:hover:bg-rose-600 transition-colors"
                     >
+                        <Trash2 className="h-4 w-4 mr-2" />
                         Удалить список
                     </FormSubmit>
                 </form>
