@@ -30,7 +30,7 @@ export interface BoardTitleProps {
 export interface BoardOptionsProps {
   id: string;
   initialPublic?: boolean;
-  initialImageId?: string;
+  initialImage?: string;
   data?: Board;
 }
 

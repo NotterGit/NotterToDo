@@ -42,7 +42,7 @@ export default async function BoardList({ orgId: propOrgId }: BoardListProps = {
                     key={board.id}
                     href={pages.BOARD(board.id)}
                     className="group relative aspect-video bg-no-repeat bg-center bg-cover bg-neutral-700 rounded-sm h-full w-full p-2 overflow-hidden"
-                    style={{ backgroundImage: `url(${board.imageThumbUrl})` }}
+                    style={{ backgroundImage: `url(${board.image})` }}
                 >
                     <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition" />
                     <p className="relative font-semibold text-white">

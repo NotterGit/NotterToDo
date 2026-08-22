@@ -19,7 +19,7 @@
 - **DnD**: `@hello-pangea/dnd`
 - **Validation**: Zod
 - **Notifications**: `react-hot-toast`
-- **Images**: Unsplash API (`unsplash-js`)
+- **Images**: Local background images (`public/bg/`)
 
 ---
 

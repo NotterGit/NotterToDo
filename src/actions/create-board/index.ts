@@ -9,53 +9,20 @@ import { CreateBoard } from "./schema"
 import { createAuditLog } from "@/lib/audit-log"
 import { ACTION, ENTITY_TYPE } from "@prisma/client"
 import { pages } from "@/config/routing/pages.route"
-
-import { defaultImages } from "@/config/const/banner-images.const"
+import { defaultBgImage } from "@/config/const/banner-images.const"
 
 const handler = async (data: InputType): Promise<ReturnType> => {
     const { userId, orgId: clerkOrgId } = await auth()
     const orgId = clerkOrgId || userId
 
-    if(!userId || !orgId) {
+    if (!userId || !orgId) {
         return {
             error: "Не авторизован"
         }
     }
 
     const { title, image } = data
-
-    let imageId = ""
-    let imageThumbUrl = ""
-    let imageFullUrl = ""
-    let imageLinkHtml = ""
-    let imageUserName = ""
-
-    if (image && image.includes("|")) {
-        const parts = image.split("|")
-        imageId = parts[0]
-        imageThumbUrl = parts[1]
-        imageFullUrl = parts[2]
-        imageLinkHtml = parts[3]
-        imageUserName = parts[4]
-    } else if (image) {
-        const stub = defaultImages.find((img) => img.id === image)
-        if (stub) {
-            imageId = stub.id
-            imageThumbUrl = stub.urls.thumb
-            imageFullUrl = stub.urls.full
-            imageLinkHtml = stub.links.html
-            imageUserName = stub.user.name
-        }
-    }
-
-    if(!imageId || !imageThumbUrl || !imageFullUrl || !imageLinkHtml || !imageUserName) {
-        const fallback = defaultImages[0]
-        imageId = fallback.id
-        imageThumbUrl = fallback.urls.thumb
-        imageFullUrl = fallback.urls.full
-        imageLinkHtml = fallback.links.html
-        imageUserName = fallback.user.name
-    }
+    const boardImage = image || defaultBgImage
 
     let board
 
@@ -64,11 +31,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
             data: {
                 title,
                 orgId,
-                imageId,
-                imageThumbUrl,
-                imageFullUrl,
-                imageLinkHtml,
-                imageUserName
+                image: boardImage
             }
         })
 

@@ -8,18 +8,14 @@ datasource db {
 }
 
 model Board {
-  id    String @id @default(uuid())
-  orgId String
-  title String
-  imageId String
-  imageThumbUrl String @db.Text
-  imageFullUrl String @db.Text
-  imageUserName String @db.Text
-  imageLinkHtml String @db.Text
+  id        String   @id @default(uuid())
+  orgId     String
+  title     String
+  image     String   @default("/bg/bg_1.jpg")
   createdAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-  lists List[]
-  public Boolean @default(false)
+  updateAt  DateTime @updatedAt
+  lists     List[]
+  public    Boolean  @default(false)
 }
 
 model List {

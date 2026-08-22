@@ -1,6 +1,6 @@
 "use client"
 
-import { defaultImages } from "@/config/const/banner-images.const"
+import { bgImages, defaultBgImage } from "@/config/const/banner-images.const"
 import { cn } from "@/lib/utils"
 import { Check } from "lucide-react"
 import Image from "next/image"
@@ -13,24 +13,21 @@ export const FormPicker = ({
     id, errors, defaultValue
 }: FormPickerProps) => {
     const { pending } = useFormStatus()
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [images] = useState<Array<Record<string, any>>>(defaultImages)
-    const [selectedImageId, setSelectedImageId] = useState<string | null>(defaultValue || null)
+    const [selectedImage, setSelectedImage] = useState<string>(defaultValue || defaultBgImage)
 
     return (
         <div className="relative">
             <div className="grid grid-cols-3 gap-2 mb-2">
-                {images.map((image) => (
+                {bgImages.map((image) => (
                     <div
-                        key={image.id}
+                        key={image}
                         className={cn(
-                            "cursor-pointer relative aspect-video group hover:opacity-75 transition bg-muted",
+                            "cursor-pointer relative aspect-video group hover:opacity-75 transition bg-muted rounded-sm overflow-hidden",
                             pending && "opacity-50 hover:opacity-50 cursor-auto"
                         )}
                         onClick={() => {
-                            if(pending) return
-                            setSelectedImageId(image.id)
+                            if (pending) return
+                            setSelectedImage(image)
                         }}
                     >
                         <input 
@@ -38,27 +35,23 @@ export const FormPicker = ({
                             id={id}
                             name={id}
                             className="hidden"
-                            checked={selectedImageId === image.id}
+                            checked={selectedImage === image}
                             onChange={() => {}}
                             disabled={pending} 
-                            value={`${image.id}|${image.urls.thumb}|${image.urls.full}|${image.links.html}|${image.user.name}`}
+                            value={image}
                         />
                         <Image
                             fill
-                            src={image.urls.thumb}
-                            alt="unsplash image"
-                            className="object-cover rounded-sm"
+                            src={image}
+                            alt="Фон доски"
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, 33vw"
                         />
-                        {selectedImageId === image.id && (
-                            <div className="absolute inset-y-0 h-full w-full bg-black/30 flex items-center justify-center">
+                        {selectedImage === image && (
+                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                                 <Check className="h-4 w-4 text-white" />
                             </div>
                         )}
-                        <span
-                            className="opacity-0 group-hover:opacity-100 absolute bottom-0 w-full text-[10px] truncate text-neutral-200 p-1 bg-black/5"
-                        >   
-                            {image.user.name}
-                        </span>
                     </div>
                 ))}
             </div>

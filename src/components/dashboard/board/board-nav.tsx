@@ -33,7 +33,7 @@ export default async function BoardNav({
                     <BoardOptions
                         id={data.id}
                         initialPublic={data.public}
-                        initialImageId={data.imageId}
+                        initialImage={data.image}
                         data={data}
                     />
                 </div>

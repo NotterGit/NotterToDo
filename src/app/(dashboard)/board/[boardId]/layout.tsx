@@ -76,7 +76,7 @@ export default async function OrganizationIdLayout({
     return (
         <div
             className="relative h-full bg-no-repeat bg-cover bg-center"
-            style={{backgroundImage: `url(${board.imageFullUrl})`}}
+            style={{ backgroundImage: `url(${board.image})` }}
         >
             <BoardNav data={board} isReadOnly={!isOwner} />
             <div className="absolute inset-0 bg-black/15"/>

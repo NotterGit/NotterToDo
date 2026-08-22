@@ -22,7 +22,7 @@ import type { BoardOptionsProps } from "@/config/types/main.types";
 export default function BoardOptions({
     id,
     initialPublic = false,
-    initialImageId
+    initialImage
 }: BoardOptionsProps) {
     const router = useRouter()
     const { userId, orgId, orgRole } = useAuth()
@@ -285,7 +285,7 @@ export default function BoardOptions({
                                     <FormPicker
                                         id="image"
                                         errors={backgroundFieldErrors}
-                                        defaultValue={initialImageId}
+                                        defaultValue={initialImage}
                                     />
                                     <FormSubmit
                                         disabled={isLoadingBackground}
