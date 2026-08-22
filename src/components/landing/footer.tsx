@@ -18,7 +18,7 @@ export function Footer(){
                     </Link>
                     <ul className="flex flex-wrap items-center mb-6 text-sm font-medium sm:mb-0 text-muted-foreground">
                         <li>
-                            <Link href={links.FEEDBACK} target="_blank" className="me-4 md:me-6 hover:text-foreground transition-colors duration-200">Обратная связь</Link>
+                            <Link href={links.FEEDBACK} target="_blank" className="me-4 md:me-6 hover:text-foreground transition-colors duration-200">Feedback</Link>
                         </li>
                         <li>
                             <Link href={links.QUAL_ID} target="_blank" className="me-4 md:me-6 hover:text-foreground transition-colors duration-200">Qual ID</Link>

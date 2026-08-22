@@ -22,7 +22,7 @@ export function Navbar() {
                 </SignedIn>
 
                 <SignedOut>
-                    <SignInButton mode="modal">
+                    <SignInButton>
                         <Button variant="ghost">Войти</Button>
                     </SignInButton>
                 </SignedOut>

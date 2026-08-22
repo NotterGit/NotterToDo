@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { useClerk } from "@clerk/nextjs"
-import { useTheme } from "next-themes"
 import { LogOut, Settings } from "lucide-react"
 
 import {
@@ -19,19 +18,11 @@ import { ModeToggle } from "@/components/ui/mode-toggle"
 export function SettingsModal() {
   const { isOpen, onClose } = useSettingsModal()
   const { openUserProfile, signOut } = useClerk()
-  const { theme, setTheme, resolvedTheme } = useTheme()
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
     setIsMounted(true)
   }, [])
-
-  const currentTheme = resolvedTheme || theme
-  const isDark = currentTheme === "dark"
-
-  const toggleTheme = () => {
-    setTheme(isDark ? "light" : "dark")
-  }
 
   const handleOpenAccountSettings = () => {
     onClose()
