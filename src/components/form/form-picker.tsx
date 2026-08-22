@@ -1,62 +1,22 @@
 "use client"
 
-import { defaultImages, UNSPLASH_CONFIG } from "@/config/const/banner-images.const"
-import { unsplash } from "@/lib/unsplash"
+import { defaultImages } from "@/config/const/banner-images.const"
 import { cn } from "@/lib/utils"
-import { Check, Loader2 } from "lucide-react"
+import { Check } from "lucide-react"
 import Image from "next/image"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useFormStatus } from "react-dom"
 import { FormErrors } from "./form-errors"
 import type { FormPickerProps } from "@/config/types/components.types"
 
 export const FormPicker = ({
-    id, errors
+    id, errors, defaultValue
 }: FormPickerProps) => {
     const { pending } = useFormStatus()
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [images, setImages] = useState<Array<Record<string, any>>>(defaultImages)
-    const [isLoading, setIsLoading] = useState(true)
-    const [selectedImageId, setSelectedImageId] = useState(null)
-
-    useEffect(() => {
-        const fetchImages = async () => {
-            try {
-                const result = await unsplash.GET("/photos/random", {
-                    params: {
-                        query: {
-                            collections: [UNSPLASH_CONFIG.DEFAULT_COLLECTION_ID],
-                            count: UNSPLASH_CONFIG.DEFAULT_COUNT
-                        }
-                    }
-                })
-
-                if(result && result.data) {
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-                    const fetchedImages = (result.data as Array<Record<string, any>>)
-                    setImages(defaultImages)
-                } else {
-                    console.error("Failed to get images")
-                }
-            } catch (err) {
-                console.error(err)
-                setImages([])
-            } finally {
-                setIsLoading(false)
-            }
-        }
-
-        fetchImages()
-    }, [])
-
-    if(isLoading) {
-        return (
-            <div className="p-6 flex items-center justify-center">
-                <Loader2 className="animate-spin h-6 w-6"/>
-            </div>
-        )
-    }
+    const [images] = useState<Array<Record<string, any>>>(defaultImages)
+    const [selectedImageId, setSelectedImageId] = useState<string | null>(defaultValue || null)
 
     return (
         <div className="relative">
@@ -79,6 +39,7 @@ export const FormPicker = ({
                             name={id}
                             className="hidden"
                             checked={selectedImageId === image.id}
+                            onChange={() => {}}
                             disabled={pending} 
                             value={`${image.id}|${image.urls.thumb}|${image.urls.full}|${image.links.html}|${image.user.name}`}
                         />

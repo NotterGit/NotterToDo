@@ -30,7 +30,12 @@ export default async function BoardNav({
             </div>
             {!isReadOnly && (
                 <div className="ml-auto">
-                    <BoardOptions id={data.id} initialPublic={data.public} />
+                    <BoardOptions
+                        id={data.id}
+                        initialPublic={data.public}
+                        initialImageId={data.imageId}
+                        data={data}
+                    />
                 </div>
             )}
         </nav>

@@ -38,6 +38,7 @@ export interface FormPopoverProps {
 export interface FormPickerProps {
   id: string;
   errors?: Record<string, string[] | undefined>;
+  defaultValue?: string;
 }
 
 export interface FormSubmitProps {
