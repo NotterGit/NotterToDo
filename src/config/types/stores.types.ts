@@ -17,3 +17,9 @@ export type MobileSidebarStore = {
   onClose: () => void;
 };
 
+export type SettingsModalStore = {
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+};
+

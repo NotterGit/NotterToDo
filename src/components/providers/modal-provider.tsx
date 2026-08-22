@@ -2,6 +2,7 @@
 
 import { CardModal } from "@/components/modals/card-modal";
 import { OrgModal } from "@/components/modals/org-modal";
+import { SettingsModal } from "@/components/modals/settings-modal";
 import { useEffect, useState } from "react";
 
 export function ModalProvider() {
@@ -19,6 +20,7 @@ export function ModalProvider() {
         <>
             <CardModal />
             <OrgModal />
+            <SettingsModal />
         </>
     )
 }

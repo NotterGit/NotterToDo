@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 import { useOrganization, useOrganizationList } from "@clerk/nextjs"
-import { Activity, Gem, Layout, Settings } from "lucide-react"
+import { Activity, Gem, Layout } from "lucide-react"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 import { pages } from "@/config/routing/pages.route"
@@ -30,11 +30,6 @@ export function NavItem({ isExpanded, isActive, organization, onExpand }: NavIte
             label: "Активность",
             icon: <Activity className="h-4 w-4 mr-2"/>,
             href: pages.DASHBOARD_ACTIVITY(organization.id)
-        },
-        {
-            label: "Настройки",
-            icon: <Settings className="h-4 w-4 mr-2"/>,
-            href: pages.DASHBOARD_SETTINGS(organization.id)
         },
         {
             label: "Подписка",
