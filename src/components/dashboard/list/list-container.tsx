@@ -19,7 +19,7 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number) {
 }
 
 export function ListContainer({
-  data, boardId
+  data, boardId, isReadOnly = false
 }: ListContainerProps) {
   const [orderedData, setOrderedData] = useState(data)
 
@@ -31,6 +31,8 @@ export function ListContainer({
   }, [data])
 
   const onDragEnd = (result: DropResult) => {
+    if (isReadOnly) return
+
     const { destination, source, type } = result
 
     if (!destination) {
@@ -132,6 +134,7 @@ export function ListContainer({
         droppableId="lists"
         type="list"
         direction="horizontal"
+        isDropDisabled={isReadOnly}
       >
         {(provided) => (
           <ol 
@@ -145,11 +148,12 @@ export function ListContainer({
                   key={list.id}
                   index={index}
                   data={list}
+                  isReadOnly={isReadOnly}
                 />
               )
             })}
             {provided.placeholder}
-            <ListForm/>
+            {!isReadOnly && <ListForm/>}
             <div className="flex-shrink-0 w-1"/>
           </ol>
         )}

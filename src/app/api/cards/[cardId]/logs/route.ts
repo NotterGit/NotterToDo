@@ -13,13 +13,41 @@ export async function GET(
     const { userId, orgId: clerkOrgId } = await auth()
     const orgId = clerkOrgId || userId
 
-    if (!userId || !orgId) {
+    const card = await db.card.findUnique({
+      where: {
+        id: cardId
+      },
+      include: {
+        list: {
+          select: {
+            board: {
+              select: {
+                orgId: true,
+                public: true
+              }
+            }
+          }
+        }
+      }
+    })
+
+    if (!card) {
+      return new NextResponse("Card not found", { status: 404 })
+    }
+
+    const canView =
+      (orgId && card.list.board.orgId === orgId) ||
+      (userId && card.list.board.orgId === userId) ||
+      (clerkOrgId && card.list.board.orgId === clerkOrgId) ||
+      card.list.board.public
+
+    if (!canView) {
       return new NextResponse("Unauthorized", { status: 401 })
     }
 
     const auditLogs = await db.auditLog.findMany({
       where: {
-        orgId,
+        orgId: card.list.board.orgId,
         entityId: cardId,
         entityType: ENTITY_TYPE.CARD
       },

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
+import { OrganizationSwitcher, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { MobileSidebar } from "./mobile-sidebar";
 import { FormPopover } from "@/components/form/form-popover";
 import { images } from "@/config/const/image.const";
@@ -19,15 +19,17 @@ export function Navbar() {
 
     return (
         <nav className="fixed z-50 top-0 w-full h-14 border-b border-border shadow-sm bg-background flex items-center px-4">
-            <MobileSidebar/>
+            <SignedIn>
+                <MobileSidebar/>
+            </SignedIn>
             <div className="flex items-center gap-x-4">
-                <div className="hidden md:flex">
+                <div className="flex">
                     <Link href={pages.ROOT} className="flex items-center gap-x-2 hover:opacity-90 transition">
                         <Image src={images.ICON} alt="Notter Todo Icon" width={36} height={36} />
                     </Link>
                 </div>
                 {!isBoardPage && (
-                    <>
+                    <SignedIn>
                         <FormPopover align="start" side="bottom" sideOffset={18}>
                             <Button className="rounded-sm hidden md:flex h-auto py-1.5 px-2 flex-row">
                                 <Plus className="h-4 w-4"/> Создать
@@ -38,38 +40,46 @@ export function Navbar() {
                                 <Plus className="h-4 w-4"/>
                             </Button>
                         </FormPopover>
-                    </>
+                    </SignedIn>
                 )}
             </div>
-            <div className="ml-auto flex items-center gap-x-2">
-                <div className="hidden md:block">
-                    <OrganizationSwitcher 
-                        hidePersonal={false}
-                        afterCreateOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
-                        afterSelectOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
-                        afterSelectPersonalUrl={pages.DASHBOARD_CLERK_PATTERN}
-                        afterLeaveOrganizationUrl={pages.DASHBOARD()}
+            <div className="ml-auto flex items-center gap-x-3">
+                <SignedIn>
+                    <div className="hidden md:block">
+                        <OrganizationSwitcher 
+                            hidePersonal={false}
+                            afterCreateOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
+                            afterSelectOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
+                            afterSelectPersonalUrl={pages.DASHBOARD_CLERK_PATTERN}
+                            afterLeaveOrganizationUrl={pages.DASHBOARD()}
+                            appearance={{
+                                elements: {
+                                    rootBox: {
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center"
+                                    }
+                                }
+                            }}
+                        />
+                    </div>
+                    <UserButton
                         appearance={{
                             elements: {
                                 rootBox: {
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center"
+                                    width: 30,
+                                    height: 30
                                 }
                             }
                         }}
                     />
-                </div>
-                <UserButton
-                    appearance={{
-                        elements: {
-                            rootBox: {
-                                width: 30,
-                                height: 30
-                            }
-                        }
-                    }}
-                />
+                </SignedIn>
+
+                <SignedOut>
+                    <SignInButton>
+                        <Button size="sm" variant="outline">Войти</Button>
+                    </SignInButton>
+                </SignedOut>
 
                 <ModeToggle/>
             </div>

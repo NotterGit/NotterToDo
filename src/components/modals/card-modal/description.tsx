@@ -77,7 +77,11 @@ export function Description({
                 <p className="font-semibold text-neutral-700 dark:text-neutral-200 mb-2">
                     Описание
                 </p>
-                {isEditing ? (
+                {data.canEdit === false ? (
+                    <div className="min-h-[78px] bg-neutral-100 dark:bg-neutral-800/60 text-neutral-800 dark:text-neutral-200 text-sm font-medium py-3 px-3.5 rounded-md whitespace-pre-wrap select-text">
+                        {data.description || (<span className="text-muted-foreground italic">Нет описания</span>)}
+                    </div>
+                ) : isEditing ? (
                     <form 
                         action={onSubmit}
                         ref={formRef}

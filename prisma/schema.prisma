@@ -19,6 +19,7 @@ model Board {
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt
   lists List[]
+  public Boolean @default(false)
 }
 
 model List {

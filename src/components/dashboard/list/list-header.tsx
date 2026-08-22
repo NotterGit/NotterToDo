@@ -8,7 +8,7 @@ import { ListOptions } from "./list-options"
 import type { ListHeaderProps } from "@/config/types/main.types"
 
 export function ListHeader({
-    data, onAddCard
+    data, onAddCard, isReadOnly = false
 }: ListHeaderProps) {
     const [title, setTitle] = useState(data.title)
     const [isEditing, setIsEditing] = useState(false)
@@ -17,6 +17,7 @@ export function ListHeader({
     const inputRef = useRef<ElementRef<"input">>(null)
 
     const enableEditing = () => {
+        if (isReadOnly) return
         setIsEditing(true)
         setTimeout(() => {
             inputRef.current?.focus()
@@ -69,7 +70,7 @@ export function ListHeader({
     
     return (
         <div className="pt-2 px-2 text-sm font-semibold flex justify-between items-start gap-x-2 shrink-0">
-            {isEditing ? (
+            {isEditing && !isReadOnly ? (
                 <form
                     action={handleSubmit}
                     ref={formRef}
@@ -95,10 +96,12 @@ export function ListHeader({
                     {data.title}
                 </div>
             )}
-            <ListOptions
-                data={data}
-                onAddCard={onAddCard}
-            />
+            {!isReadOnly && (
+                <ListOptions
+                    data={data}
+                    onAddCard={onAddCard}
+                />
+            )}
         </div>
     )
 }

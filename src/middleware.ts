@@ -2,16 +2,24 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { pages } from '@/config/routing/pages.route';
 
-const isPublicRoute = createRouteMatcher([
+const isGuestOnlyRoute = createRouteMatcher([
   pages.ROOT,
   `${pages.AUTH.SIGN_IN}(.*)`,
   `${pages.AUTH.SIGN_UP}(.*)`,
 ]);
 
+const isPublicRoute = createRouteMatcher([
+  pages.ROOT,
+  `${pages.AUTH.SIGN_IN}(.*)`,
+  `${pages.AUTH.SIGN_UP}(.*)`,
+  '/board/(.*)',
+  '/api/cards/(.*)',
+]);
+
 export default clerkMiddleware(async (auth, req) => {
   const { userId, orgId } = await auth();
 
-  if (userId && isPublicRoute(req)) {
+  if (userId && isGuestOnlyRoute(req)) {
     let path: string = pages.DASHBOARD(userId);
     
     if (orgId) {

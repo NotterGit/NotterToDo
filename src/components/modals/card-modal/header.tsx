@@ -62,15 +62,21 @@ export function Header({
     <div className="flex items-start gap-x-3 mb-6 w-full">
         <Layout className="h-5 w-5 mt-1 text-neutral-700 dark:text-neutral-300" />
         <div className="w-full">
-            <form action={onSubmit}>
-                <FormInput
-                    ref={inputRef}
-                    onBlur={onBlur}
-                    id="title"
-                    defaultValue={title}
-                    className="font-semibold text-xl px-1 text-neutral-700 dark:text-neutral-200 bg-transparent border-transparent relative -left-1.5 w-[95%] focus-visible:bg-white dark:focus-visible:bg-neutral-800 focus-visible:border-input mb-0.5 truncate"
-                />
-            </form>
+            {data.canEdit === false ? (
+                <h4 className="font-semibold text-xl px-1 text-neutral-700 dark:text-neutral-200 mb-0.5 truncate select-none">
+                    {title}
+                </h4>
+            ) : (
+                <form action={onSubmit}>
+                    <FormInput
+                        ref={inputRef}
+                        onBlur={onBlur}
+                        id="title"
+                        defaultValue={title}
+                        className="font-semibold text-xl px-1 text-neutral-700 dark:text-neutral-200 bg-transparent border-transparent relative -left-1.5 w-[95%] focus-visible:bg-white dark:focus-visible:bg-neutral-800 focus-visible:border-input mb-0.5 truncate"
+                    />
+                </form>
+            )}
             <p className="text-sm text-muted-foreground">
                 в списке <span className="font-semibold">{data.list.title}</span>
             </p>

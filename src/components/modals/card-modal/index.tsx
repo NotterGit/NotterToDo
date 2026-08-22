@@ -41,7 +41,7 @@ export function CardModal() {
                     <Header data={cardData}/>
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4">
-                    <div className="col-span-3">
+                    <div className={cardData?.canEdit === false ? "col-span-4" : "col-span-3"}>
                         <div className="w-full space-y-6">
                         {!cardData
                             ? <Description.Skeleton />
@@ -53,7 +53,7 @@ export function CardModal() {
                         }
                         </div>
                     </div>
-                    {!cardData ? (
+                    {cardData && cardData.canEdit === false ? null : !cardData ? (
                         <Actions.Skeleton/>
                     ) : (
                         <Actions data={cardData}/>

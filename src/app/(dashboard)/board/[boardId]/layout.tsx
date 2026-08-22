@@ -12,21 +12,31 @@ export async function generateMetadata({
     const { userId, orgId: clerkOrgId } = await auth()
     const orgId = clerkOrgId || userId
 
-    if (!orgId) {
+    const board = await db.board.findUnique({
+        where: {
+            id: boardId
+        }
+    })
+
+    if (!board) {
         return {
             title: "Доска"
         }
     }
 
-    const board = await db.board.findUnique({
-        where: {
-            id: boardId,
-            orgId
+    const isAuthorized = !!(
+        (orgId && board.orgId === orgId) ||
+        (userId && board.orgId === userId) ||
+        (clerkOrgId && board.orgId === clerkOrgId)
+    )
+    if (!isAuthorized && !board.public) {
+        return {
+            title: "Доска"
         }
-    })
+    }
 
     return {
-        title: board?.title || "Доска"
+        title: board.title || "Доска"
     }
 }
 
@@ -40,18 +50,26 @@ export default async function OrganizationIdLayout({
     const { userId, orgId: clerkOrgId } = await auth()
     const orgId = clerkOrgId || userId
 
-    if(!orgId){
-        redirect(pages.SELECT_ORG)
-    }
-     
     const board = await db.board.findUnique({
         where: {
-            id: boardId,
-            orgId
+            id: boardId
         }
     })
 
     if(!board) {
+        notFound()
+    }
+
+    const isOwner = !!(
+        (orgId && board.orgId === orgId) ||
+        (userId && board.orgId === userId) ||
+        (clerkOrgId && board.orgId === clerkOrgId)
+    )
+
+    if (!isOwner && !board.public) {
+        if (!orgId) {
+            redirect(pages.AUTH.SIGN_IN)
+        }
         notFound()
     }
 
@@ -60,7 +78,7 @@ export default async function OrganizationIdLayout({
             className="relative h-full bg-no-repeat bg-cover bg-center"
             style={{backgroundImage: `url(${board.imageFullUrl})`}}
         >
-            <BoardNav data={board}/>
+            <BoardNav data={board} isReadOnly={!isOwner} />
             <div className="absolute inset-0 bg-black/15"/>
             <main className="relative pt-28 h-full">
                 {children}

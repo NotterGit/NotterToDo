@@ -9,7 +9,7 @@ import { Draggable, Droppable } from "@hello-pangea/dnd"
 import type { ListItemProps } from "@/config/types/main.types"
 
 export function ListItem({
-    data, index
+    data, index, isReadOnly = false
 }: ListItemProps) {
     const textareaRef = useRef<ElementRef<"textarea">>(null)
 
@@ -20,6 +20,7 @@ export function ListItem({
     }
 
     const enableEditing = () => {
+        if (isReadOnly) return
         setIsEditing(true)
         setTimeout(() => {
             textareaRef.current?.focus()
@@ -27,7 +28,7 @@ export function ListItem({
     }
 
     return (
-        <Draggable draggableId={data.id} index={index}>
+        <Draggable draggableId={data.id} index={index} isDragDisabled={isReadOnly}>
             {(provided) => (
                 <li 
                     {...provided.draggableProps}
@@ -38,8 +39,8 @@ export function ListItem({
                         {...provided.dragHandleProps}
                         className="w-full max-h-full rounded-md bg-[#f1f2f4] dark:bg-neutral-900 shadow-sm pb-2 flex flex-col"
                     >
-                        <ListHeader data={data} onAddCard={enableEditing}/>
-                        <Droppable droppableId={data.id} type="card">
+                        <ListHeader data={data} onAddCard={enableEditing} isReadOnly={isReadOnly}/>
+                        <Droppable droppableId={data.id} type="card" isDropDisabled={isReadOnly}>
                             {(provided) => (
                                 <ol
                                     ref={provided.innerRef}
@@ -54,19 +55,22 @@ export function ListItem({
                                             index={index}
                                             key={card.id}
                                             data={card}
+                                            isReadOnly={isReadOnly}
                                         />
                                     ))}
                                     {provided.placeholder}
                                 </ol>
                             )}
                         </Droppable>
-                        <CardForm 
-                            ref={textareaRef} 
-                            isEditing={isEditing}
-                            enableEditing={enableEditing}
-                            disableEditing={disableEditing}
-                            listId={data.id}
-                        />
+                        {!isReadOnly && (
+                            <CardForm 
+                                ref={textareaRef} 
+                                isEditing={isEditing}
+                                enableEditing={enableEditing}
+                                disableEditing={disableEditing}
+                                listId={data.id}
+                            />
+                        )}
                     </div>
                 </li>
             )}

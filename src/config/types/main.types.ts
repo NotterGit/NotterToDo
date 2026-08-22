@@ -2,7 +2,7 @@ import type { Board, Card, List } from "@prisma/client";
 import type * as React from "react";
 
 export type ListWithCards = List & { cards: Card[] };
-export type CardWithList = Card & { list: List };
+export type CardWithList = Card & { list: List; canEdit?: boolean };
 
 export type Organization = {
   id: string;
@@ -19,29 +19,35 @@ export interface BoardIdPageProps {
 
 export interface BoardNavProps {
   data: Board;
+  isReadOnly?: boolean;
 }
 
 export interface BoardTitleProps {
   data: Board;
+  isReadOnly?: boolean;
 }
 
 export interface BoardOptionsProps {
   id: string;
+  initialPublic?: boolean;
 }
 
 export interface ListContainerProps {
   data: ListWithCards[];
   boardId: string;
+  isReadOnly?: boolean;
 }
 
 export interface ListItemProps {
   data: ListWithCards;
   index: number;
+  isReadOnly?: boolean;
 }
 
 export interface ListHeaderProps {
   data: List;
   onAddCard: () => void;
+  isReadOnly?: boolean;
 }
 
 export interface ListOptionsProps {
@@ -56,6 +62,7 @@ export interface ListWrapperProps {
 export interface CardItemProps {
   data: Card;
   index: number;
+  isReadOnly?: boolean;
 }
 
 export interface CardFormProps {

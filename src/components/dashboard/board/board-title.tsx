@@ -9,7 +9,8 @@ import toast from "react-hot-toast"
 import type { BoardTitleProps } from "@/config/types/main.types"
 
 export function BoardTitle({
-    data
+    data,
+    isReadOnly = false
 }: BoardTitleProps) {
     const { execute } = useAction(updateBoard)
 
@@ -20,6 +21,7 @@ export function BoardTitle({
     const [isEditing, setIdEditing] = useState(false)
 
     const enableEditing = () => {
+        if (isReadOnly) return
         setIdEditing(true)
         setTimeout(() => {
             inputRef.current?.focus()
@@ -57,6 +59,14 @@ export function BoardTitle({
         formRef.current?.requestSubmit()
     }
 
+    if (isReadOnly) {
+        return (
+            <div className="font-bold text-lg px-2 text-white select-none">
+                {title}
+            </div>
+        )
+    }
+
     if(isEditing) {
         return (
             <form 
@@ -69,7 +79,7 @@ export function BoardTitle({
                     onBlur={onBlur}
                     defaultValue={title}
                     ref={inputRef}
-                    className="text-lg font-bold px-[7px] py-1 h-7 bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none"
+                    className="text-lg font-bold px-[7px] py-1 h-7 bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none text-white"
                 />
             </form>
         )

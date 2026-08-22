@@ -28,6 +28,10 @@ export default function Actions({
         }
     })
 
+    if (data.canEdit === false) {
+        return null
+    }
+
     const onCopy = () => {
         const boardId = params.boardId as string
 

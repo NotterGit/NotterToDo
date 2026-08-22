@@ -11,29 +11,43 @@ export async function GET(
         const { userId, orgId: clerkOrgId } = await auth()
         const orgId = clerkOrgId || userId
 
-        if (!userId || !orgId) {
-            return new NextResponse("Unauthorized", { status: 401 })
-        }
-
         const card = await db.card.findUnique({
             where: {
                 id: cardId,
-                list: {
-                    board: {
-                        orgId
-                    }
-                }
             },
             include: {
                 list: {
                     select: {
                         title: true,
+                        board: {
+                            select: {
+                                orgId: true,
+                                public: true,
+                            }
+                        }
                     }
                 }
             }
         })
 
-        return NextResponse.json(card)
+        if (!card) {
+            return new NextResponse("Card not found", { status: 404 })
+        }
+
+        const canEdit = !!(
+            (orgId && card.list.board.orgId === orgId) ||
+            (userId && card.list.board.orgId === userId) ||
+            (clerkOrgId && card.list.board.orgId === clerkOrgId)
+        )
+
+        if (!canEdit && !card.list.board.public) {
+            return new NextResponse("Unauthorized", { status: 401 })
+        }
+
+        return NextResponse.json({
+            ...card,
+            canEdit,
+        })
     } catch {
         return new NextResponse("Internal Error", { status: 500 })
     }
