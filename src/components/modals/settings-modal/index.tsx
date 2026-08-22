@@ -14,9 +14,12 @@ import { Button } from "@/components/ui/button"
 import { useSettingsModal } from "@/hooks/use-settings-modal"
 import { pages } from "@/config/routing/pages.route"
 import { ModeToggle } from "@/components/ui/mode-toggle"
+import { Slider } from "@/components/ui/slider"
+import { useBoardBlur } from "@/hooks/use-board-blur"
 
 export function SettingsModal() {
   const { isOpen, onClose } = useSettingsModal()
+  const { blur, setBlur } = useBoardBlur()
   const { openUserProfile, signOut } = useClerk()
   const [isMounted, setIsMounted] = useState(false)
 
@@ -56,7 +59,7 @@ export function SettingsModal() {
 
         <div className="h-px bg-border/60 -mx-6" />
 
-        <div className="space-y-4 py-1">
+        <div className="space-y-5 py-1">
           <div className="flex items-center justify-between gap-x-4">
             <div className="space-y-0.5">
               <p className="font-medium text-sm text-foreground">Тема</p>
@@ -64,7 +67,43 @@ export function SettingsModal() {
                 Настройте Notter для комфортной работы
               </p>
             </div>
-            <ModeToggle/>
+            <ModeToggle />
+          </div>
+
+          <div className="space-y-3 pt-3 border-t border-border/40">
+            <div className="flex items-center justify-between gap-x-4">
+              <div className="space-y-0.5">
+                <p className="font-medium text-sm text-foreground">
+                  Размытие фона досок
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Настройка интенсивности размытия заднего фона
+                </p>
+              </div>
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-secondary text-secondary-foreground border border-border/50 min-w-12 text-center tabular-nums shadow-xs">
+                {blur}%
+              </span>
+            </div>
+            <div className="pt-1 px-0.5">
+              <Slider
+                value={blur}
+                onValueChange={(val) => {
+                  if (typeof val === "number") {
+                    setBlur(val)
+                  } else if (Array.isArray(val) && val.length > 0) {
+                    setBlur(val[0])
+                  }
+                }}
+                min={0}
+                max={100}
+                step={1}
+              />
+              <div className="flex justify-between text-[11px] text-muted-foreground select-none pt-1">
+                <span>0% (Чёткий)</span>
+                <span>50%</span>
+                <span>100% (Размытый)</span>
+              </div>
+            </div>
           </div>
         </div>
 

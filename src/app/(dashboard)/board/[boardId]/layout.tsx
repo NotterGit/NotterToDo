@@ -2,6 +2,7 @@ import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs/server"
 import { notFound, redirect } from "next/navigation"
 import BoardNav from "@/components/dashboard/board/board-nav"
+import { BoardBackground } from "@/components/dashboard/board/board-background"
 import { pages } from "@/config/routing/pages.route"
 import type { BoardIdPageProps } from "@/config/types/main.types"
 
@@ -74,15 +75,11 @@ export default async function OrganizationIdLayout({
     }
 
     return (
-        <div
-            className="relative h-full bg-no-repeat bg-cover bg-center"
-            style={{ backgroundImage: `url(${board.image})` }}
-        >
+        <BoardBackground image={board.image}>
             <BoardNav data={board} isReadOnly={!isOwner} />
-            <div className="absolute inset-0 bg-black/15"/>
             <main className="relative pt-28 h-full">
                 {children}
             </main>
-        </div>
+        </BoardBackground>
     )
 }

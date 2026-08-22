@@ -23,3 +23,8 @@ export type SettingsModalStore = {
   onClose: () => void;
 };
 
+export type BoardBlurStore = {
+  blur: number;
+  setBlur: (blur: number) => void;
+};
+

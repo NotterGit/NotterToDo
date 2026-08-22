@@ -174,7 +174,7 @@ export default function BoardOptions({
                                 className="rounded-none w-full h-auto py-2.5 px-5 justify-between font-normal text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
                             >
                                 <div className="flex items-center">
-                                    <ImageIcon className="h-4 w-4 mr-2 text-sky-500" />
+                                    <ImageIcon className="h-4 w-4 mr-1.5 text-sky-500" />
                                     Сменить фон
                                 </div>
                                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
@@ -188,12 +188,12 @@ export default function BoardOptions({
                             >
                                 {isPublic ? (
                                     <>
-                                        <Lock className="h-4 w-4 mr-2 text-rose-500" />
+                                        <Lock className="h-4 w-4 text-rose-500" />
                                         Сделать приватной
                                     </>
                                 ) : (
                                     <>
-                                        <Globe className="h-4 w-4 mr-2 text-emerald-500" />
+                                        <Globe className="h-4 w-4 text-emerald-500" />
                                         Сделать публичной
                                     </>
                                 )}
@@ -251,7 +251,7 @@ export default function BoardOptions({
                                         className="rounded-none w-full h-auto py-2.5 px-5 justify-start font-normal text-sm hover:bg-rose-500 hover:text-white dark:hover:bg-rose-600 transition-colors"
                                     >
                                         <Trash2 className="h-4 w-4 mr-2" />
-                                        Удалить эту доску
+                                        Удалить доску
                                     </Button>
                                 </>
                             )}

@@ -42,7 +42,6 @@ export const FormPicker = ({
                         />
                         <Image
                             fill
-                            
                             src={image}
                             alt="Фон доски"
                             className="object-cover"
