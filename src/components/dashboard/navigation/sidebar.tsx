@@ -5,12 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useOrganization, useOrganizationList, useUser } from "@clerk/nextjs"
 import { Plus } from "lucide-react"
-import Link from "next/link"
 import { useParams } from "next/navigation"
 import { useLocalStorage } from "usehooks-ts"
 import { NavItem } from "./navitem"
 import { STORAGE_KEYS } from "@/config/const/app.const"
-import { pages } from "@/config/routing/pages.route"
+import { useOrgModal } from "@/hooks/use-org-modal"
 import type { Organization, SidebarProps } from "@/config/types/main.types"
 
 export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
@@ -24,6 +23,8 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
         }
     })
     const { user, isLoaded: isLoadedUser } = useUser()
+
+    const { onOpen: onOpenOrgModal } = useOrgModal()
 
     const defaultAccordionValue: string[] = Object.keys(expended)
         .reduce((acc: string[], key: string) => {
@@ -96,10 +97,14 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
                     <span>
                         Организации
                     </span>
-                    <Button type="button" size="icon" variant="ghost" className="ml-auto">
-                        <Link href={pages.AUTH.SELECT_ORG}>
-                            <Plus className="h-4 w-4"/>
-                        </Link>
+                    <Button 
+                        type="button" 
+                        size="icon" 
+                        variant="ghost" 
+                        className="ml-auto"
+                        onClick={() => onOpenOrgModal()}
+                    >
+                        <Plus className="h-4 w-4"/>
                     </Button>
                 </div>
                 <Accordion 

@@ -1,6 +1,7 @@
 "use client"
 
 import { CardModal } from "@/components/modals/card-modal";
+import { OrgModal } from "@/components/modals/org-modal";
 import { useEffect, useState } from "react";
 
 export function ModalProvider() {
@@ -17,6 +18,7 @@ export function ModalProvider() {
     return (
         <>
             <CardModal />
+            <OrgModal />
         </>
     )
 }

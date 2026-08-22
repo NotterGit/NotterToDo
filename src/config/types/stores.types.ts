@@ -5,8 +5,15 @@ export type CardModalStore = {
   onClose: () => void;
 };
 
+export type OrgModalStore = {
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+};
+
 export type MobileSidebarStore = {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 };
+

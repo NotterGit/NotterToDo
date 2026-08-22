@@ -153,7 +153,6 @@
   }
 }
 
-/* Minimalist scrollbars */
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(155, 155, 155, 0.35) transparent;
@@ -182,7 +181,6 @@
   background: transparent;
 }
 
-/* Clerk custom styles */
 .cl-internal-1k7jtru, .cl-internal-15hkgn2 {
   background: none;
 }
@@ -211,7 +209,6 @@
   z-index: 999999;
 }
 
-/* Remove shadows in Clerk profile / organization settings */
 .cl-cardBox,
 .cl-card,
 .cl-rootBox,
