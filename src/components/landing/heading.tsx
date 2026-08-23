@@ -7,7 +7,11 @@ import { Button } from "@/components/ui/button";
 import { images } from "@/config/const/image.const";
 import { pages } from "@/config/routing/pages.route";
 
+import { usePwaInstall } from "@/hooks/use-pwa-install";
+
 export function Heading() {
+  const { promptInstall, isStandalone } = usePwaInstall();
+
   return (
     <section className="grid items-center gap-8 px-4 pt-12 md:grid-cols-2">
       <div className="space-y-6 text-left">
@@ -34,9 +38,10 @@ export function Heading() {
             size="lg"
             className="gap-2"
             type="button"
+            onClick={promptInstall}
             aria-label="Установить Notter ToDo"
           >
-            Установить <Download className="h-4 w-4" />
+            {isStandalone ? "Установлено" : "Установить"} <Download className="h-4 w-4" />
           </Button>
         </div>
       </div>

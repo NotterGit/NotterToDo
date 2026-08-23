@@ -2,12 +2,12 @@
 
 import { Skeleton } from "@/components/ui/skeleton"
 import { useOrganization, useOrganizationList, useUser } from "@clerk/nextjs"
-import { Activity, Gem, Globe, Presentation, User } from "lucide-react"
+import { Gem, Globe, Presentation, User } from "lucide-react"
 import Image from "next/image"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
-import { MAX_FREE_BOARDS, AUDIT_LOG_LIMIT, MAX_FREE_PUBLIC_BOARDS } from "@/config/const/limits.const"
+import { MAX_FREE_BOARDS, MAX_FREE_PUBLIC_BOARDS } from "@/config/const/limits.const"
 
 interface InfoProps {
     boardCount?: number

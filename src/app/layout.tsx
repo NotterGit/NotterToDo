@@ -9,6 +9,8 @@ import { images } from "@/config/const/image.const";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ClerkThemeProvider } from "@/components/providers/clerk-theme-provider";
 
+import { PwaProvider } from "@/components/providers/pwa-provider";
+
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
@@ -17,9 +19,16 @@ export const metadata: Metadata = {
     template: "%s | ToDo",
   },
   description: APP_DESCRIPTION,
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_NAME,
+  },
   icons: {
     icon: images.ICON,
-  }
+    apple: "/icon-192.png",
+  },
 };
 
 export default function RootLayout({
@@ -38,9 +47,11 @@ export default function RootLayout({
         >
           <ClerkThemeProvider>
             <QueryProvider>
-              <ToasterProvider />
-              <ModalProvider/>
-              {children}
+              <PwaProvider>
+                <ToasterProvider />
+                <ModalProvider/>
+                {children}
+              </PwaProvider>
             </QueryProvider>
           </ClerkThemeProvider>
         </ThemeProvider>

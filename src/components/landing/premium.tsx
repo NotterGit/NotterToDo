@@ -95,7 +95,8 @@ export function Premium() {
           className="border-yellow-300 dark:border-yellow-300/40"
           features={[
             `До ${boardsLimit.amber}`,
-            "Уникальный значок Amber в профиле",
+            `До ${publicBoardsLimit.amber} публичных`,
+            "Уникальный значок в профиле",
             "Расширенный журнал аудита",
             "Кастомные фоновые изображения",
           ]}
@@ -109,7 +110,7 @@ export function Premium() {
           features={[
             "Все преимущества тарифа Amber",
             `До ${boardsLimit.diamond}`,
-            "Уникальный значок Diamond в профиле",
+            `До ${publicBoardsLimit.diamond} публичных`,
             "Экспорт и импорт досок",
             "Экспорт журнала аудита",
           ]}
