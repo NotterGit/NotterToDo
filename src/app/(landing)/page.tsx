@@ -4,7 +4,7 @@ import { Premium } from "@/components/landing/premium";
 
 export default function LandingPage() {
   return (
-    <div className="relative flex min-h-full w-full flex-col overflow-hidden">
+    <div className="relative flex min-h-full w-full flex-col">
       <div className="flex flex-1 flex-col items-center justify-center gap-y-12 pb-16 text-center md:gap-y-20">
         {/* Главный блок Hero с фоновыми градиентами */}
         <div className="relative isolate mx-auto w-full max-w-6xl">

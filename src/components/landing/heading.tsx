@@ -9,7 +9,7 @@ import { pages } from "@/config/routing/pages.route";
 
 export function Heading() {
   return (
-    <section className="grid items-center gap-8 px-4 pt-10 md:grid-cols-2">
+    <section className="grid items-center gap-8 px-4 pt-12 md:grid-cols-2">
       <div className="space-y-6 text-left">
         <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl md:text-6xl">
           Новый уровень построения задач. Встречайте{" "}

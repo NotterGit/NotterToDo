@@ -3,7 +3,7 @@ import { Hint } from "@/components/ui/hint";
 import { Skeleton } from "@/components/ui/skeleton";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
-import { HelpCircle, Presentation, User2 } from "lucide-react";
+import { HelpCircle, Presentation } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { MAX_FREE_BOARDS } from "@/config/const/limits.const";

@@ -28,3 +28,9 @@ export type BoardBlurStore = {
   setBlur: (blur: number) => void;
 };
 
+export type LandingRedirectStore = {
+  enabled: boolean;
+  setEnabled: (enabled: boolean) => void;
+  toggle: () => void;
+};
+

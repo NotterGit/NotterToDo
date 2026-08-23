@@ -175,7 +175,7 @@ export default function BoardOptions({
                                     className="rounded-xl w-full h-auto py-2.5 px-3 justify-between font-medium text-sm hover:bg-neutral-500/10 transition-colors"
                                 >
                                     <div className="flex items-center">
-                                        <ImageIcon className="h-4 w-4 mr-2 text-yellow-500" />
+                                        <ImageIcon className="h-4 w-4 mr-2 text-blue-400" />
                                         Сменить фон
                                     </div>
                                     <ChevronRight className="h-4 w-4 text-muted-foreground" />

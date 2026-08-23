@@ -15,11 +15,14 @@ import { useSettingsModal } from "@/hooks/use-settings-modal"
 import { pages } from "@/config/routing/pages.route"
 import { ModeToggle } from "@/components/ui/mode-toggle"
 import { Slider } from "@/components/ui/slider"
+import { Switch } from "@/components/ui/switch"
 import { useBoardBlur } from "@/hooks/use-board-blur"
+import { useLandingRedirect } from "@/hooks/use-landing-redirect"
 
 export function SettingsModal() {
   const { isOpen, onClose } = useSettingsModal()
   const { blur, setBlur } = useBoardBlur()
+  const { enabled: landingRedirectEnabled, setEnabled: setLandingRedirectEnabled } = useLandingRedirect()
   const { openUserProfile, signOut } = useClerk()
   const [isMounted, setIsMounted] = useState(false)
 
@@ -104,6 +107,21 @@ export function SettingsModal() {
                 <span>100% (Размытый)</span>
               </div>
             </div>
+          </div>
+
+          <div className="flex items-center justify-between gap-x-4 pt-3 border-t border-border/40">
+            <div className="space-y-0.5">
+              <p className="font-medium text-sm text-foreground">
+                Редирект на дашборд
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Автоматически перенаправлять с главной страницы на дашборд
+              </p>
+            </div>
+            <Switch
+              checked={landingRedirectEnabled}
+              onCheckedChange={setLandingRedirectEnabled}
+            />
           </div>
         </div>
 
