@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { OrganizationSwitcher, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import { MobileSidebar } from "./mobile-sidebar";
 import { FormPopover } from "@/components/form/form-popover";
 import { images } from "@/config/const/image.const";
@@ -19,68 +19,55 @@ export function Navbar() {
 
     return (
         <nav className="fixed z-50 top-0 w-full h-14 border-b border-white/50 bg-white/80 backdrop-blur-xl shadow-sm dark:border-white/10 dark:bg-zinc-950/80 flex items-center px-4">
-            <SignedIn>
+            <div className="flex items-center gap-x-2 md:gap-x-4">
                 <MobileSidebar/>
-            </SignedIn>
-            <div className="flex items-center gap-x-4">
-                <div className="flex">
-                    <Link href={pages.ROOT} className="flex items-center gap-x-2 hover:opacity-90 transition">
-                        <Image src={images.ICON} alt="Notter Todo Icon" width={36} height={36} />
-                    </Link>
-                </div>
+                <Link href={pages.ROOT} className="hidden md:flex items-center gap-x-2 hover:opacity-90 transition">
+                    <Image src={images.ICON} alt="Notter Todo Icon" width={36} height={36} />
+                </Link>
                 {!isBoardPage && (
-                    <SignedIn>
+                    <>
                         <FormPopover align="start" side="bottom" sideOffset={18}>
-                            <Button size="sm" className="rounded-xl hidden md:flex h-auto py-1.5 px-3 flex-row font-medium shadow-sm">
+                            <Button className="rounded-xl hidden md:flex h-auto py-1.5 px-3 flex-row font-medium shadow-sm">
                                 <Plus className="h-4 w-4 mr-1"/> Создать
                             </Button>
                         </FormPopover>
                         <FormPopover>
-                            <Button size="icon-sm" className="rounded-xl flex md:hidden shadow-sm">
+                            <Button className="rounded-xl flex md:hidden h-8 w-8 p-0 shadow-sm">
                                 <Plus className="h-4 w-4"/>
                             </Button>
                         </FormPopover>
-                    </SignedIn>
+                    </>
                 )}
             </div>
             <div className="ml-auto flex items-center gap-x-3">
-                <SignedIn>
-                    <div className="hidden md:block">
-                        <OrganizationSwitcher 
-                            hidePersonal={false}
-                            afterCreateOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
-                            afterSelectOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
-                            afterSelectPersonalUrl={pages.DASHBOARD_CLERK_PATTERN}
-                            afterLeaveOrganizationUrl={pages.DASHBOARD()}
-                            appearance={{
-                                elements: {
-                                    rootBox: {
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center"
-                                    }
-                                }
-                            }}
-                        />
-                    </div>
-                    <UserButton
+                <div className="hidden md:block">
+                    <OrganizationSwitcher 
+                        hidePersonal={false}
+                        afterCreateOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
+                        afterSelectOrganizationUrl={pages.DASHBOARD_CLERK_PATTERN}
+                        afterSelectPersonalUrl={pages.DASHBOARD_CLERK_PATTERN}
+                        afterLeaveOrganizationUrl={pages.DASHBOARD()}
                         appearance={{
                             elements: {
                                 rootBox: {
-                                    width: 30,
-                                    height: 30
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center"
                                 }
                             }
                         }}
                     />
-                </SignedIn>
-
-                <SignedOut>
-                    <SignInButton>
-                        <Button size="sm" variant="outline" className="rounded-xl">Войти</Button>
-                    </SignInButton>
-                </SignedOut>
-
+                </div>
+                <UserButton
+                    appearance={{
+                        elements: {
+                            rootBox: {
+                                width: 30,
+                                height: 30
+                            }
+                        }
+                    }}
+                />
                 <ModeToggle/>
             </div>
         </nav>

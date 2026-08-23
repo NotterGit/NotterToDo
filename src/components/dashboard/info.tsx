@@ -61,7 +61,7 @@ export function Info() {
     }
 
     return (
-        <div className="flex items-center gap-x-4">
+        <div className="flex items-center gap-x-4 rounded-2xl border border-white/60 bg-white/70 p-4 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/50">
             <div className="w-[60px] h-[60px] relative shrink-0">
                 {imageUrl ? (
                     <>
@@ -111,7 +111,7 @@ export function Info() {
 
 Info.Skeleton = function SkeletonInfo() {
     return (
-        <div className="flex items-center gap-x-4 rounded-2xl border border-white/40 bg-white/70 p-4 shadow-md backdrop-blur-xl dark:border-white/10 dark:bg-zinc-950/70">
+        <div className="flex items-center gap-x-4 rounded-2xl border border-white/60 bg-white/70 p-4 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/50">
             <div className="w-[60px] h-[60px] relative shrink-0">
                 <Skeleton className="w-full h-full absolute rounded-xl"/>
             </div>

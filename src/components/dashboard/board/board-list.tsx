@@ -34,7 +34,7 @@ export default async function BoardList({ orgId: propOrgId }: BoardListProps = {
     <div className="space-y-4">
         <div className="flex items-center font-bold text-lg text-foreground">
             <Presentation className="h-5 w-5 mr-2 text-muted-foreground"/>
-            Ваши доски
+            Доски
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {boards.map((board) => (
@@ -78,8 +78,8 @@ BoardList.Skeleton = function SkeletonBoardList() {
   return (
     <>
         <div className="flex items-center font-bold text-lg text-foreground">
-            <User2 className="h-5 w-5 mr-2 text-muted-foreground"/>
-            Ваши доски
+            <Presentation className="h-5 w-5 mr-2 text-muted-foreground"/>
+            Доски
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-3">
         <Skeleton className="aspect-video h-full w-full rounded-2xl" />

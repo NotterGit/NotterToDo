@@ -1,4 +1,3 @@
-import { Separator } from "@/components/ui/separator";
 import { Info } from "@/components/dashboard/info";
 import BoardList from "@/components/dashboard/board/board-list";
 import { Suspense } from "react";
@@ -10,10 +9,9 @@ export default async function OrganizationIdPage({
 }) {
     const { orgId } = await params
     return (
-        <div className="w-full mb-20">
+        <div className="w-full mb-20 space-y-4">
             <Info/>
-            <Separator className="my-4 h-[1px]"/>
-            <div className="px-2 md:px-4">
+            <div className="rounded-2xl border border-white/60 bg-white/70 p-4 sm:p-6 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/50">
                 <Suspense fallback={<BoardList.Skeleton/>}>
                     <BoardList orgId={orgId}/>
                 </Suspense>
