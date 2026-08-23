@@ -32,6 +32,12 @@ export function Premium() {
     diamond: "Неограниченно",
   };
 
+  const publicBoardsLimit = {
+    free: "3 доски",
+    amber: isTeam ? "50 досок" : "25 досок",
+    diamond: "100 досок",
+  };
+
   return (
     <section className="space-y-8 px-4 ">
       <div className="mx-auto max-w-2xl text-center space-y-3">
@@ -128,6 +134,12 @@ export function Premium() {
               <TableCell>{boardsLimit.free}</TableCell>
               <TableCell className="font-medium text-yellow-400">{boardsLimit.amber}</TableCell>
               <TableCell className="font-medium text-cyan-500">{boardsLimit.diamond}</TableCell>
+            </TableRow>
+            <TableRow className="border-border/40">
+              <TableCell className="font-medium">Количество публичных досок</TableCell>
+              <TableCell>{publicBoardsLimit.free}</TableCell>
+              <TableCell className="font-medium text-yellow-400">{publicBoardsLimit.amber}</TableCell>
+              <TableCell className="font-medium text-cyan-500">{publicBoardsLimit.diamond}</TableCell>
             </TableRow>
             <TableRow className="border-border/40">
               <TableCell className="font-medium">Значок в профиле</TableCell>

@@ -10,6 +10,7 @@ import { createAuditLog } from "@/lib/audit-log"
 import { ACTION, ENTITY_TYPE } from "@prisma/client"
 import { pages } from "@/config/routing/pages.route"
 import { defaultBgImage } from "@/config/const/banner-images.const"
+import { MAX_FREE_BOARDS } from "@/config/const/limits.const"
 
 const handler = async (data: InputType): Promise<ReturnType> => {
     const { userId, orgId: clerkOrgId } = await auth()
@@ -27,6 +28,18 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     let board
 
     try {
+        const count = await db.board.count({
+            where: {
+                orgId
+            }
+        })
+
+        if (count >= MAX_FREE_BOARDS) {
+            return {
+                error: `Достигнут лимит досок (${MAX_FREE_BOARDS}). Оформите подписку Notter Gem, чтобы увеличить лимит.`
+            }
+        }
+
         board = await db.board.create({
             data: {
                 title,
@@ -49,6 +62,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     }
 
     revalidatePath(pages.BOARD(board.id))
+    revalidatePath(pages.DASHBOARD(orgId))
     return { data: board }
 }
 

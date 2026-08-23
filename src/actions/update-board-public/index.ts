@@ -69,6 +69,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   }
 
   revalidatePath(pages.BOARD(id))
+  revalidatePath(pages.DASHBOARD(board.orgId))
   return { data: board }
 }
 

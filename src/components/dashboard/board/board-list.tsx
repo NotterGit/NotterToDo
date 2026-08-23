@@ -3,7 +3,7 @@ import { Hint } from "@/components/ui/hint";
 import { Skeleton } from "@/components/ui/skeleton";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
-import { HelpCircle, Presentation } from "lucide-react";
+import { Globe, HelpCircle, Presentation } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { MAX_FREE_BOARDS } from "@/config/const/limits.const";
@@ -45,9 +45,17 @@ export default async function BoardList({ orgId: propOrgId }: BoardListProps = {
                     style={{ backgroundImage: `url(${board.image})` }}
                 >
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/20 group-hover:from-black/70 group-hover:via-black/40 group-hover:to-black/30 transition-all duration-300" />
-                    <p className="relative font-bold text-white text-sm sm:text-base drop-shadow-sm">
+                    <p className="relative font-bold text-white text-sm sm:text-base drop-shadow-sm pr-7">
                         {board.title}
                     </p>
+                    {board.public && (
+                        <div 
+                            className="absolute top-2.5 right-2.5 z-10 flex items-center justify-center p-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 backdrop-blur-md shadow-sm"
+                            title="Публичная доска"
+                        >
+                            <Globe className="h-3.5 w-3.5 text-emerald-400" />
+                        </div>
+                    )}
                 </Link>
             ))}
             <FormPopover side="right" sideOffset={10}>
@@ -57,7 +65,7 @@ export default async function BoardList({ orgId: propOrgId }: BoardListProps = {
                 >
                     <p className="text-sm font-semibold">Создать доску</p>
                     <span className="text-xs text-muted-foreground">
-                        {`Осталось: ${MAX_FREE_BOARDS}`}
+                        {`Осталось: ${Math.max(0, MAX_FREE_BOARDS - boards.length)}`}
                     </span>
                     <Hint
                         sideOffset={40}
