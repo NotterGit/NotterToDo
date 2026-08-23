@@ -22,4 +22,4 @@ export const bgCollectionsConfig: BgCollectionConfig[] = [
     },
 ];
 
-export const defaultBgImage = "/bg/collection_1/bg_1.svg";
+export const defaultBgImage = "/bg/collection_4/bg_2.svg";
