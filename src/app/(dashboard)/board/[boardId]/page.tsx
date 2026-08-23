@@ -52,12 +52,10 @@ export default async function BoardIdPage({
   });
 
   return (
-    <div className="p-4 h-full overflow-x-auto overflow-y-hidden">
-      <ListContainer
-        boardId={boardId}
-        data={lists}
-        isReadOnly={!isOwner}
-      />
-    </div>
+    <ListContainer
+      boardId={boardId}
+      data={lists}
+      isReadOnly={!isOwner}
+    />
   );
 }

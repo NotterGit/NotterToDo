@@ -1,10 +1,12 @@
 import type { ListWrapperProps } from "@/config/types/main.types";
+import { cn } from "@/lib/utils";
 
 export function ListWrapper({
-    children
+    children,
+    isWrapped = false
 }: ListWrapperProps) {
     return (
-        <li className="shrink-0 h-full w-[272px] select-none">
+        <li className={cn("shrink-0 w-[272px] select-none", !isWrapped && "h-full")}>
             {children}
         </li>
     )

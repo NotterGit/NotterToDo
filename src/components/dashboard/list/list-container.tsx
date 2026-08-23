@@ -9,6 +9,8 @@ import { updateListOrder } from "@/actions/update-list-order"
 import toast from "react-hot-toast"
 import { updateCardOrder } from "@/actions/update-card-order"
 import type { ListContainerProps } from "@/config/types/main.types"
+import { useBoardWrapLists } from "@/hooks/use-board-wrap-lists"
+import { cn } from "@/lib/utils"
 
 function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   const result = Array.from(list)
@@ -22,6 +24,12 @@ export function ListContainer({
   data, boardId, isReadOnly = false
 }: ListContainerProps) {
   const [orderedData, setOrderedData] = useState(data)
+  const { wrapLists } = useBoardWrapLists()
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const { execute: executeUpdateListOrder } = useAction(updateListOrder)
   const { execute: executeUpdateCardOrder } = useAction(updateCardOrder)
@@ -29,6 +37,8 @@ export function ListContainer({
   useEffect(() => {
     setOrderedData(data)
   }, [data])
+
+  const currentWrapLists = isMounted ? wrapLists : false
 
   const onDragEnd = (result: DropResult) => {
     if (isReadOnly) return
@@ -129,35 +139,50 @@ export function ListContainer({
   }
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable
-        droppableId="lists"
-        type="list"
-        direction="horizontal"
-        isDropDisabled={isReadOnly}
-      >
-        {(provided) => (
-          <ol 
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            className="flex gap-x-3 h-full"
-          >
-            {orderedData.map((list, index) => {
-              return (
-                <ListItem
-                  key={list.id}
-                  index={index}
-                  data={list}
-                  isReadOnly={isReadOnly}
-                />
-              )
-            })}
-            {provided.placeholder}
-            {!isReadOnly && <ListForm/>}
-            <div className="flex-shrink-0 w-1"/>
-          </ol>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <div
+      className={cn(
+        "p-4 h-full",
+        currentWrapLists
+          ? "overflow-y-auto overflow-x-hidden"
+          : "overflow-x-auto overflow-y-hidden"
+      )}
+    >
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable
+          droppableId="lists"
+          type="list"
+          direction="horizontal"
+          isDropDisabled={isReadOnly}
+        >
+          {(provided) => (
+            <ol 
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className={cn(
+                "flex gap-3",
+                currentWrapLists
+                  ? "flex-wrap items-start pb-8"
+                  : "gap-x-3 h-full flex-nowrap"
+              )}
+            >
+              {orderedData.map((list, index) => {
+                return (
+                  <ListItem
+                    key={list.id}
+                    index={index}
+                    data={list}
+                    isReadOnly={isReadOnly}
+                    isWrapped={currentWrapLists}
+                  />
+                )
+              })}
+              {provided.placeholder}
+              {!isReadOnly && <ListForm isWrapped={currentWrapLists} />}
+              {!currentWrapLists && <div className="flex-shrink-0 w-1"/>}
+            </ol>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </div>
   )
 }

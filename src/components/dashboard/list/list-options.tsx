@@ -54,9 +54,9 @@ export function ListOptions({
     return (
         <Popover>
             <PopoverTrigger>
-            <Button className="h-auto w-auto p-2" variant="ghost">
-                <MoreHorizontal className="h-4 w-4" />
-            </Button>
+                <Button className="h-8 w-8 p-0 shrink-0 rounded-lg hover:bg-black/5 dark:hover:bg-white/10" variant="ghost">
+                    <MoreHorizontal className="h-4 w-4" />
+                </Button>
             </PopoverTrigger>
             <PopoverContent className="px-0 pt-3 pb-3 gap-1" side="bottom" align="start">
                 <div className="text-sm font-medium text-center text-neutral-600 dark:text-neutral-300">

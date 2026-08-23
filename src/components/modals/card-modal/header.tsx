@@ -63,7 +63,7 @@ export function Header({
         <Layout className="h-5 w-5 mt-1 text-neutral-700 dark:text-neutral-300" />
         <div className="w-full">
             {data.canEdit === false ? (
-                <h4 className="font-semibold text-xl px-1 text-neutral-700 dark:text-neutral-200 mb-0.5 truncate select-none">
+                <h4 className="font-semibold text-xl px-1 text-neutral-700 dark:text-neutral-200 mb-0.5 break-words select-none">
                     {title}
                 </h4>
             ) : (

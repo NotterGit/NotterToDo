@@ -34,3 +34,9 @@ export type LandingRedirectStore = {
   toggle: () => void;
 };
 
+export type BoardWrapListsStore = {
+  wrapLists: boolean;
+  setWrapLists: (wrapLists: boolean) => void;
+  toggle: () => void;
+};
+

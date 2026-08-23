@@ -18,11 +18,13 @@ import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { useBoardBlur } from "@/hooks/use-board-blur"
 import { useLandingRedirect } from "@/hooks/use-landing-redirect"
+import { useBoardWrapLists } from "@/hooks/use-board-wrap-lists"
 
 export function SettingsModal() {
   const { isOpen, onClose } = useSettingsModal()
   const { blur, setBlur } = useBoardBlur()
   const { enabled: landingRedirectEnabled, setEnabled: setLandingRedirectEnabled } = useLandingRedirect()
+  const { wrapLists, setWrapLists } = useBoardWrapLists()
   const { openUserProfile, signOut } = useClerk()
   const [isMounted, setIsMounted] = useState(false)
 
@@ -121,6 +123,21 @@ export function SettingsModal() {
             <Switch
               checked={landingRedirectEnabled}
               onCheckedChange={setLandingRedirectEnabled}
+            />
+          </div>
+
+          <div className="flex items-center justify-between gap-x-4 pt-3 border-t border-border/40">
+            <div className="space-y-0.5">
+              <p className="font-medium text-sm text-foreground">
+                Перенос списков
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Переносить списки на новую строку, если они не помещаются на экране
+              </p>
+            </div>
+            <Switch
+              checked={wrapLists}
+              onCheckedChange={setWrapLists}
             />
           </div>
         </div>

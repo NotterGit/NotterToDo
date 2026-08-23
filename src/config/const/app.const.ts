@@ -7,6 +7,7 @@ export const STORAGE_KEYS = {
   MOBILE_SIDEBAR: "t-sidebar-mobile-state",
   LANDING_REDIRECT: "notter-landing-redirect-storage",
   BOARD_BLUR: "notter-board-blur-storage",
+  BOARD_WRAP_LISTS: "notter-board-wrap-lists-storage",
 } as const;
 
 export const COOKIE_KEYS = {

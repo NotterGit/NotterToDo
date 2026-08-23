@@ -69,12 +69,12 @@ export function ListHeader({
     useEventListener("keydown", onKeyDown)
     
     return (
-        <div className="pt-2 px-2 text-sm font-semibold flex justify-between items-start gap-x-2 shrink-0">
+        <div className="pt-2 px-2 text-sm font-semibold flex justify-between items-start gap-x-1.5 shrink-0">
             {isEditing && !isReadOnly ? (
                 <form
                     action={handleSubmit}
                     ref={formRef}
-                    className="flex-1 px-[2px]"
+                    className="flex-1 min-w-0 px-[2px]"
                 >
                     <input hidden id="id" name="id" value={data.id} />
                     <input hidden id="boardId" name="boardId" value={data.boardId} />
@@ -90,17 +90,19 @@ export function ListHeader({
                 </form>
             ) : (
                 <div 
-                    className="w-full text-sm px-2.5 py-1 h-7 font-medium border-transparent"
+                    className="flex-1 min-w-0 text-sm px-2.5 py-1 min-h-7 h-auto font-medium border-transparent break-words whitespace-normal select-none cursor-pointer"
                     onClick={enableEditing}
                 >
                     {data.title}
                 </div>
             )}
             {!isReadOnly && (
-                <ListOptions
-                    data={data}
-                    onAddCard={onAddCard}
-                />
+                <div className="shrink-0">
+                    <ListOptions
+                        data={data}
+                        onAddCard={onAddCard}
+                    />
+                </div>
             )}
         </div>
     )

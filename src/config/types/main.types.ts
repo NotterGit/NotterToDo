@@ -44,6 +44,7 @@ export interface ListItemProps {
   data: ListWithCards;
   index: number;
   isReadOnly?: boolean;
+  isWrapped?: boolean;
 }
 
 export interface ListHeaderProps {
@@ -59,6 +60,7 @@ export interface ListOptionsProps {
 
 export interface ListWrapperProps {
   children: React.ReactNode;
+  isWrapped?: boolean;
 }
 
 export interface CardItemProps {

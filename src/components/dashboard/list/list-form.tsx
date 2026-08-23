@@ -12,7 +12,11 @@ import { useAction } from "@/hooks/use-action";
 import { createList } from "@/actions/create-list";
 import toast from "react-hot-toast";
 
-export default function ListForm() {
+interface ListFormProps {
+    isWrapped?: boolean;
+}
+
+export default function ListForm({ isWrapped = false }: ListFormProps) {
     const params = useParams()
     const router = useRouter()
 
@@ -64,7 +68,7 @@ export default function ListForm() {
 
     if (isEditing) {
         return (
-            <ListWrapper>
+            <ListWrapper isWrapped={isWrapped}>
                 <form 
                     action={onSubmit}
                     ref={formRef}
@@ -101,7 +105,7 @@ export default function ListForm() {
     }
 
     return (
-        <ListWrapper>
+        <ListWrapper isWrapped={isWrapped}>
             <button 
                 className="w-full rounded-2xl bg-white/75 hover:bg-white/90 dark:bg-zinc-950/75 dark:hover:bg-zinc-950/90 text-foreground transition-all p-3 flex items-center font-semibold text-xs backdrop-blur-xl border border-dashed border-white/50 dark:border-white/10 shadow-lg hover:shadow-xl"
                 onClick={enableEditing}

@@ -9,7 +9,7 @@ import { Draggable, Droppable } from "@hello-pangea/dnd"
 import type { ListItemProps } from "@/config/types/main.types"
 
 export function ListItem({
-    data, index, isReadOnly = false
+    data, index, isReadOnly = false, isWrapped = false
 }: ListItemProps) {
     const textareaRef = useRef<ElementRef<"textarea">>(null)
 
@@ -33,11 +33,17 @@ export function ListItem({
                 <li 
                     {...provided.draggableProps}
                     ref={provided.innerRef}
-                    className="shrink-0 h-full w-[272px] select-none"
+                    className={cn(
+                        "shrink-0 w-[272px] select-none",
+                        !isWrapped && "h-full"
+                    )}
                 >
                     <div 
                         {...provided.dragHandleProps}
-                        className="w-full max-h-full rounded-2xl bg-[#f1f2f4]/95 dark:bg-zinc-950/95 border border-white/60 dark:border-white/10 shadow-xl pb-2 flex flex-col"
+                        className={cn(
+                            "w-full rounded-2xl bg-[#f1f2f4]/95 dark:bg-zinc-950/95 border border-white/60 dark:border-white/10 shadow-xl pb-2 flex flex-col",
+                            isWrapped ? "max-h-[75vh]" : "max-h-full"
+                        )}
                     >
                         <ListHeader data={data} onAddCard={enableEditing} isReadOnly={isReadOnly}/>
                         <Droppable droppableId={data.id} type="card" isDropDisabled={isReadOnly}>
