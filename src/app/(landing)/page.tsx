@@ -1,23 +1,28 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import Link from "next/link";
-import { images } from "@/config/const/image.const";
-import { pages } from "@/config/routing/pages.route";
+import { About } from "@/components/landing/about";
+import { Heading } from "@/components/landing/heading";
+import { Premium } from "@/components/landing/premium";
 
-export default function Landing() {
-    return (
-        <div className="flex flex-col items-center justify-center text-center">
-            <div className="flex flex-col items-center justify-center gap-4">
-                <Image src={images.LOGO} alt="Notter Todo Logo" width={300} height={100} priority />
-
-                <span className="text-muted-foreground font-medium text-lg">Скоро...</span> 
-
-                <Button>
-                    <Link href={pages.DASHBOARD()}>
-                        Начать
-                    </Link>
-                </Button>
-            </div>
+export default function LandingPage() {
+  return (
+    <div className="relative flex min-h-full w-full flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col items-center justify-center gap-y-12 pb-16 text-center md:gap-y-20">
+        {/* Главный блок Hero с фоновыми градиентами */}
+        <div className="relative isolate mx-auto w-full max-w-6xl">
+          <div className="pointer-events-none absolute -right-20 -top-20 -z-10 h-72 w-72 rounded-full bg-logo-yellow opacity-30 blur-3xl dark:bg-logo-light-yellow" />
+          <div className="pointer-events-none absolute -bottom-36 -left-24 -z-10 h-96 w-96 rounded-full bg-logo-cyan opacity-20 blur-3xl" />
+          <Heading />
         </div>
-    )
+
+        {/* Секция преимуществ с обновленным дизайном карточек */}
+        <div className="mx-auto w-full max-w-6xl">
+          <About />
+        </div>
+
+        {/* Секция тарифов Notter ToDo Gem */}
+        <div className="mx-auto w-full max-w-6xl">
+          <Premium />
+        </div>
+      </div>
+    </div>
+  );
 }

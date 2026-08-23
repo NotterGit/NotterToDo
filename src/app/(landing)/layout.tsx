@@ -1,18 +1,18 @@
 import { Footer } from "@/components/landing/footer";
 import { Navbar } from "@/components/landing/navbar";
 
-export default function Layout({
+export default function LandingLayout({
   children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
   return (
-    <div className="min-h-full flex flex-col bg-slate-100 dark:bg-background">
-        <Navbar />
-        <main className="flex-1 flex flex-col items-center justify-center pt-20 pb-6 px-4">
-            {children}
-        </main>
-        <Footer />
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
+      <Navbar />
+      <main className="flex-1 pt-20 sm:pt-24 pb-8">
+        {children}
+      </main>
+      <Footer />
     </div>
   );
 }

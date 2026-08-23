@@ -26,7 +26,6 @@ export function Navbar() {
                         <Button variant="ghost">Войти</Button>
                     </SignInButton>
                 </SignedOut>
-
                 <ModeToggle/>
             </div>
         </div>
