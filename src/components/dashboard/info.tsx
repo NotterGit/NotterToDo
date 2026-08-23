@@ -33,7 +33,7 @@ export function Info() {
         ? (user?.imageUrl || "")
         : (currentOrg?.imageUrl || "")
 
-    const tariff = isPersonal ? "Личный профиль" : "Бесплатно"
+    const tariff = "Бесплатно"
 
     const [imageLoaded, setImageLoaded] = useState(false)
 
@@ -66,7 +66,7 @@ export function Info() {
                 {imageUrl ? (
                     <>
                         {!imageLoaded && (
-                            <Skeleton className="w-full h-full absolute inset-0 rounded-md" />
+                            <Skeleton className="w-full h-full absolute inset-0 rounded-xl" />
                         )}
                         <Image 
                             key={imageUrl}
@@ -74,32 +74,34 @@ export function Info() {
                             src={imageUrl}
                             alt={name || "Organization"}
                             className={cn(
-                                "rounded-md object-cover transition-opacity duration-200",
+                                "rounded-xl object-cover shadow-sm transition-opacity duration-200",
                                 !imageLoaded ? "opacity-0" : "opacity-100"
                             )}
                             onLoad={() => setImageLoaded(true)}
                         />
                     </>
                 ) : (
-                    <div className="w-full h-full rounded-md bg-muted flex items-center justify-center">
+                    <div className="w-full h-full rounded-xl bg-muted/80 flex items-center justify-center shadow-inner">
                         <User className="h-6 w-6 text-muted-foreground" />
                     </div>
                 )}
             </div>
-            <div className="space-y-1">
+            <div className="space-y-1.5">
                 {name ? (
-                    <p className="font-semibold text-xl">
+                    <p className="font-bold text-xl tracking-tight">
                         {name}
                     </p>
                 ) : (
-                    <Skeleton className="h-7 w-[200px]" />
+                    <Skeleton className="h-7 w-[200px] rounded-lg" />
                 )}
-                <div className="flex items-center text-xs text-muted-foreground">
-                    <Gem className="w-3 h-3 mr-1 shrink-0"/>
+                <div className="flex items-center">
                     {tariff ? (
-                        <span>{tariff}</span>
+                        <div className="inline-flex items-center text-xs font-semibold tracking-wide text-foreground/90">
+                            <Gem className="w-4 h-4 mr-1.5 shrink-0"/>
+                            <span>{tariff}</span>
+                        </div>
                     ) : (
-                        <Skeleton className="h-3.5 w-[80px]" />
+                        <Skeleton className="h-5 w-[90px] rounded-xl" />
                     )}
                 </div>
             </div>
@@ -109,16 +111,13 @@ export function Info() {
 
 Info.Skeleton = function SkeletonInfo() {
     return (
-        <div className="flex items-center gap-x-4">
+        <div className="flex items-center gap-x-4 rounded-2xl border border-white/40 bg-white/70 p-4 shadow-md backdrop-blur-xl dark:border-white/10 dark:bg-zinc-950/70">
             <div className="w-[60px] h-[60px] relative shrink-0">
-                <Skeleton className="w-full h-full absolute rounded-md"/>
+                <Skeleton className="w-full h-full absolute rounded-xl"/>
             </div>
             <div className="space-y-2">
-                <Skeleton className="h-7 w-[200px]"/>
-                <div className="flex items-center gap-x-1">
-                    <Skeleton className="h-3.5 w-3.5 rounded-sm"/>
-                    <Skeleton className="h-3.5 w-[100px]"/>
-                </div>
+                <Skeleton className="h-7 w-[200px] rounded-lg"/>
+                <Skeleton className="h-5 w-[90px] rounded-xl"/>
             </div>
         </div>
     )

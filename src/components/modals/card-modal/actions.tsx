@@ -60,25 +60,27 @@ export default function Actions({
 
   return (
     <div className="space-y-2 mt-2">
-      <p className="text-xs font-semibold">
+      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
         Действия
       </p>
       <Button
-        variant="default"
-        className="w-full justify-start"
+        variant="outline"
+        size="sm"
+        className="w-full justify-start rounded-xl font-medium"
         onClick={onCopy}
         disabled={isLoadingCopy}
       >
-        <Copy className="h-4 w-4" />
+        <Copy className="h-4 w-4 mr-1.5" />
         Копировать
       </Button>
       <Button
-        variant="default"
-        className="w-full justify-start hover:bg-rose-500 hover:text-white dark:hover:bg-rose-600 transition-colors"
+        variant="outline"
+        size="sm"
+        className="w-full justify-start rounded-xl font-medium hover:bg-rose-500 hover:text-white hover:border-rose-500 dark:hover:bg-rose-600 dark:hover:border-rose-600 transition-colors"
         onClick={onDelete}
         disabled={isLoadingDelete}
       >
-        <Trash className="h-4 w-4" />
+        <Trash className="h-4 w-4 mr-1.5" />
         Удалить
       </Button>
     </div>
@@ -88,9 +90,9 @@ export default function Actions({
 Actions.Skeleton = function ActionsSkeleton() {
   return (
     <div className="space-y-2 mt-2">
-      <Skeleton className="w-20 h-4" />
-      <Skeleton className="w-full h-8" />
-      <Skeleton className="w-full h-8" />
+      <Skeleton className="w-20 h-4 rounded-md" />
+      <Skeleton className="w-full h-9 rounded-xl" />
+      <Skeleton className="w-full h-9 rounded-xl" />
     </div>
   )
 }

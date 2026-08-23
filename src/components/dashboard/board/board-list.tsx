@@ -3,7 +3,7 @@ import { Hint } from "@/components/ui/hint";
 import { Skeleton } from "@/components/ui/skeleton";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
-import { HelpCircle, User2 } from "lucide-react";
+import { HelpCircle, Presentation, User2 } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { MAX_FREE_BOARDS } from "@/config/const/limits.const";
@@ -32,20 +32,20 @@ export default async function BoardList({ orgId: propOrgId }: BoardListProps = {
 
   return (
     <div className="space-y-4">
-        <div className="flex items-center font-semibold text-lg text-neutral-700 dark:text-neutral-200">
-            <User2 className="h-6 w-6 mr-2"/>
+        <div className="flex items-center font-bold text-lg text-foreground">
+            <Presentation className="h-5 w-5 mr-2 text-muted-foreground"/>
             Ваши доски
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {boards.map((board) => (
                 <Link
                     key={board.id}
                     href={pages.BOARD(board.id)}
-                    className="group relative aspect-video bg-no-repeat bg-center bg-cover bg-neutral-700 rounded-sm h-full w-full p-2 overflow-hidden"
+                    className="group relative aspect-video bg-no-repeat bg-center bg-cover bg-neutral-700 rounded-2xl h-full w-full p-3 overflow-hidden shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 border border-white/20 dark:border-white/10"
                     style={{ backgroundImage: `url(${board.image})` }}
                 >
-                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition" />
-                    <p className="relative font-semibold text-white">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/20 group-hover:from-black/70 group-hover:via-black/40 group-hover:to-black/30 transition-all duration-300" />
+                    <p className="relative font-bold text-white text-sm sm:text-base drop-shadow-sm">
                         {board.title}
                     </p>
                 </Link>
@@ -53,18 +53,18 @@ export default async function BoardList({ orgId: propOrgId }: BoardListProps = {
             <FormPopover side="right" sideOffset={10}>
                 <div
                     role="button"
-                    className="aspect-video relative h-full w-full bg-muted rounded-sm flex flex-col gap-y-1 items-center justify-center hover:opacity-75 transition"
+                    className="aspect-video relative h-full w-full bg-card/50 dark:bg-zinc-900/40 rounded-2xl border border-dashed border-border/80 flex flex-col gap-y-1.5 items-center justify-center hover:bg-card/80 dark:hover:bg-zinc-900/70 hover:scale-[1.02] shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-300"
                 >
-                    <p className="text-sm">Создать доску</p>
-                    <span className="text-xs">
+                    <p className="text-sm font-semibold">Создать доску</p>
+                    <span className="text-xs text-muted-foreground">
                         {`Осталось: ${MAX_FREE_BOARDS}`}
                     </span>
                     <Hint
                         sideOffset={40}
-                        description={`В бесплатной версии доступно до ${MAX_FREE_BOARDS} досок. Чтобы увеличить лимит, оформите подписку Notter Gem для организаций.`}
+                        description={`В бесплатной версии доступно до ${MAX_FREE_BOARDS} досок. Чтобы увеличить лимит, оформите подписку Notter Gem`}
                     >
                         <HelpCircle
-                            className="absolute bottom-2 right-2 h-[14px] w-[14px]"
+                            className="absolute bottom-2.5 right-2.5 h-4 w-4 text-muted-foreground/70 hover:text-muted-foreground transition"
                         />
                     </Hint>
                 </div>
@@ -77,19 +77,19 @@ export default async function BoardList({ orgId: propOrgId }: BoardListProps = {
 BoardList.Skeleton = function SkeletonBoardList() {
   return (
     <>
-        <div className="flex items-center font-semibold text-lg text-neutral-700 dark:text-neutral-200">
-            <User2 className="h-6 w-6 mr-2"/>
+        <div className="flex items-center font-bold text-lg text-foreground">
+            <User2 className="h-5 w-5 mr-2 text-muted-foreground"/>
             Ваши доски
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-3">
-        <Skeleton className="aspect-video h-full w-full p-2" />
-        <Skeleton className="aspect-video h-full w-full p-2" />
-        <Skeleton className="aspect-video h-full w-full p-2" />
-        <Skeleton className="aspect-video h-full w-full p-2" />
-        <Skeleton className="aspect-video h-full w-full p-2" />
-        <Skeleton className="aspect-video h-full w-full p-2" />
-        <Skeleton className="aspect-video h-full w-full p-2" />
-        <Skeleton className="aspect-video h-full w-full p-2" />
+        <Skeleton className="aspect-video h-full w-full rounded-2xl" />
+        <Skeleton className="aspect-video h-full w-full rounded-2xl" />
+        <Skeleton className="aspect-video h-full w-full rounded-2xl" />
+        <Skeleton className="aspect-video h-full w-full rounded-2xl" />
+        <Skeleton className="aspect-video h-full w-full rounded-2xl" />
+        <Skeleton className="aspect-video h-full w-full rounded-2xl" />
+        <Skeleton className="aspect-video h-full w-full rounded-2xl" />
+        <Skeleton className="aspect-video h-full w-full rounded-2xl" />
         </div>
     </>
   )

@@ -6,7 +6,11 @@ export default function DashboardLayout({
     children: React.ReactNode 
 }) {
     return (
-        <div className="relative min-h-full">
+        <div className="relative isolate min-h-full overflow-hidden">
+            {/* Размытые фоновые точки в стиле Notter */}
+            <div className="pointer-events-none absolute -left-16 top-16 -z-10 h-64 w-64 rounded-full bg-logo-yellow/20 blur-3xl" />
+            <div className="pointer-events-none absolute -right-12 bottom-12 -z-10 h-72 w-72 rounded-full bg-logo-cyan/15 blur-3xl" />
+
             <div 
                 aria-hidden="true"
                 className="fixed inset-y-0 left-0 w-[calc(max(0px,50vw-36rem)+17rem)] 2xl:w-[calc(max(0px,50vw-40rem)+17rem)] bg-neutral-100/70 dark:bg-black/25 -z-10 pointer-events-none hidden md:block" 

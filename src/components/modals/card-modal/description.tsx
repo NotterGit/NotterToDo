@@ -78,7 +78,7 @@ export function Description({
                     Описание
                 </p>
                 {data.canEdit === false ? (
-                    <div className="min-h-[78px] bg-neutral-100 dark:bg-neutral-800/60 text-neutral-800 dark:text-neutral-200 text-sm font-medium py-3 px-3.5 rounded-md whitespace-pre-wrap select-text">
+                    <div className="min-h-[78px] bg-neutral-100 dark:bg-neutral-800/60 text-neutral-800 dark:text-neutral-200 text-sm font-medium py-3 px-3.5 rounded-xl whitespace-pre-wrap select-text border border-border/40">
                         {data.description || (<span className="text-muted-foreground italic">Нет описания</span>)}
                     </div>
                 ) : isEditing ? (
@@ -89,20 +89,22 @@ export function Description({
                     >
                         <FormTextarea 
                             id="description"
-                            className="w-full mt-2"
+                            className="w-full mt-2 rounded-xl"
                             placeholder="Добавьте более подробное описание"
                             defaultValue={data.description || undefined}
                             onClick={() => {}}
                             ref={textareaRef}
                         />
                         <div className="flex items-center gap-x-2">
-                            <FormSubmit>
+                            <FormSubmit className="rounded-xl">
                                 Сохранить
                             </FormSubmit>
                             <Button 
                                 type="button"
                                 onClick={disableEditing}
                                 variant="ghost"
+                                size="sm"
+                                className="rounded-xl"
                             >
                                 Отмена
                             </Button>
@@ -112,9 +114,9 @@ export function Description({
                     <div
                         onClick={enableEditing}
                         role="button"
-                        className="min-h-[78px] bg-neutral-200 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 text-sm font-medium py-3 px-3.5 rounded-md"
+                        className="min-h-[78px] bg-muted/60 hover:bg-muted/80 text-foreground text-sm font-medium py-3 px-3.5 rounded-xl transition-all border border-border/40"
                     >
-                        {data.description || (<span className="text-primary/50">Добавить более подробное описание...</span>)}
+                        {data.description || (<span className="text-muted-foreground">Добавить более подробное описание...</span>)}
                     </div>
                 )}
             </div>
@@ -125,10 +127,10 @@ export function Description({
 Description.Skeleton = function DescriptionSkeleton() {
     return (
         <div className="flex items-start gap-x-3 w-full">
-            <Skeleton className="h-6 w-6" />
+            <Skeleton className="h-6 w-6 rounded-md" />
             <div className="w-full">
-                <Skeleton className="w-24 h-6 mb-2" />
-                <Skeleton className="w-full h-[78px]" />
+                <Skeleton className="w-24 h-6 mb-2 rounded-md" />
+                <Skeleton className="w-full h-[78px] rounded-xl" />
             </div>
         </div>
     )

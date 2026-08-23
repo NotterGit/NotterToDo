@@ -8,22 +8,22 @@ export default async function BoardNav({
     isReadOnly = false
 }: BoardNavProps) {
     return (
-        <nav className="w-full h-14 z-[40] bg-black/50 fixed top-14 flex items-center px-6 gap-x-3 text-white">
+        <nav className="w-full h-14 z-[40] bg-black/40 backdrop-blur-xl border-b border-white/10 fixed top-14 flex items-center px-6 gap-x-3 text-white shadow-sm">
             <BoardTitle data={data} isReadOnly={isReadOnly} />
             <div className="flex items-center">
                 {isReadOnly ? (
-                    <span className="inline-flex items-center gap-x-1 text-xs font-medium bg-white/20 text-white rounded-full px-2.5 py-0.5 select-none">
-                        <Eye className="h-3 w-3" />
+                    <span className="inline-flex items-center gap-x-1.5 text-xs font-semibold bg-white/15 text-white/90 border border-white/20 rounded-xl px-3 py-1 select-none backdrop-blur-md">
+                        <Eye className="h-3.5 w-3.5" />
                         Только просмотр
                     </span>
                 ) : data.public ? (
-                    <span className="inline-flex items-center gap-x-1 text-xs font-medium bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 rounded-full px-2.5 py-0.5 select-none">
-                        <Globe className="h-3 w-3" />
+                    <span className="inline-flex items-center gap-x-1.5 text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-xl px-3 py-1 select-none backdrop-blur-md">
+                        <Globe className="h-3.5 w-3.5" />
                         Публичная
                     </span>
                 ) : (
-                    <span className="inline-flex items-center gap-x-1 text-xs font-medium bg-white/10 text-white/70 rounded-full px-2.5 py-0.5 select-none">
-                        <Lock className="h-3 w-3" />
+                    <span className="inline-flex items-center gap-x-1.5 text-xs font-semibold bg-white/10 text-white/80 border border-white/15 rounded-xl px-3 py-1 select-none backdrop-blur-md">
+                        <Lock className="h-3.5 w-3.5" />
                         Приватная
                     </span>
                 )}

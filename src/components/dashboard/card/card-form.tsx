@@ -73,12 +73,12 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(({
                     name="listId"
                     value={listId}
                 />
-                <div className="flex items-center gap-x-1">
-                    <FormSubmit>
+                <div className="flex items-center gap-x-1.5">
+                    <FormSubmit className="rounded-xl">
                         Добавить карточку
                     </FormSubmit>
-                    <Button onClick={disableEditing} variant="ghost">
-                        <X className="h-5 w-5"/>
+                    <Button onClick={disableEditing} variant="ghost" size="sm" className="rounded-xl">
+                        <X className="h-4 w-4"/>
                     </Button>
                 </div>
             </form>
@@ -89,11 +89,11 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(({
         <div className="pt-2 px-2 shrink-0">
             <Button
                 onClick={enableEditing}
-                className="h-auto px-2 py-1.5 w-full justify-start text-muted-foreground text-sm"
+                className="h-auto px-2.5 py-1.5 w-full justify-start text-muted-foreground hover:text-foreground text-sm rounded-xl transition-all"
                 size="sm"
                 variant="ghost"
             >
-                <Plus className="h-4 w-4 mr-2" />
+                <Plus className="h-4 w-4 mr-2 text-yellow-500" />
                 Добавить карточку
             </Button>
         </div>

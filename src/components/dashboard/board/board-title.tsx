@@ -89,7 +89,7 @@ export function BoardTitle({
         <Button
             onClick={enableEditing}
             variant="transparent"
-            className="font-bold text-lg h-auto w-auto p-1 px-2"
+            className="font-bold text-lg h-auto w-auto py-1 px-2.5 rounded-xl hover:bg-white/15 transition-all"
         >
             {title}
         </Button>

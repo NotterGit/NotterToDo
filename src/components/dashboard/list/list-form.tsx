@@ -68,13 +68,13 @@ export default function ListForm() {
                 <form 
                     action={onSubmit}
                     ref={formRef}
-                    className="w-full p-3 rounded-md bg-white dark:bg-neutral-900 space-y-4 shadow-md"
+                    className="w-full p-3 rounded-2xl bg-white/95 dark:bg-zinc-950/95 space-y-4 shadow-2xl backdrop-blur-xl border border-white/60 dark:border-white/10"
                 >
                     <FormInput
                         ref={inputRef}
                         errors={fieldErrors}
                         id="title"
-                        className="text-sm px-2 py-1 font-medium border-transparent hover:border-input focus:border-input transition" 
+                        className="text-sm px-2.5 py-1.5 font-medium border-transparent hover:border-input focus:border-input transition rounded-xl" 
                         placeholder="Введите название списка"
                     />
                     <input 
@@ -82,15 +82,17 @@ export default function ListForm() {
                         value={params.boardId} 
                         name="boardId"
                     />
-                    <div className="flex items-center gap-x-1">
-                        <FormSubmit>
+                    <div className="flex items-center gap-x-1.5">
+                        <FormSubmit className="rounded-xl">
                             Добавить список
                         </FormSubmit>
                         <Button
                             onClick={disableEditing}
                             variant="ghost"
+                            size="sm"
+                            className="rounded-xl"
                         >
-                            <X className="h-5 w-5"/>
+                            <X className="h-4 w-4"/>
                         </Button>
                     </div>
                 </form>
@@ -101,10 +103,10 @@ export default function ListForm() {
     return (
         <ListWrapper>
             <button 
-                className="w-full rounded-md bg-white/80 hover:bg-white/50 dark:bg-neutral-900/80 dark:hover:bg-neutral-900/60 dark:text-neutral-200 transition p-3 flex items-center font-medium text-xs"
+                className="w-full rounded-2xl bg-white/75 hover:bg-white/90 dark:bg-zinc-950/75 dark:hover:bg-zinc-950/90 text-foreground transition-all p-3 flex items-center font-semibold text-xs backdrop-blur-xl border border-dashed border-white/50 dark:border-white/10 shadow-lg hover:shadow-xl"
                 onClick={enableEditing}
             >
-                <Plus className="h-4 w-4 mr-2"/>
+                <Plus className="h-4 w-4 mr-2 text-yellow-500"/>
                 Добавить список
             </button>
         </ListWrapper>

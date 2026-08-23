@@ -37,7 +37,7 @@ export function ListItem({
                 >
                     <div 
                         {...provided.dragHandleProps}
-                        className="w-full max-h-full rounded-md bg-[#f1f2f4] dark:bg-neutral-900 shadow-sm pb-2 flex flex-col"
+                        className="w-full max-h-full rounded-2xl bg-[#f1f2f4]/95 dark:bg-zinc-950/95 border border-white/60 dark:border-white/10 shadow-xl pb-2 flex flex-col"
                     >
                         <ListHeader data={data} onAddCard={enableEditing} isReadOnly={isReadOnly}/>
                         <Droppable droppableId={data.id} type="card" isDropDisabled={isReadOnly}>

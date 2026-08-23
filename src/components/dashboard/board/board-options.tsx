@@ -145,59 +145,61 @@ export default function BoardOptions({
             />
             <Popover open={isPopoverOpen} onOpenChange={handleOpenChange}>
                 <PopoverTrigger>
-                    <Button className="h-auto w-auto p-2" variant="transparent">
+                    <Button className="h-auto w-auto p-2 rounded-xl hover:bg-white/15 transition-all" variant="transparent">
                         <MoreHorizontal className="h-4 w-4" />
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent
-                    className="px-0 pt-3 pb-3 gap-1 w-80"
+                    className="px-0 pt-3 pb-3 gap-1 w-80 rounded-2xl border border-white/60 bg-white/95 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-zinc-950/95"
                     side="bottom"
                     align="start"
                 >
                     {step === "main" ? (
                         <>
-                            <div className="text-sm font-medium text-center text-neutral-600 dark:text-neutral-300 pb-2">
+                            <div className="text-sm font-semibold text-center text-foreground pb-2 border-b border-border/50">
                                 Настройки доски
                             </div>
                             <PopoverClose>
                                 <Button 
-                                    className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600 dark:text-neutral-300"
+                                    className="h-auto w-auto p-2 absolute top-2 right-2 text-muted-foreground hover:text-foreground rounded-xl"
                                     variant="ghost"
                                 >
                                     <X className="h-4 w-4"/>
                                 </Button>
                             </PopoverClose>
 
-                            <Button
-                                variant="ghost"
-                                onClick={() => setStep("background")}
-                                className="rounded-none w-full h-auto py-2.5 px-5 justify-between font-normal text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-                            >
-                                <div className="flex items-center">
-                                    <ImageIcon className="h-4 w-4 mr-1.5 text-sky-500" />
-                                    Сменить фон
-                                </div>
-                                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                            </Button>
+                            <div className="p-2 space-y-1">
+                                <Button
+                                    variant="ghost"
+                                    onClick={() => setStep("background")}
+                                    className="rounded-xl w-full h-auto py-2.5 px-3 justify-between font-medium text-sm hover:bg-neutral-500/10 transition-colors"
+                                >
+                                    <div className="flex items-center">
+                                        <ImageIcon className="h-4 w-4 mr-2 text-yellow-500" />
+                                        Сменить фон
+                                    </div>
+                                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                                </Button>
 
-                            <Button
-                                variant="ghost"
-                                onClick={onTogglePublic}
-                                disabled={isLoadingPublic}
-                                className="rounded-none w-full h-auto py-2.5 px-5 justify-start font-normal text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-                            >
-                                {isPublic ? (
-                                    <>
-                                        <Lock className="h-4 w-4 text-rose-500" />
-                                        Сделать приватной
-                                    </>
-                                ) : (
-                                    <>
-                                        <Globe className="h-4 w-4 text-emerald-500" />
-                                        Сделать публичной
-                                    </>
-                                )}
-                            </Button>
+                                <Button
+                                    variant="ghost"
+                                    onClick={onTogglePublic}
+                                    disabled={isLoadingPublic}
+                                    className="rounded-xl w-full h-auto py-2.5 px-3 justify-start font-medium text-sm hover:bg-neutral-500/10 transition-colors"
+                                >
+                                    {isPublic ? (
+                                        <>
+                                            <Lock className="h-4 w-4 mr-2 text-rose-500" />
+                                            Сделать приватной
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Globe className="h-4 w-4 mr-2 text-emerald-500" />
+                                            Сделать публичной
+                                        </>
+                                    )}
+                                </Button>
+                            </div>
 
                             {isPublic && (
                                 <div className="px-4 py-2 space-y-2 bg-neutral-50 dark:bg-neutral-900/50 border-y border-border">

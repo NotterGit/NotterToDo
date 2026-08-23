@@ -48,8 +48,8 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
         return (
             <>
                 <div className="flex items-center justify-between mb-2">
-                    <Skeleton className="h-10 w-[50%]"/>
-                    <Skeleton className="h-10 w-10"/>
+                    <Skeleton className="h-9 w-[50%] rounded-xl"/>
+                    <Skeleton className="h-9 w-9 rounded-xl"/>
                 </div>
                 <div className="space-y-2">
                     <NavItem.Skeleton/>
@@ -57,7 +57,7 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
                     <NavItem.Skeleton/>
                 </div>
                 <div className="pt-2">
-                    <Skeleton className="h-9 w-full"/>
+                    <Skeleton className="h-9 w-full rounded-xl"/>
                 </div>
             </>
         )
@@ -134,7 +134,7 @@ export function Sidebar({ storageKey = STORAGE_KEYS.SIDEBAR }: SidebarProps) {
                     onClick={() => onOpenSettingsModal()}
                     variant="ghost"
                     size="sm"
-                    className="w-full justify-start text-neutral-700 dark:text-neutral-200 font-medium text-sm p-2 h-auto hover:bg-neutral-500/10"
+                    className="w-full justify-start text-neutral-700 dark:text-neutral-200 font-medium text-sm p-2 h-auto hover:bg-neutral-500/10 rounded-xl"
                 >
                     <Settings2 className="h-4 w-4 mr-2" />
                     <span>Настройки</span>

@@ -18,7 +18,7 @@ export function Navbar() {
     const isBoardPage = path?.startsWith("/board");
 
     return (
-        <nav className="fixed z-50 top-0 w-full h-14 border-b border-border shadow-sm bg-background flex items-center px-4">
+        <nav className="fixed z-50 top-0 w-full h-14 border-b border-white/50 bg-white/80 backdrop-blur-xl shadow-sm dark:border-white/10 dark:bg-zinc-950/80 flex items-center px-4">
             <SignedIn>
                 <MobileSidebar/>
             </SignedIn>
@@ -31,12 +31,12 @@ export function Navbar() {
                 {!isBoardPage && (
                     <SignedIn>
                         <FormPopover align="start" side="bottom" sideOffset={18}>
-                            <Button className="rounded-sm hidden md:flex h-auto py-1.5 px-2 flex-row">
-                                <Plus className="h-4 w-4"/> Создать
+                            <Button size="sm" className="rounded-xl hidden md:flex h-auto py-1.5 px-3 flex-row font-medium shadow-sm">
+                                <Plus className="h-4 w-4 mr-1"/> Создать
                             </Button>
                         </FormPopover>
                         <FormPopover>
-                            <Button className="rounded-sm block md:hidden">
+                            <Button size="icon-sm" className="rounded-xl flex md:hidden shadow-sm">
                                 <Plus className="h-4 w-4"/>
                             </Button>
                         </FormPopover>
@@ -77,7 +77,7 @@ export function Navbar() {
 
                 <SignedOut>
                     <SignInButton>
-                        <Button size="sm" variant="outline">Войти</Button>
+                        <Button size="sm" variant="outline" className="rounded-xl">Войти</Button>
                     </SignInButton>
                 </SignedOut>
 

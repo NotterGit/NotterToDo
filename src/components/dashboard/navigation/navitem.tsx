@@ -57,25 +57,25 @@ export function NavItem({ isExpanded, isActive, organization, onExpand }: NavIte
         <AccordionItem value={organization.id} className="border-none">
             <AccordionTrigger 
                 onClick={() => onExpand(organization.id)} 
-                className={cn("flex items-center gap-x-2 p-1.5 text-neutral-700 dark:text-neutral-200 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline", 
-                isActive && !isExpanded && "bg-sky-500/10 text-sky-700 dark:bg-sky-500/20 dark:text-sky-400")}
+                className={cn("flex items-center gap-x-2 p-2 text-neutral-700 dark:text-neutral-200 rounded-xl hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline", 
+                isActive && !isExpanded && "bg-logo-yellow/10 text-foreground font-semibold border border-logo-yellow/30 dark:bg-logo-yellow/15 dark:border-logo-yellow/20")}
             >
                 <div className="flex items-center gap-x-2">
-                    <div className="w-7 h-7 relative">
+                    <div className="w-7 h-7 relative shrink-0">
                         {organization.imageUrl ? (
                             <Image
                                 fill
                                 src={organization.imageUrl}
                                 alt={organization.name}
-                                className="rounded-sm object-cover"
+                                className="rounded-lg object-cover"
                             />
                         ) : (
-                            <div className="w-full h-full bg-muted rounded-sm flex items-center justify-center">
+                            <div className="w-full h-full bg-muted rounded-lg flex items-center justify-center">
                                 <Layout className="h-4 w-4 text-muted-foreground" />
                             </div>
                         )}
                     </div>
-                    <span className="font-medium text-sm">
+                    <span className="font-semibold text-sm">
                         {organization.name}
                     </span>
                 </div>
@@ -86,10 +86,11 @@ export function NavItem({ isExpanded, isActive, organization, onExpand }: NavIte
                         key={route.href}
                         onClick={() => onClick(route.href)}
                         className={cn(
-                            "w-full font-normal justify-start pl-10 mb-1",
-                            pathname === route.href && "bg-sky-500/10 text-sky-700 dark:bg-sky-500/20 dark:text-sky-400"
+                            "w-full font-medium justify-start pl-10 mb-1 rounded-xl transition-all",
+                            pathname === route.href && "bg-logo-yellow/10 text-foreground font-semibold border border-logo-yellow/30 dark:bg-logo-yellow/15 dark:border-logo-yellow/20"
                         )}
                         variant="ghost"
+                        size="sm"
                     >
                         {route.icon}
                         {route.label}
@@ -102,11 +103,11 @@ export function NavItem({ isExpanded, isActive, organization, onExpand }: NavIte
 
 NavItem.Skeleton = function SkeletonNavItem() {
     return (
-        <div className="flex items-center gap-x-2">
-            <div className="w-10 h-10 relative shrink-0">
-                <Skeleton className="h-full w-full absolute"/>
+        <div className="flex items-center gap-x-2 p-2 rounded-xl">
+            <div className="w-7 h-7 relative shrink-0">
+                <Skeleton className="h-full w-full rounded-lg"/>
             </div>
-            <Skeleton className="h-10 w-full"/>
+            <Skeleton className="h-7 w-full rounded-lg"/>
         </div>
     )
 }
