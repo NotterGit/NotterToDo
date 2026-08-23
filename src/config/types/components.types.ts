@@ -35,10 +35,17 @@ export interface FormPopoverProps {
   sideOffset?: number;
 }
 
+export interface BgCollection {
+  name: string;
+  folder: string;
+  images: string[];
+}
+
 export interface FormPickerProps {
   id: string;
   errors?: Record<string, string[] | undefined>;
   defaultValue?: string;
+  onChange?: (image: string) => void;
 }
 
 export interface FormSubmitProps {

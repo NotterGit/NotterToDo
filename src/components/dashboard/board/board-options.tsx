@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { FormPicker } from "@/components/form/form-picker";
 import { FormSubmit } from "@/components/form/form-button";
 import { useAction } from "@/hooks/use-action";
+import { useBoardPreview } from "@/hooks/use-board-preview";
 import { useAuth } from "@clerk/nextjs";
 import { Check, ChevronLeft, ChevronRight, Copy, ExternalLink, Globe, ImageIcon, Lock, MoreHorizontal, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -26,12 +27,19 @@ export default function BoardOptions({
 }: BoardOptionsProps) {
     const router = useRouter()
     const { userId, orgId, orgRole } = useAuth()
+    const { setPreviewImage, resetPreviewImage } = useBoardPreview()
     const [step, setStep] = useState<"main" | "background">("main")
     const [isConfirmOpen, setIsConfirmOpen] = useState(false)
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
     const [isPublic, setIsPublic] = useState(initialPublic)
     const [isCopied, setIsCopied] = useState(false)
     const [boardUrl, setBoardUrl] = useState("")
+
+    useEffect(() => {
+        return () => {
+            resetPreviewImage()
+        }
+    }, [resetPreviewImage])
 
     useEffect(() => {
         setIsPublic(initialPublic)
@@ -70,6 +78,7 @@ export default function BoardOptions({
     const { execute: executeBackground, fieldErrors: backgroundFieldErrors, isLoading: isLoadingBackground } = useAction(updateBoardBackground, {
         onSuccess: () => {
             toast.success("Фон доски обновлен!")
+            resetPreviewImage()
             setIsPopoverOpen(false)
             setStep("main")
             router.refresh()
@@ -128,6 +137,7 @@ export default function BoardOptions({
         setIsPopoverOpen(open)
         if (!open) {
             setStep("main")
+            resetPreviewImage()
         }
     }
 
@@ -189,12 +199,12 @@ export default function BoardOptions({
                                 >
                                     {isPublic ? (
                                         <>
-                                            <Lock className="h-4 w-4 mr-2 text-rose-500" />
+                                            <Lock className="h-4 w-4 mr-0.5 text-rose-500" />
                                             Сделать приватной
                                         </>
                                     ) : (
                                         <>
-                                            <Globe className="h-4 w-4 mr-2 text-emerald-500" />
+                                            <Globe className="h-4 w-4 mr-0.5 text-emerald-500" />
                                             Сделать публичной
                                         </>
                                     )}
@@ -262,7 +272,10 @@ export default function BoardOptions({
                         <div>
                             <div className="relative flex items-center justify-center pb-2 border-b border-border mb-3 px-8">
                                 <Button
-                                    onClick={() => setStep("main")}
+                                    onClick={() => {
+                                        setStep("main")
+                                        resetPreviewImage()
+                                    }}
                                     className="h-auto w-auto p-1.5 absolute top-0 left-2 text-neutral-600 dark:text-neutral-300"
                                     variant="ghost"
                                     size="sm"
@@ -272,7 +285,10 @@ export default function BoardOptions({
                                 <span className="text-sm font-medium text-center text-neutral-600 dark:text-neutral-300">
                                     Смена фона
                                 </span>
-                                <PopoverClose onClick={() => setStep("main")}>
+                                <PopoverClose onClick={() => {
+                                    setStep("main")
+                                    resetPreviewImage()
+                                }}>
                                     <Button
                                         className="h-auto w-auto p-1.5 absolute top-0 right-2 text-neutral-600 dark:text-neutral-300"
                                         variant="ghost"
@@ -288,6 +304,7 @@ export default function BoardOptions({
                                         id="image"
                                         errors={backgroundFieldErrors}
                                         defaultValue={initialImage}
+                                        onChange={(img) => setPreviewImage(img)}
                                     />
                                     <FormSubmit
                                         disabled={isLoadingBackground}

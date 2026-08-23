@@ -1,13 +1,25 @@
-export const bgImages = [
-    "/bg/bg_1.jpg",
-    "/bg/bg_2.jpg",
-    "/bg/bg_3.jpg",
-    "/bg/bg_4.jpg",
-    "/bg/bg_5.jpg",
-    "/bg/bg_6.jpg",
-    "/bg/bg_7.jpg",
-    "/bg/bg_8.jpg",
-    "/bg/bg_9.jpg",
-] as const;
+export interface BgCollectionConfig {
+    name: string;
+    folder: string;
+}
 
-export const defaultBgImage = bgImages[0];
+export const bgCollectionsConfig: BgCollectionConfig[] = [
+    {
+        name: "Notter Qualsu",
+        folder: "collection_4",
+    },
+    {
+        name: "Vectors",
+        folder: "collection_1",
+    },
+    {
+        name: "Природа и небо",
+        folder: "collection_2",
+    },
+    {
+        name: "Цвета",
+        folder: "collection_3",
+    },
+];
+
+export const defaultBgImage = "/bg/collection_1/bg_1.svg";

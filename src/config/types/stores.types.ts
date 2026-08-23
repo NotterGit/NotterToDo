@@ -40,3 +40,9 @@ export type BoardWrapListsStore = {
   toggle: () => void;
 };
 
+export type BoardPreviewStore = {
+  previewImage: string | null;
+  setPreviewImage: (image: string | null) => void;
+  resetPreviewImage: () => void;
+};
+
