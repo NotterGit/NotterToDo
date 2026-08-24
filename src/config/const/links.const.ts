@@ -5,5 +5,5 @@ export const links = {
   QUAL_ID: "https://id.qual.su",
   NOTTER: "https://notter.su",
   NOTTER_GEM: "https://gem.notter.su",
-  NOTTER_PROFILE: (username: string) => `${links.NOTTER}/profile/${username}`
+  NOTTER_PROFILE: (username: string, isOrg: boolean) => `${links.NOTTER}/profile/${isOrg ? "org/" : ""}${username}`
 } as const;

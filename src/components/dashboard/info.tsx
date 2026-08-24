@@ -50,7 +50,7 @@ export function Info({ boardCount, publicBoardCount }: InfoProps = {}) {
         ? (user?.username || profile?.username || "")
         : (currentOrg?.slug || profile?.username || "")
 
-    const profileUrl = identifier ? links.NOTTER_PROFILE(identifier) : undefined
+    const profileUrl = identifier ? links.NOTTER_PROFILE(identifier, !isPersonal) : undefined
 
     const tariff = planLimits.name
     const accountType = isPersonal ? "Личный профиль" : "Организация"
@@ -107,7 +107,7 @@ export function Info({ boardCount, publicBoardCount }: InfoProps = {}) {
     )
 
     return (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-white/60 bg-white/70 p-4 sm:p-5 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/50">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-zinc-100/60 bg-white/70 p-4 sm:p-5 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/50">
             <div className="flex items-center gap-x-4 min-w-0">
                 <div className="w-[60px] h-[60px] relative shrink-0">
                     {profileUrl ? (
@@ -172,7 +172,7 @@ export function Info({ boardCount, publicBoardCount }: InfoProps = {}) {
             </div>
 
             <div className="flex flex-wrap items-center gap-2 sm:self-center pt-2 sm:pt-0 border-t sm:border-t-0 border-border/40">
-                <div className="flex items-center gap-x-2 text-xs bg-muted/50 dark:bg-zinc-800/50 px-3 py-2 rounded-xl border border-border/50 shadow-xs">
+                <div className="flex items-center gap-x-2 text-xs bg-muted/50 dark:bg-zinc-800/50 px-3 py-2 rounded-xl border border-border/50">
                     <Presentation className="h-4 w-4 text-muted-foreground shrink-0" />
                     <span className="text-muted-foreground">Досок:</span>
                     <span className="font-semibold text-foreground flex items-center gap-1">
@@ -194,7 +194,7 @@ export function Info({ boardCount, publicBoardCount }: InfoProps = {}) {
                     </span>
                 </div>
 
-                <div className="flex items-center gap-x-2 text-xs bg-muted/50 dark:bg-zinc-800/50 px-3 py-2 rounded-xl border border-border/50 shadow-xs">
+                <div className="flex items-center gap-x-2 text-xs bg-muted/50 dark:bg-zinc-800/50 px-3 py-2 rounded-xl border border-border/50">
                     <Globe className="h-4 w-4 text-muted-foreground shrink-0" />
                     <span className="text-muted-foreground">Публичных досок:</span>
                     <span className="font-semibold text-foreground">
@@ -210,7 +210,7 @@ export function Info({ boardCount, publicBoardCount }: InfoProps = {}) {
 
 Info.Skeleton = function SkeletonInfo() {
     return (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-white/60 bg-white/70 p-4 sm:p-5 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/50">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-zinc-100/60 bg-white/70 p-4 sm:p-5 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/50">
             <div className="flex items-center gap-x-4">
                 <div className="w-[60px] h-[60px] relative shrink-0">
                     <Skeleton className="w-full h-full absolute rounded-xl"/>

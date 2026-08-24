@@ -2,6 +2,7 @@ export const images = {
   LOGO: "/logo.png",
   ICON: "/icon.png",
   LANDING: "/landing.png",
+  ERROR: "/error.svg",
   ICONS: {
     LAMP: "/icon/lamp.svg",
     PEOPLE: "/icon/people.svg",

@@ -254,7 +254,7 @@ export default function BoardOptions({
 
                             {canDelete && (
                                 <>
-                                    <Separator className="my-1" />
+                                    <Separator className="dark:bg-white/10 h-[1px]" />
 
                                     <Button
                                         variant="ghost"

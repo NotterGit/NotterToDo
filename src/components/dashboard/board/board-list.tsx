@@ -47,16 +47,16 @@ export default async function BoardList({ orgId: propOrgId }: BoardListProps = {
                 <Link
                     key={board.id}
                     href={pages.BOARD(board.id)}
-                    className="group relative aspect-video bg-no-repeat bg-center bg-cover bg-neutral-700 rounded-2xl h-full w-full p-3 overflow-hidden shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 border border-white/20 dark:border-white/10"
+                    className="group relative aspect-video bg-no-repeat bg-center bg-cover bg-neutral-700 rounded-2xl h-full w-full p-3 overflow-hidden hover:scale-[1.02] transition-all duration-300 border border-white/20 dark:border-white/10"
                     style={{ backgroundImage: `url(${board.image})` }}
                 >
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/20 group-hover:from-black/70 group-hover:via-black/40 group-hover:to-black/30 transition-all duration-300" />
-                    <p className="relative font-bold text-white text-sm sm:text-base drop-shadow-sm pr-7">
+                    <p className="relative font-bold text-white text-sm sm:text-base pr-7">
                         {board.title}
                     </p>
                     {board.public && (
                         <div 
-                            className="absolute top-2.5 right-2.5 z-10 flex items-center justify-center p-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 backdrop-blur-md shadow-sm"
+                            className="absolute top-2.5 right-2.5 z-10 flex items-center justify-center p-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 backdrop-blur-md"
                             title="Публичная доска"
                         >
                             <Globe className="h-3.5 w-3.5 text-emerald-400" />
@@ -67,7 +67,7 @@ export default async function BoardList({ orgId: propOrgId }: BoardListProps = {
             <FormPopover side="right" sideOffset={10}>
                 <div
                     role="button"
-                    className="aspect-video relative h-full w-full bg-card/50 dark:bg-zinc-900/40 rounded-2xl border border-dashed border-border/80 flex flex-col gap-y-1.5 items-center justify-center hover:bg-card/80 dark:hover:bg-zinc-900/70 hover:scale-[1.02] shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-300"
+                    className="aspect-video relative h-full w-full bg-card/50 dark:bg-zinc-900/40 rounded-2xl border border-dashed border-border/80 flex flex-col gap-y-1.5 items-center justify-center hover:bg-card/80 dark:hover:bg-zinc-900/70 hover:scale-[1.02] backdrop-blur-sm transition-all duration-300"
                 >
                     <p className="text-sm font-semibold">Создать доску</p>
                     <span className="text-xs text-muted-foreground flex items-center gap-1">
