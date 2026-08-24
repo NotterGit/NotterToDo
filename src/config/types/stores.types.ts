@@ -46,4 +46,8 @@ export type BoardPreviewStore = {
   resetPreviewImage: () => void;
 };
 
-
+export type CardRenameStore = {
+  renamingCardIds: Record<string, boolean>;
+  startRenaming: (id: string) => void;
+  stopRenaming: (id: string) => void;
+};

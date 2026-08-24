@@ -32,7 +32,8 @@ export const useAction = <TInput, TOutput>(
                 }
 
                 if (result.fieldErrors) {
-                    return Promise.reject("Please check the input fields")
+                    const firstError = Object.values(result.fieldErrors).flat()[0] as string | undefined
+                    return Promise.reject(firstError || "Проверьте введенные поля")
                 }
 
                 if (result.data) {
