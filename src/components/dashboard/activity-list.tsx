@@ -14,7 +14,7 @@ export async function ActivityList({ orgId: propOrgId }: ActivityListProps = {})
   const orgId = propOrgId || clerkOrgId || userId
 
   if (!orgId) {
-    redirect(pages.SELECT_ORG)
+    redirect(pages.AUTH.SIGN_IN)
   }
 
   const auditLogs = await db.auditLog.findMany({

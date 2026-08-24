@@ -36,7 +36,7 @@
 │   │   ├── (dashboard)/         # Protected dashboard & board pages
 │   │   │   ├── board/[boardId]/ # Kanban board view
 │   │   │   └── dashboard/[orgId]/ # Org boards, activity, settings
-│   │   ├── auth/                # Clerk auth pages (sign-in, sign-up, select-org)
+│   │   ├── auth/                # Clerk auth pages (sign-in, sign-up)
 │   │   ├── api/                 # Route Handlers
 │   │   ├── globals.css          # Global Tailwind styles
 │   │   ├── layout.tsx           # Root layout with providers

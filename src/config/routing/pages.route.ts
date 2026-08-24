@@ -7,9 +7,7 @@ export const pages = {
   AUTH: {
     SIGN_IN: "/auth/sign-in",
     SIGN_UP: "/auth/sign-up",
-    SELECT_ORG: "/auth/select-org",
   },
-  SELECT_ORG: "/auth/select-org",
   ORGANIZATION: (id?: string) => (id ? `/dashboard/${id}` : "/dashboard"),
   ORGANIZATION_ACTIVITY: (id: string) => `/dashboard/${id}/activity`,
   ORGANIZATION_SETTINGS: (id: string) => `/dashboard/${id}/settings`,

@@ -20,7 +20,7 @@ export default async function BoardList({ orgId: propOrgId }: BoardListProps = {
     const orgId = propOrgId || clerkOrgId || userId
 
     if(!orgId) {
-        return redirect(pages.SELECT_ORG)
+        return redirect(pages.AUTH.SIGN_IN)
     }
 
     const isOrg = orgId.startsWith("org_") || Boolean(clerkOrgId && clerkOrgId === orgId);
