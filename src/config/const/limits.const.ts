@@ -57,3 +57,8 @@ export const getPlanLimits = (
   }
   return limitsMap[premium];
 };
+
+export const isDiamondPlan = (premium?: number | null): boolean => {
+  return premium === 2;
+};
+

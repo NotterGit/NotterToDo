@@ -4,6 +4,9 @@ export const API = {
     LOGS: (cardId: string) => `/api/cards/${cardId}/logs`,
   },
   BACKGROUNDS: "/api/backgrounds",
+  AUDIT_LOGS: {
+    EXPORT: (orgId: string) => `/api/audit-logs/export?orgId=${orgId}`,
+  },
   BACKEND: {
     USERS: {
       BY_ID: (_id: string) => `users/by_id/${_id}`,
