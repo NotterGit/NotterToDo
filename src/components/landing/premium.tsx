@@ -52,7 +52,6 @@ export function Premium() {
           Подписка, улучшающая и делающая работу с задачами еще приятнее
         </p>
 
-        {/* Переключатель тарифов Личная / Командная */}
         <div className="inline-flex items-center justify-center rounded-xl border border-border/60 bg-muted/50 p-1 backdrop-blur-sm">
           <Button
             size="sm"
@@ -73,7 +72,6 @@ export function Premium() {
         </div>
       </div>
 
-      {/* Сетка тарифов */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 text-left">
         <PremiumCard
           title="Free"
@@ -117,7 +115,6 @@ export function Premium() {
         />
       </div>
 
-      {/* Таблица сравнения лимитов */}
       <div className="mt-10 overflow-hidden rounded-2xl border border-border/60 bg-card/60 dark:bg-zinc-900/40 p-4 backdrop-blur-md">
         <Table>
           <TableCaption>Сравнение возможностей тарифов Notter Gem</TableCaption>

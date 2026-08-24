@@ -1,7 +1,7 @@
 "use client"
 
 import { defaultBgImage } from "@/config/const/banner-images.const"
-import { apiRoutes } from "@/config/routing/api.route"
+import { API } from "@/config/routing/api.route"
 import type { BgCollection, FormPickerProps } from "@/config/types/components.types"
 import { fetcher } from "@/lib/fetcher"
 import { cn } from "@/lib/utils"
@@ -23,10 +23,9 @@ export const FormPicker = ({
 
     const { data: collections, isLoading } = useQuery<BgCollection[]>({
         queryKey: ["board-backgrounds"],
-        queryFn: () => fetcher(apiRoutes.BACKGROUNDS),
+        queryFn: () => fetcher(API.BACKGROUNDS),
     })
 
-    // Initialize active folder and selection once when collections load
     useEffect(() => {
         if (!collections || collections.length === 0 || initializedRef.current) return
 
@@ -48,7 +47,6 @@ export const FormPicker = ({
         initializedRef.current = true
     }, [collections, defaultValue])
 
-    // If defaultValue prop updates externally (e.g. different board opened)
     useEffect(() => {
         if (defaultValue) {
             setSelectedImage(defaultValue)
@@ -72,24 +70,27 @@ export const FormPicker = ({
     const activeCollection =
         collections?.find((col) => col.folder === activeFolder) || collections?.[0]
 
+    if(isLoading){
+        return (
+            <div className="space-y-2">
+                <div className="flex gap-1.5 pb-1">
+                    <Skeleton className="h-6 w-20 rounded-full" />
+                    <Skeleton className="h-6 w-20 rounded-full" />
+                    <Skeleton className="h-6 w-20 rounded-full" />
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <Skeleton key={i} className="aspect-video rounded-md" />
+                    ))}
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className="relative space-y-2.5">
-            {isLoading ? (
-                <div className="space-y-2">
-                    <div className="flex gap-1.5 pb-1">
-                        <Skeleton className="h-6 w-20 rounded-full" />
-                        <Skeleton className="h-6 w-20 rounded-full" />
-                        <Skeleton className="h-6 w-20 rounded-full" />
-                    </div>
-                    <div className="grid grid-cols-3 gap-2">
-                        {Array.from({ length: 6 }).map((_, i) => (
-                            <Skeleton key={i} className="aspect-video rounded-md" />
-                        ))}
-                    </div>
-                </div>
-            ) : collections && collections.length > 0 ? (
+            {collections && collections.length > 0 ? (
                 <>
-                    {/* Collection switcher tabs */}
                     <div className="flex items-center gap-1.5 overflow-x-auto pb-1 -mx-0.5 px-0.5 scrollbar-none">
                         {collections.map((col) => {
                             const isActive = (activeFolder || collections[0].folder) === col.folder
@@ -112,7 +113,6 @@ export const FormPicker = ({
                         })}
                     </div>
 
-                    {/* Image grid */}
                     <div className="grid grid-cols-3 gap-2 max-h-52 overflow-y-auto pr-0.5">
                         {activeCollection?.images.map((image) => {
                             const isSelected = selectedImage === image
@@ -150,7 +150,6 @@ export const FormPicker = ({
                 </div>
             )}
 
-            {/* Single hidden input for reliable form submission */}
             <input
                 type="hidden"
                 id={id}

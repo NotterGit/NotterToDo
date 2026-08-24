@@ -11,6 +11,8 @@ import { ClerkThemeProvider } from "@/components/providers/clerk-theme-provider"
 
 import { PwaProvider } from "@/components/providers/pwa-provider";
 
+import { SyncProvider } from "@/components/providers/sync-provider";
+
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
@@ -48,6 +50,7 @@ export default function RootLayout({
           <ClerkThemeProvider>
             <QueryProvider>
               <PwaProvider>
+                <SyncProvider />
                 <ToasterProvider />
                 <ModalProvider/>
                 {children}
@@ -59,3 +62,4 @@ export default function RootLayout({
     </html>
   );
 }
+

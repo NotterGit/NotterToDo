@@ -10,7 +10,9 @@ import { createAuditLog } from "@/lib/audit-log"
 import { ACTION, ENTITY_TYPE } from "@prisma/client"
 import { pages } from "@/config/routing/pages.route"
 import { defaultBgImage } from "@/config/const/banner-images.const"
-import { MAX_FREE_BOARDS } from "@/config/const/limits.const"
+import { getPlanLimits } from "@/config/const/limits.const"
+import { getUserById } from "@/api/user"
+import { getOrgById } from "@/api/org"
 
 const handler = async (data: InputType): Promise<ReturnType> => {
     const { userId, orgId: clerkOrgId } = await auth()
@@ -28,15 +30,19 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     let board
 
     try {
+        const isOrg = orgId.startsWith("org_") || Boolean(clerkOrgId && clerkOrgId === orgId)
+        const profile = isOrg ? await getOrgById(orgId) : await getUserById(orgId)
+        const planLimits = getPlanLimits(profile?.premium, isOrg)
+
         const count = await db.board.count({
             where: {
                 orgId
             }
         })
 
-        if (count >= MAX_FREE_BOARDS) {
+        if (!planLimits.isUnlimitedBoards && count >= planLimits.boards) {
             return {
-                error: `Достигнут лимит досок (${MAX_FREE_BOARDS}). Оформите подписку Notter Gem, чтобы увеличить лимит.`
+                error: `Достигнут лимит досок (${planLimits.boards}). Оформите подписку Notter Gem, чтобы увеличить лимит.`
             }
         }
 

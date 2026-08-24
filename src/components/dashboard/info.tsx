@@ -2,12 +2,13 @@
 
 import { Skeleton } from "@/components/ui/skeleton"
 import { useOrganization, useOrganizationList, useUser } from "@clerk/nextjs"
-import { Gem, Globe, Presentation, User } from "lucide-react"
+import { Gem, Globe, Infinity, Presentation, User } from "lucide-react"
 import Image from "next/image"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
-import { MAX_FREE_BOARDS, MAX_FREE_PUBLIC_BOARDS } from "@/config/const/limits.const"
+import { getPlanLimits } from "@/config/const/limits.const"
+import { useAccountProfile } from "@/hooks/use-account-profile"
 
 interface InfoProps {
     boardCount?: number
@@ -30,6 +31,10 @@ export function Info({ boardCount }: InfoProps = {}) {
         ? activeOrg
         : userMemberships?.data?.find((m) => m.organization.id === orgId)?.organization || activeOrg
 
+    const entityId = isPersonal ? user?.id : currentOrg?.id
+    const { data: profile } = useAccountProfile(entityId, !isPersonal)
+    const planLimits = getPlanLimits(profile?.premium, !isPersonal)
+
     const name = isPersonal
         ? (user?.fullName || user?.firstName || user?.username || "Личный профиль")
         : (currentOrg?.name || "")
@@ -38,7 +43,7 @@ export function Info({ boardCount }: InfoProps = {}) {
         ? (user?.imageUrl || "")
         : (currentOrg?.imageUrl || "")
 
-    const tariff = "Бесплатно"
+    const tariff = planLimits.name
     const accountType = isPersonal ? "Личный профиль" : "Организация"
 
     const [imageLoaded, setImageLoaded] = useState(false)
@@ -47,7 +52,6 @@ export function Info({ boardCount }: InfoProps = {}) {
         setImageLoaded(false)
     }, [imageUrl])
 
-    // Check loading states
     if (isPersonal) {
         if (!isLoadedUser || !user) {
             return <Info.Skeleton />
@@ -102,8 +106,25 @@ export function Info({ boardCount }: InfoProps = {}) {
                         <Skeleton className="h-7 w-[200px] rounded-lg" />
                     )}
                     <div className="flex flex-wrap items-center gap-2">
-                        <div className="inline-flex items-center text-xs font-semibold tracking-wide text-foreground/90 bg-muted/60 dark:bg-zinc-800/60 px-2.5 py-1 rounded-xl border border-border/50">
-                            <Gem className="w-3.5 h-3.5 mr-1.5 shrink-0"/>
+                        <div
+                            className={cn(
+                                "inline-flex items-center text-xs font-semibold tracking-wide px-2.5 py-1 rounded-xl border transition-colors",
+                                tariff === "Amber" &&
+                                    "text-amber-600 dark:text-yellow-400 bg-yellow-500/15 dark:bg-yellow-500/10 border-yellow-500/30",
+                                tariff === "Diamond" &&
+                                    "text-cyan-600 dark:text-cyan-400 bg-cyan-500/15 dark:bg-cyan-500/10 border-cyan-500/30",
+                                tariff === "Free" &&
+                                    "text-foreground/90 bg-muted/60 dark:bg-zinc-800/60 border-border/50"
+                            )}
+                        >
+                            <Gem
+                                className={cn(
+                                    "w-3.5 h-3.5 mr-1.5 shrink-0",
+                                    tariff === "Amber" && "text-amber-600 dark:text-yellow-400",
+                                    tariff === "Diamond" && "text-cyan-600 dark:text-cyan-400",
+                                    tariff === "Free" && "text-muted-foreground"
+                                )}
+                            />
                             <span>{tariff}</span>
                         </div>
                         <div className="inline-flex items-center text-xs font-medium text-muted-foreground bg-muted/40 dark:bg-zinc-800/40 px-2.5 py-1 rounded-xl border border-border/40">
@@ -117,15 +138,32 @@ export function Info({ boardCount }: InfoProps = {}) {
                 <div className="flex items-center gap-x-2 text-xs bg-muted/50 dark:bg-zinc-800/50 px-3 py-2 rounded-xl border border-border/50 shadow-xs">
                     <Presentation className="h-4 w-4 text-muted-foreground shrink-0" />
                     <span className="text-muted-foreground">Лимит досок:</span>
-                    <span className="font-semibold text-foreground">
-                        {boardCount !== undefined ? `${boardCount} / ${MAX_FREE_BOARDS}` : `до ${MAX_FREE_BOARDS}`}
+                    <span className="font-semibold text-foreground flex items-center gap-1">
+                        {boardCount !== undefined ? (
+                            planLimits.isUnlimitedBoards ? (
+                                <>
+                                    <span>{boardCount}</span>
+                                    <span>/</span>
+                                    <Infinity className="h-3.5 w-3.5 inline text-foreground" />
+                                </>
+                            ) : (
+                                `${boardCount} / ${planLimits.boards}`
+                            )
+                        ) : planLimits.isUnlimitedBoards ? (
+                            <Infinity className="h-3.5 w-3.5 inline text-foreground" />
+                        ) : (
+                            `до ${planLimits.boards}`
+                        )}
                     </span>
                 </div>
+
                 <div className="flex items-center gap-x-2 text-xs bg-muted/50 dark:bg-zinc-800/50 px-3 py-2 rounded-xl border border-border/50 shadow-xs">
                     <Globe className="h-4 w-4 text-muted-foreground shrink-0" />
                     <span className="text-muted-foreground">Лимит публичных досок:</span>
                     <span className="font-semibold text-foreground">
-                        {boardCount !== undefined ? `${boardCount} / ${MAX_FREE_PUBLIC_BOARDS}` : `до ${MAX_FREE_PUBLIC_BOARDS}`}
+                        {boardCount !== undefined
+                            ? `${boardCount} / ${planLimits.publicBoards}`
+                            : `до ${planLimits.publicBoards}`}
                     </span>
                 </div>
             </div>

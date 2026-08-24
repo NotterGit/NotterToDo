@@ -50,7 +50,7 @@
 │   │   └── ui/                  # Primitives (button, input, dialog, popover, sheet, etc.)
 │   ├── config/
 │   │   ├── const/               # Constants (app, banner images, limits, links)
-│   │   ├── routing/             # pages.route.ts (pages.*), api.route.ts (apiRoutes.*)
+│   │   ├── routing/             # pages.route.ts (pages.*), api.route.ts (API.*)
 │   │   └── types/               # Nav & config types
 │   ├── hooks/                   # use-action.ts, use-card-modal.ts, use-mobile-sidebar.ts
 │   ├── lib/                     # db.ts (Prisma singleton), create-safe-action.ts, audit-log.ts, utils.ts, fetcher.ts
@@ -103,7 +103,7 @@ const { execute, fieldErrors, isLoading } = useAction(actionName, {
 ### 3. Routing Rules
 - **NEVER hardcode URL strings.**
 - Use `pages.*` from `@/config/routing/pages.route` (`pages.ROOT`, `pages.DASHBOARD(id)`, `pages.BOARD(id)`, `pages.AUTH.*`, etc.).
-- Use `apiRoutes.*` from `@/config/routing/api.route`.
+- Use `API.*` from `@/config/routing/api.route`.
 
 ### 4. Database & Logging
 - Always import Prisma client from `@/lib/db`: `import { db } from "@/lib/db"`.

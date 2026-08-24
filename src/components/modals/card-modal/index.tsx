@@ -9,7 +9,7 @@ import { Description } from "./description";
 import Actions from "./actions";
 import { AuditLog } from "@prisma/client";
 import { Activity } from "./activity";
-import { apiRoutes } from "@/config/routing/api.route";
+import { API } from "@/config/routing/api.route";
 import type { CardWithList } from "@/config/types/main.types";
 
 export function CardModal() {
@@ -19,13 +19,13 @@ export function CardModal() {
 
     const { data: cardData } = useQuery<CardWithList>({
         queryKey: ["card", id],
-        queryFn: () => fetcher(apiRoutes.CARDS.BY_ID(id!)),
+        queryFn: () => fetcher(API.CARDS.BY_ID(id!)),
         enabled: !!id,
     })
 
     const { data: auditLogsData } = useQuery<AuditLog[]>({
         queryKey: ["card-logs", id],
-        queryFn: () => fetcher(apiRoutes.CARDS.LOGS(id!)),
+        queryFn: () => fetcher(API.CARDS.LOGS(id!)),
         enabled: !!id,
     })
 

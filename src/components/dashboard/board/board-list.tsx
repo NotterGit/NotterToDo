@@ -3,11 +3,13 @@ import { Hint } from "@/components/ui/hint";
 import { Skeleton } from "@/components/ui/skeleton";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
-import { Globe, HelpCircle, Presentation } from "lucide-react";
+import { Globe, HelpCircle, Infinity, Presentation } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { MAX_FREE_BOARDS } from "@/config/const/limits.const";
+import { getPlanLimits } from "@/config/const/limits.const";
 import { pages } from "@/config/routing/pages.route";
+import { getUserById } from "@/api/user";
+import { getOrgById } from "@/api/org";
 
 interface BoardListProps {
     orgId?: string
@@ -20,6 +22,10 @@ export default async function BoardList({ orgId: propOrgId }: BoardListProps = {
     if(!orgId) {
         return redirect(pages.SELECT_ORG)
     }
+
+    const isOrg = orgId.startsWith("org_") || Boolean(clerkOrgId && clerkOrgId === orgId);
+    const profile = isOrg ? await getOrgById(orgId) : await getUserById(orgId);
+    const planLimits = getPlanLimits(profile?.premium, isOrg);
 
     const boards = await db.board.findMany({
         where: {
@@ -64,12 +70,21 @@ export default async function BoardList({ orgId: propOrgId }: BoardListProps = {
                     className="aspect-video relative h-full w-full bg-card/50 dark:bg-zinc-900/40 rounded-2xl border border-dashed border-border/80 flex flex-col gap-y-1.5 items-center justify-center hover:bg-card/80 dark:hover:bg-zinc-900/70 hover:scale-[1.02] shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-300"
                 >
                     <p className="text-sm font-semibold">Создать доску</p>
-                    <span className="text-xs text-muted-foreground">
-                        {`Осталось: ${Math.max(0, MAX_FREE_BOARDS - boards.length)}`}
+                    <span className="text-xs text-muted-foreground flex items-center gap-1">
+                        Осталось:{" "}
+                        {planLimits.isUnlimitedBoards ? (
+                            <Infinity className="h-3.5 w-3.5 inline text-muted-foreground" />
+                        ) : (
+                            Math.max(0, planLimits.boards - boards.length)
+                        )}
                     </span>
                     <Hint
                         sideOffset={40}
-                        description={`В бесплатной версии доступно до ${MAX_FREE_BOARDS} досок. Чтобы увеличить лимит, оформите подписку Notter Gem`}
+                        description={
+                            planLimits.isUnlimitedBoards
+                                ? "У вас неограниченное количество досок"
+                                : `На вашем тарифе (${planLimits.name}) доступно до ${planLimits.boards} досок. Чтобы увеличить лимит, оформите подписку Notter Gem`
+                        }
                     >
                         <HelpCircle
                             className="absolute bottom-2.5 right-2.5 h-4 w-4 text-muted-foreground/70 hover:text-muted-foreground transition"

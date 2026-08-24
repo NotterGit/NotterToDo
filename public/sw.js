@@ -1,4 +1,3 @@
-// Service Worker for Notter ToDo PWA
 const CACHE_NAME = 'notter-todo-v1';
 
 self.addEventListener('install', (event) => {
@@ -17,7 +16,6 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Simple pass-through fetch handler required for PWA installability criteria in some browsers
   if (event.request.method !== 'GET') return;
   event.respondWith(
     fetch(event.request).catch(() => caches.match(event.request))
