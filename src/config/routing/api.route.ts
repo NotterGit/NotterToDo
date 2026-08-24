@@ -7,6 +7,9 @@ export const API = {
   AUDIT_LOGS: {
     EXPORT: (orgId: string) => `/api/audit-logs/export?orgId=${orgId}`,
   },
+  BOARDS: {
+    EXPORT: (boardId: string) => `/api/boards/${boardId}/export`,
+  },
   BACKEND: {
     USERS: {
       BY_ID: (_id: string) => `users/by_id/${_id}`,

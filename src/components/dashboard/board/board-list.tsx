@@ -1,6 +1,7 @@
 import { FormPopover } from "@/components/form/form-popover";
 import { Hint } from "@/components/ui/hint";
 import { Skeleton } from "@/components/ui/skeleton";
+import { BoardImportButton } from "./board-import-button";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { Globe, HelpCircle, Infinity, Presentation } from "lucide-react";
@@ -38,9 +39,12 @@ export default async function BoardList({ orgId: propOrgId }: BoardListProps = {
 
   return (
     <div className="space-y-4">
-        <div className="flex items-center font-bold text-lg text-foreground">
-            <Presentation className="h-5 w-5 mr-2 text-muted-foreground"/>
-            Доски
+        <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center font-bold text-lg text-foreground">
+                <Presentation className="h-5 w-5 mr-2 text-muted-foreground"/>
+                Доски
+            </div>
+            <BoardImportButton orgId={orgId} />
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {boards.map((board) => (

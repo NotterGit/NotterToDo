@@ -10,13 +10,17 @@ import { ConfirmModal } from "@/components/modals/confirm-modal";
 import { Separator } from "@/components/ui/separator";
 import { FormPicker } from "@/components/form/form-picker";
 import { FormSubmit } from "@/components/form/form-button";
+import { Hint } from "@/components/ui/hint";
 import { useAction } from "@/hooks/use-action";
 import { useBoardPreview } from "@/hooks/use-board-preview";
+import { useAccountProfile } from "@/hooks/use-account-profile";
+import { isDiamondPlan } from "@/config/const/limits.const";
 import { useAuth } from "@clerk/nextjs";
-import { Check, ChevronLeft, ChevronRight, Copy, ExternalLink, Globe, ImageIcon, Lock, MoreHorizontal, Trash2, X } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Copy, Download, ExternalLink, Globe, ImageIcon, Lock, MoreHorizontal, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { pages } from "@/config/routing/pages.route";
+import { API } from "@/config/routing/api.route";
 import toast from "react-hot-toast";
 import type { BoardOptionsProps } from "@/config/types/main.types";
 
@@ -52,6 +56,43 @@ export default function BoardOptions({
     }, [id])
 
     const targetOrgId = orgId || userId
+    const isOrg = Boolean(orgId)
+    const { data: profile, isLoading: isProfileLoading } = useAccountProfile(targetOrgId, isOrg)
+    const hasDiamond = isDiamondPlan(profile?.premium)
+    const [isExporting, setIsExporting] = useState(false)
+
+    const onExport = async () => {
+        if (isProfileLoading || !hasDiamond) return
+
+        try {
+            setIsExporting(true)
+            const res = await fetch(API.BOARDS.EXPORT(id))
+
+            if (!res.ok) {
+                const errorText = await res.text()
+                throw new Error(errorText || "Не удалось экспортировать доску")
+            }
+
+            const blob = await res.blob()
+            const url = window.URL.createObjectURL(blob)
+            const link = document.createElement("a")
+            link.href = url
+            const dateStr = new Date().toISOString().split("T")[0]
+            link.download = `notter-board-${id}-${dateStr}.json`
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+            window.URL.revokeObjectURL(url)
+
+            toast.success("Доска успешно экспортирована в JSON")
+        } catch (error) {
+            toast.error(
+                error instanceof Error ? error.message : "Ошибка при экспорте доски"
+            )
+        } finally {
+            setIsExporting(false)
+        }
+    }
 
     const { execute: executeDelete, isLoading: isLoadingDelete } = useAction(deleteBoard, {
         onSuccess: () => {
@@ -209,6 +250,35 @@ export default function BoardOptions({
                                         </>
                                     )}
                                 </Button>
+
+                                {hasDiamond ? (
+                                    <Button
+                                        variant="ghost"
+                                        onClick={onExport}
+                                        disabled={isExporting}
+                                        className="rounded-xl w-full h-auto py-2.5 px-3 justify-start font-medium text-sm hover:bg-neutral-500/10 transition-colors text-foreground"
+                                    >
+                                        <Download className="h-4 w-4 mr-2 text-cyan-500" />
+                                        {isExporting ? "Экспорт..." : "Экспорт в JSON"}
+                                    </Button>
+                                ) : (
+                                    <Hint
+                                        side="left"
+                                        sideOffset={6}
+                                        description="Экспорт доступен только на тарифе Diamond"
+                                    >
+                                        <div className="w-full cursor-not-allowed">
+                                            <Button
+                                                variant="ghost"
+                                                disabled
+                                                className="rounded-xl w-full h-auto py-2.5 px-3 justify-start font-medium text-sm disabled:opacity-50 pointer-events-none"
+                                            >
+                                                <Download className="h-4 w-4 mr-2 text-muted-foreground" />
+                                                Экспорт в JSON
+                                            </Button>
+                                        </div>
+                                    </Hint>
+                                )}
                             </div>
 
                             {isPublic && (
