@@ -42,7 +42,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 
         if (!planLimits.isUnlimitedBoards && count >= planLimits.boards) {
             return {
-                error: `Достигнут лимит досок (${planLimits.boards}). Оформите подписку Notter Gem, чтобы увеличить лимит.`
+                error: `Достигнут лимит досок (${planLimits.boards})`
             }
         }
 

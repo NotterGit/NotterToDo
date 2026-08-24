@@ -4,17 +4,20 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useOrganization, useOrganizationList, useUser } from "@clerk/nextjs"
 import { Gem, Globe, Infinity, Presentation, User } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { getPlanLimits } from "@/config/const/limits.const"
+import { links } from "@/config/const/links.const"
 import { useAccountProfile } from "@/hooks/use-account-profile"
 
 interface InfoProps {
     boardCount?: number
+    publicBoardCount?: number
 }
 
-export function Info({ boardCount }: InfoProps = {}) {
+export function Info({ boardCount, publicBoardCount }: InfoProps = {}) {
     const params = useParams()
     const { organization: activeOrg, isLoaded: isLoadedOrg } = useOrganization()
     const { user, isLoaded: isLoadedUser } = useUser()
@@ -43,6 +46,12 @@ export function Info({ boardCount }: InfoProps = {}) {
         ? (user?.imageUrl || "")
         : (currentOrg?.imageUrl || "")
 
+    const identifier = isPersonal
+        ? (user?.username || profile?.username || "")
+        : (currentOrg?.slug || profile?.username || "")
+
+    const profileUrl = identifier ? links.NOTTER_PROFILE(identifier) : undefined
+
     const tariff = planLimits.name
     const accountType = isPersonal ? "Личный профиль" : "Организация"
 
@@ -70,31 +79,47 @@ export function Info({ boardCount }: InfoProps = {}) {
         }
     }
 
+    const avatarContent = (
+        <>
+            {imageUrl ? (
+                <>
+                    {!imageLoaded && (
+                        <Skeleton className="w-full h-full absolute inset-0 rounded-xl" />
+                    )}
+                    <Image 
+                        key={imageUrl}
+                        fill
+                        src={imageUrl}
+                        alt={name || "Organization"}
+                        className={cn(
+                            "rounded-xl object-cover shadow-sm transition-opacity duration-200",
+                            !imageLoaded ? "opacity-0" : "opacity-100"
+                        )}
+                        onLoad={() => setImageLoaded(true)}
+                    />
+                </>
+            ) : (
+                <div className="w-full h-full rounded-xl bg-muted/80 flex items-center justify-center shadow-inner">
+                    <User className="h-6 w-6 text-muted-foreground" />
+                </div>
+            )}
+        </>
+    )
+
     return (
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-white/60 bg-white/70 p-4 sm:p-5 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/50">
             <div className="flex items-center gap-x-4 min-w-0">
                 <div className="w-[60px] h-[60px] relative shrink-0">
-                    {imageUrl ? (
-                        <>
-                            {!imageLoaded && (
-                                <Skeleton className="w-full h-full absolute inset-0 rounded-xl" />
-                            )}
-                            <Image 
-                                key={imageUrl}
-                                fill
-                                src={imageUrl}
-                                alt={name || "Organization"}
-                                className={cn(
-                                    "rounded-xl object-cover shadow-sm transition-opacity duration-200",
-                                    !imageLoaded ? "opacity-0" : "opacity-100"
-                                )}
-                                onLoad={() => setImageLoaded(true)}
-                            />
-                        </>
+                    {profileUrl ? (
+                        <Link
+                            href={profileUrl}
+                            target="_blank"
+                            className="block w-full h-full relative rounded-xl overflow-hidden hover:opacity-80 transition-opacity"
+                        >
+                            {avatarContent}
+                        </Link>
                     ) : (
-                        <div className="w-full h-full rounded-xl bg-muted/80 flex items-center justify-center shadow-inner">
-                            <User className="h-6 w-6 text-muted-foreground" />
-                        </div>
+                        avatarContent
                     )}
                 </div>
                 <div className="space-y-1.5 min-w-0">
@@ -106,9 +131,11 @@ export function Info({ boardCount }: InfoProps = {}) {
                         <Skeleton className="h-7 w-[200px] rounded-lg" />
                     )}
                     <div className="flex flex-wrap items-center gap-2">
-                        <div
+                        <Link
+                            href={links.NOTTER_GEM}
+                            target="_blank"
                             className={cn(
-                                "inline-flex items-center text-xs font-semibold tracking-wide px-2.5 py-1 rounded-xl border transition-colors",
+                                "inline-flex items-center text-xs font-semibold tracking-wide px-2.5 py-1 rounded-xl border transition-colors hover:opacity-80",
                                 tariff === "Amber" &&
                                     "text-amber-600 dark:text-yellow-400 bg-yellow-500/15 dark:bg-yellow-500/10 border-yellow-500/30",
                                 tariff === "Diamond" &&
@@ -126,10 +153,20 @@ export function Info({ boardCount }: InfoProps = {}) {
                                 )}
                             />
                             <span>{tariff}</span>
-                        </div>
-                        <div className="inline-flex items-center text-xs font-medium text-muted-foreground bg-muted/40 dark:bg-zinc-800/40 px-2.5 py-1 rounded-xl border border-border/40">
-                            <span>{accountType}</span>
-                        </div>
+                        </Link>
+                        {profileUrl ? (
+                            <Link
+                                href={profileUrl}
+                                target="_blank"
+                                className="inline-flex items-center text-xs font-medium text-muted-foreground bg-muted/40 dark:bg-zinc-800/40 px-2.5 py-1 rounded-xl border border-border/40 hover:bg-muted/60 dark:hover:bg-zinc-800/60 hover:text-foreground transition-colors"
+                            >
+                                <span>{accountType}</span>
+                            </Link>
+                        ) : (
+                            <div className="inline-flex items-center text-xs font-medium text-muted-foreground bg-muted/40 dark:bg-zinc-800/40 px-2.5 py-1 rounded-xl border border-border/40">
+                                <span>{accountType}</span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -137,7 +174,7 @@ export function Info({ boardCount }: InfoProps = {}) {
             <div className="flex flex-wrap items-center gap-2 sm:self-center pt-2 sm:pt-0 border-t sm:border-t-0 border-border/40">
                 <div className="flex items-center gap-x-2 text-xs bg-muted/50 dark:bg-zinc-800/50 px-3 py-2 rounded-xl border border-border/50 shadow-xs">
                     <Presentation className="h-4 w-4 text-muted-foreground shrink-0" />
-                    <span className="text-muted-foreground">Лимит досок:</span>
+                    <span className="text-muted-foreground">Досок:</span>
                     <span className="font-semibold text-foreground flex items-center gap-1">
                         {boardCount !== undefined ? (
                             planLimits.isUnlimitedBoards ? (
@@ -159,10 +196,10 @@ export function Info({ boardCount }: InfoProps = {}) {
 
                 <div className="flex items-center gap-x-2 text-xs bg-muted/50 dark:bg-zinc-800/50 px-3 py-2 rounded-xl border border-border/50 shadow-xs">
                     <Globe className="h-4 w-4 text-muted-foreground shrink-0" />
-                    <span className="text-muted-foreground">Лимит публичных досок:</span>
+                    <span className="text-muted-foreground">Публичных досок:</span>
                     <span className="font-semibold text-foreground">
-                        {boardCount !== undefined
-                            ? `${boardCount} / ${planLimits.publicBoards}`
+                        {publicBoardCount !== undefined
+                            ? `${publicBoardCount} / ${planLimits.publicBoards}`
                             : `до ${planLimits.publicBoards}`}
                     </span>
                 </div>

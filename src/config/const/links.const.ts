@@ -5,4 +5,5 @@ export const links = {
   QUAL_ID: "https://id.qual.su",
   NOTTER: "https://notter.su",
   NOTTER_GEM: "https://gem.notter.su",
+  NOTTER_PROFILE: (username: string) => `${links.NOTTER}/profile/${username}`
 } as const;
