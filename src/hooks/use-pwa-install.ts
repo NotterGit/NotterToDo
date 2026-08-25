@@ -95,7 +95,7 @@ export function usePwaInstall() {
   return {
     promptInstall,
     isStandalone,
-    isInstallable: !!(deferredPrompt || (typeof window !== "undefined" && window.__deferredPwaPrompt)),
+    isInstallable: !isStandalone && Boolean(deferredPrompt || (typeof window !== "undefined" && window.__deferredPwaPrompt)),
   };
 }
 

@@ -6,11 +6,14 @@ import { ChevronRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { images } from "@/config/const/image.const";
 import { pages } from "@/config/routing/pages.route";
+import { useAuth } from "@clerk/nextjs";
 
 import { usePwaInstall } from "@/hooks/use-pwa-install";
 
 export function Heading() {
-  const { promptInstall, isStandalone } = usePwaInstall();
+  const { promptInstall, isInstallable } = usePwaInstall();
+  const { userId, orgId } = useAuth();
+  const dashboardHref = pages.DASHBOARD(orgId || userId || undefined);
 
   return (
     <section className="grid items-center gap-8 px-4 pt-12 md:grid-cols-2">
@@ -27,22 +30,24 @@ export function Heading() {
         </p>
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
-          <Link href={pages.DASHBOARD()}>
+          <Link href={dashboardHref}>
             <Button size="lg">
               Перейти в ToDo <ChevronRight className="h-4 w-4" />
             </Button>
           </Link>
 
-          <Button
-            variant="outline"
-            size="lg"
-            className="gap-2"
-            type="button"
-            onClick={promptInstall}
-            aria-label="Установить Notter ToDo"
-          >
-            {isStandalone ? "Установлено" : "Установить"} <Download className="h-4 w-4" />
-          </Button>
+          {isInstallable && (
+            <Button
+              variant="outline"
+              size="lg"
+              className="gap-2"
+              type="button"
+              onClick={promptInstall}
+              aria-label="Установить Notter ToDo"
+            >
+              Установить <Download className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </div>
 

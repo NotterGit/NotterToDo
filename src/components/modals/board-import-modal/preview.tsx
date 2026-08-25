@@ -4,7 +4,7 @@ import { CheckCircle2, X, Layers, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { ParsedBoardData } from "./types";
+import type { ParsedBoardData } from "@/config/types/modals.types";
 
 interface BoardImportPreviewProps {
   file: File | null;

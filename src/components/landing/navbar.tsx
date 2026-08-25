@@ -1,5 +1,7 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, UserButton, useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { images } from "@/config/const/image.const";
@@ -7,6 +9,9 @@ import { pages } from "@/config/routing/pages.route";
 import { ModeToggle } from "../ui/mode-toggle";
 
 export function Navbar() {
+  const { userId, orgId } = useAuth();
+  const dashboardHref = pages.DASHBOARD(orgId || userId || undefined);
+
   return (
     <nav className="fixed top-0 w-full h-14 px-4 sm:px-6 border-b border-border bg-background/80 backdrop-blur-md shadow-sm flex items-center z-50">
         <div className="md:max-w-screen-2xl mx-auto flex items-center w-full justify-between">
@@ -15,7 +20,7 @@ export function Navbar() {
             </Link>
             <div className="flex items-center gap-x-3">
                 <SignedIn>
-                    <Link href={pages.DASHBOARD()}>
+                    <Link href={dashboardHref}>
                         <Button variant="ghost">Перейти</Button>
                     </Link>
                     <UserButton />
@@ -30,5 +35,5 @@ export function Navbar() {
             </div>
         </div>
     </nav>
-  )
+  );
 }
