@@ -2,7 +2,13 @@ import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs/server"
 import { ENTITY_TYPE } from "@prisma/client"
 import { NextResponse } from "next/server"
-import { AUDIT_LOG_LIMIT } from "@/config/const/limits.const"
+import {
+  FREE_CARD_AUDIT_LOG_LIMIT,
+  EXTENDED_CARD_AUDIT_LOG_LIMIT,
+  hasExtendedAuditLog,
+} from "@/config/const/limits.const"
+import { getUserById } from "@/api/user"
+import { getOrgById } from "@/api/org"
 
 export async function GET(
   request: Request,
@@ -45,16 +51,22 @@ export async function GET(
       return new NextResponse("Unauthorized", { status: 401 })
     }
 
+    const boardOrgId = card.list.board.orgId
+    const isOrg = boardOrgId.startsWith("org_")
+    const profile = isOrg ? await getOrgById(boardOrgId) : await getUserById(boardOrgId)
+    const isExtended = hasExtendedAuditLog(profile?.premium)
+    const takeLimit = isExtended ? EXTENDED_CARD_AUDIT_LOG_LIMIT : FREE_CARD_AUDIT_LOG_LIMIT
+
     const auditLogs = await db.auditLog.findMany({
       where: {
-        orgId: card.list.board.orgId,
+        orgId: boardOrgId,
         entityId: cardId,
         entityType: ENTITY_TYPE.CARD
       },
       orderBy: {
         createdAt: "desc"
       },
-      take: AUDIT_LOG_LIMIT
+      take: takeLimit
     })
 
     return NextResponse.json(auditLogs)

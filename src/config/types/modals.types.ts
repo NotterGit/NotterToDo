@@ -11,7 +11,9 @@ export interface DescriptionProps {
 
 export interface ActivityProps {
   items: AuditLog[];
+  isExtended?: boolean;
 }
+
 
 export interface ActionsProps {
   data: CardWithList;

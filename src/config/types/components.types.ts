@@ -69,4 +69,14 @@ export interface HintProps {
 
 export interface ActivityItemProps {
   data: AuditLog;
+  extended?: boolean;
 }
+
+export interface ActivityFiltersState {
+  search: string;
+  entityType: string;
+  action: string;
+  dateRange: string;
+}
+
+

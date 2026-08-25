@@ -1,6 +1,9 @@
 export const MAX_FREE_BOARDS = 5;
 export const MAX_FREE_PUBLIC_BOARDS = 3;
 export const AUDIT_LOG_LIMIT = 3;
+export const FREE_AUDIT_LOG_LIMIT = 20;
+export const FREE_CARD_AUDIT_LOG_LIMIT = 3;
+export const EXTENDED_CARD_AUDIT_LOG_LIMIT = 50;
 
 export interface PlanLimits {
   name: "Free" | "Amber" | "Diamond";
@@ -61,4 +64,9 @@ export const getPlanLimits = (
 export const isDiamondPlan = (premium?: number | null): boolean => {
   return premium === 2;
 };
+
+export const hasExtendedAuditLog = (premium?: number | null): boolean => {
+  return premium === 1 || premium === 2;
+};
+
 

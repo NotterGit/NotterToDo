@@ -11,6 +11,8 @@ import { AuditLog } from "@prisma/client";
 import { Activity } from "./activity";
 import { API } from "@/config/routing/api.route";
 import type { CardWithList } from "@/config/types/main.types";
+import { useAccountProfile } from "@/hooks/use-account-profile";
+import { hasExtendedAuditLog } from "@/config/const/limits.const";
 
 export function CardModal() {
     const id = useCardModal((state) => state.id)
@@ -22,6 +24,11 @@ export function CardModal() {
         queryFn: () => fetcher(API.CARDS.BY_ID(id!)),
         enabled: !!id,
     })
+
+    const orgId = cardData?.list?.board?.orgId
+    const isOrg = orgId?.startsWith("org_") ?? false
+    const { data: profile } = useAccountProfile(orgId, isOrg)
+    const isExtended = hasExtendedAuditLog(profile?.premium)
 
     const { data: auditLogsData } = useQuery<AuditLog[]>({
         queryKey: ["card-logs", id],
@@ -49,7 +56,7 @@ export function CardModal() {
                         }
                         {!auditLogsData
                             ? <Activity.Skeleton />
-                            : <Activity items={auditLogsData} />
+                            : <Activity items={auditLogsData} isExtended={isExtended} />
                         }
                         </div>
                     </div>

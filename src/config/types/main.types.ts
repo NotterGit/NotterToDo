@@ -2,7 +2,17 @@ import type { Board, Card, List } from "@prisma/client";
 import type * as React from "react";
 
 export type ListWithCards = List & { cards: Card[] };
-export type CardWithList = Card & { list: List; canEdit?: boolean };
+export type CardWithList = Card & {
+  list: {
+    title: string;
+    board?: {
+      orgId: string;
+      public: boolean;
+    };
+  };
+  canEdit?: boolean;
+};
+
 
 export type Organization = {
   id: string;
