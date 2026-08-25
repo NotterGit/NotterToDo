@@ -1,4 +1,4 @@
-import { API_BASE_URL, API_TIMEOUT } from "@/config/const/api.const";
+import { API_BASE_URL, API_TIMEOUT, S3_BASE_URL, S3_TIMEOUT } from "@/config/const/api.const";
 import ky, { HTTPError, Options } from "ky";
 
 let clerkTokenGetter: (() => Promise<string | null>) | null = null;
@@ -7,6 +7,15 @@ export const setClerkTokenGetter = (
   getter: (() => Promise<string | null>) | null
 ) => {
   clerkTokenGetter = getter;
+};
+
+export const getClerkToken = async (): Promise<string | null> => {
+  if (!clerkTokenGetter) return null;
+  try {
+    return await clerkTokenGetter();
+  } catch {
+    return null;
+  }
 };
 
 const normalizePath = (path: string): string => {
@@ -31,7 +40,31 @@ export const Client = ky.create({
               request.headers.set("Authorization", `Bearer ${token}`);
             }
           } catch {
-            // Unauthenticated request fallback
+          }
+        }
+      },
+    ],
+  },
+});
+
+export const S3Client = ky.create({
+  prefix: S3_BASE_URL,
+  timeout: S3_TIMEOUT,
+  retry: {
+    limit: 1,
+    methods: ["get"],
+    statusCodes: [408, 500, 502, 503, 504],
+  },
+  hooks: {
+    beforeRequest: [
+      async ({ request }) => {
+        if (clerkTokenGetter && !request.headers.get("Authorization")) {
+          try {
+            const token = await clerkTokenGetter();
+            if (token) {
+              request.headers.set("Authorization", `Bearer ${token}`);
+            }
+          } catch {
           }
         }
       },

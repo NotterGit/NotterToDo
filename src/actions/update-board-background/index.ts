@@ -9,6 +9,9 @@ import { UpdateBoardBackground } from "./schema"
 import { createAuditLog } from "@/lib/audit-log"
 import { ACTION, ENTITY_TYPE } from "@prisma/client"
 import { pages } from "@/config/routing/pages.route"
+import { hasCustomBackgrounds } from "@/config/const/limits.const"
+import { getUserById } from "@/api/user"
+import { getOrgById } from "@/api/org"
 
 const handler = async (data: InputType): Promise<ReturnType> => {
     const { userId, orgId: clerkOrgId } = await auth()
@@ -25,6 +28,18 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     let board
 
     try {
+        const isCustomImage = image && !image.startsWith("/bg/")
+        if (isCustomImage) {
+            const isOrg = orgId.startsWith("org_") || Boolean(clerkOrgId && clerkOrgId === orgId)
+            const profile = isOrg ? await getOrgById(orgId) : await getUserById(orgId)
+
+            if (!hasCustomBackgrounds(profile?.premium)) {
+                return {
+                    error: "Загрузка собственных фонов доступна только на тарифах Notter Gem (Amber и Diamond)"
+                }
+            }
+        }
+
         const existingBoard = await db.board.findUnique({
             where: { id }
         })

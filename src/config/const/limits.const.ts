@@ -65,7 +65,20 @@ export const isDiamondPlan = (premium?: number | null): boolean => {
   return premium === 2;
 };
 
+export const MAX_UPLOAD_SIZE_MB = 2;
+export const MAX_UPLOAD_SIZE_BYTES = MAX_UPLOAD_SIZE_MB * 1024 * 1024;
+export const ALLOWED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+] as const;
+
 export const hasExtendedAuditLog = (premium?: number | null): boolean => {
+  return premium === 1 || premium === 2;
+};
+
+export const hasCustomBackgrounds = (premium?: number | null): boolean => {
   return premium === 1 || premium === 2;
 };
 

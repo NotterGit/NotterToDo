@@ -10,7 +10,7 @@ import { createAuditLog } from "@/lib/audit-log"
 import { ACTION, ENTITY_TYPE } from "@prisma/client"
 import { pages } from "@/config/routing/pages.route"
 import { defaultBgImage } from "@/config/const/banner-images.const"
-import { getPlanLimits } from "@/config/const/limits.const"
+import { getPlanLimits, hasCustomBackgrounds } from "@/config/const/limits.const"
 import { getUserById } from "@/api/user"
 import { getOrgById } from "@/api/org"
 
@@ -33,6 +33,13 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         const isOrg = orgId.startsWith("org_") || Boolean(clerkOrgId && clerkOrgId === orgId)
         const profile = isOrg ? await getOrgById(orgId) : await getUserById(orgId)
         const planLimits = getPlanLimits(profile?.premium, isOrg)
+
+        const isCustomImage = boardImage && !boardImage.startsWith("/bg/")
+        if (isCustomImage && !hasCustomBackgrounds(profile?.premium)) {
+            return {
+                error: "Загрузка собственных фонов доступна только на тарифах Notter Gem (Amber и Diamond)"
+            }
+        }
 
         const count = await db.board.count({
             where: {

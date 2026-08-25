@@ -6,6 +6,14 @@ const nextConfig = {
             {
                 protocol: "https",
                 hostname: "img.clerk.com",
+            },
+            {
+                protocol: "https",
+                hostname: "db.api.qual.su",
+            },
+            {
+                protocol: "http",
+                hostname: "localhost",
             }
         ]
     }

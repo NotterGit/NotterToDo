@@ -70,3 +70,13 @@ export interface BoardStats {
   boards: number;
   publicBoards: number;
 }
+
+export interface S3UploadResponse {
+  filename: string;
+  key: string;
+  url: string;
+}
+
+export interface S3DeleteResponse {
+  deleted: boolean;
+}
