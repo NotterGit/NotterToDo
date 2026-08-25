@@ -26,11 +26,20 @@ export function Activity({
                         </span>
                     )}
                 </div>
-                <ol className="space-y-2.5">
-                    {items.map((item) => (
-                        <ActivityItem key={item.id} data={item} extended={isExtended} />
-                    ))}
-                </ol>
+
+                <div className="rounded-xl border border-border/40 bg-muted/20 p-2 sm:p-2.5 max-h-64 sm:max-h-72 overflow-y-auto space-y-2">
+                    {items.length === 0 ? (
+                        <div className="py-6 text-center text-xs text-muted-foreground">
+                            Нет записей о действиях
+                        </div>
+                    ) : (
+                        <ol className="space-y-2">
+                            {items.map((item) => (
+                                <ActivityItem key={item.id} data={item} extended={isExtended} />
+                            ))}
+                        </ol>
+                    )}
+                </div>
 
                 {!isExtended && items.length >= 3 && (
                     <div className="flex items-center justify-between gap-2 p-2.5 rounded-xl border border-yellow-500/20 bg-yellow-500/5 text-xs text-muted-foreground">
@@ -54,11 +63,16 @@ export function Activity({
 
 Activity.Skeleton = function ActivitySkeleton() {
     return (
-        <div className="flex items-center gap-x-3 w-full">
-            <Skeleton className="h-6 w-6"/>
-            <div className="w-full space-y-2">
-                <Skeleton className="w-24 h-6"/>
-                <Skeleton className="w-full h-10"/>
+        <div className="flex items-start gap-x-3 w-full">
+            <Skeleton className="h-5 w-5 mt-0.5 rounded-md shrink-0"/>
+            <div className="w-full space-y-3">
+                <div className="flex items-center justify-between">
+                    <Skeleton className="w-24 h-5 rounded-md"/>
+                </div>
+                <div className="rounded-xl border border-border/40 bg-muted/20 p-2 sm:p-2.5 space-y-2">
+                    <Skeleton className="w-full h-14 rounded-lg"/>
+                    <Skeleton className="w-full h-14 rounded-lg"/>
+                </div>
             </div>
         </div>
     )
