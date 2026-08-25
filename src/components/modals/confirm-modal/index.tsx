@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 
-interface ConfirmModalProps {
+export interface ConfirmModalProps {
   isOpen: boolean
   onClose: () => void
   onConfirm: () => void

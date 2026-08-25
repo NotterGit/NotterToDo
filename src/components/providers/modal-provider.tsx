@@ -1,8 +1,6 @@
 "use client"
 
-import { CardModal } from "@/components/modals/card-modal";
-import { OrgModal } from "@/components/modals/org-modal";
-import { SettingsModal } from "@/components/modals/settings-modal";
+import { CardModal, OrgModal, SettingsModal } from "@/components/modals";
 import { useEffect, useState } from "react";
 
 export function ModalProvider() {
