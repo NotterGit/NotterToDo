@@ -11,7 +11,7 @@ model Board {
   id        String   @id @default(uuid())
   orgId     String
   title     String
-  image     String   @default("/bg/bg_1.jpg")
+  image     String   @default("/bg/bg_1.jpg") @db.Text
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
   lists     List[]

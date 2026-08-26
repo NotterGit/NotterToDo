@@ -14,6 +14,22 @@ const nextConfig = {
             {
                 protocol: "http",
                 hostname: "localhost",
+            },
+            {
+                protocol: "https",
+                hostname: "storage.yandexcloud.net",
+            },
+            {
+                protocol: "https",
+                hostname: "*.storage.yandexcloud.net",
+            },
+            {
+                protocol: "https",
+                hostname: "*.qual.su",
+            },
+            {
+                protocol: "https",
+                hostname: "*.notter.su",
             }
         ]
     }
