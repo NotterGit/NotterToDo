@@ -9,12 +9,12 @@ import { CreateCard } from "./schema";
 import { createAuditLog } from "@/lib/audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { pages } from "@/config/routing/pages.route";
+import { checkOrgAccess } from "@/lib/org-access";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId: clerkOrgId } = await auth()
-  const orgId = clerkOrgId || userId
 
-  if (!userId || !orgId) {
+  if (!userId) {
     return {
       error: "Не авторизован"
     }
@@ -28,15 +28,22 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     const list = await db.list.findUnique({
       where: {
         id: listId,
-        board: {
-          orgId
-        }
+      },
+      include: {
+        board: true,
       }
     })
 
     if (!list) {
       return {
         error: "Список не найден"
+      }
+    }
+
+    const hasAccess = await checkOrgAccess(list.board.orgId, userId, clerkOrgId)
+    if (!hasAccess) {
+      return {
+        error: "Недостаточно прав"
       }
     }
 
@@ -61,7 +68,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       entityId: card.id,
       entityTitle: card.title,
       entityType: ENTITY_TYPE.CARD,
-      action: ACTION.CREATE
+      action: ACTION.CREATE,
+      orgId: list.board.orgId,
     })
   } catch {
     return {

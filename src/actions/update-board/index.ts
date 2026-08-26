@@ -9,12 +9,12 @@ import { UpdateBoard } from "./schema";
 import { createAuditLog } from "@/lib/audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { pages } from "@/config/routing/pages.route";
+import { checkOrgAccess } from "@/lib/org-access";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId: clerkOrgId } = await auth()
-  const orgId = clerkOrgId || userId
 
-  if (!userId || !orgId) {
+  if (!userId) {
     return {
       error: "Не авторизован"
     }
@@ -25,10 +25,26 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   let board
 
   try {
+    const existingBoard = await db.board.findUnique({
+      where: { id }
+    })
+
+    if (!existingBoard) {
+      return {
+        error: "Доска не найдена"
+      }
+    }
+
+    const hasAccess = await checkOrgAccess(existingBoard.orgId, userId, clerkOrgId)
+    if (!hasAccess) {
+      return {
+        error: "Недостаточно прав"
+      }
+    }
+
     board = await db.board.update({
         where: {
             id,
-            orgId
         },
         data: {
             title
@@ -39,7 +55,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       entityId: board.id,
       entityTitle: board.title,
       entityType: ENTITY_TYPE.BOARD,
-      action: ACTION.UPDATE
+      action: ACTION.UPDATE,
+      orgId: board.orgId,
     })
   } catch {
     return {

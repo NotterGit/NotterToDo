@@ -9,12 +9,12 @@ import { CopyList } from "./schema";
 import { createAuditLog } from "@/lib/audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { pages } from "@/config/routing/pages.route";
+import { checkOrgAccess } from "@/lib/org-access";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId: clerkOrgId } = await auth()
-  const orgId = clerkOrgId || userId
 
-  if (!userId || !orgId) {
+  if (!userId) {
     return {
       error: "Не авторизован"
     }
@@ -28,23 +28,26 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       where: {
         id,
         boardId,
-        board: {
-          orgId,
-        }
       },
       include: {
-        cards: true
+        cards: true,
+        board: true,
       }
     })
 
     if (!listToCopy) {
       return { error: "Список не найден" }
     }
+
+    const hasAccess = await checkOrgAccess(listToCopy.board.orgId, userId, clerkOrgId)
+    if (!hasAccess) {
+      return { error: "Недостаточно прав" }
+    }
     
     const lastList = await db.list.findFirst({
-      where: {boardId: boardId},
-      orderBy: {order: "desc"},
-      select: {order: true}
+      where: { boardId: boardId },
+      orderBy: { order: "desc" },
+      select: { order: true }
     })
 
     const newOrder = lastList ? lastList.order + 1 : 1
@@ -73,7 +76,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       entityId: list.id,
       entityTitle: list.title,
       entityType: ENTITY_TYPE.LIST,
-      action: ACTION.CREATE
+      action: ACTION.CREATE,
+      orgId: listToCopy.board.orgId,
     })
   } catch {
     return {

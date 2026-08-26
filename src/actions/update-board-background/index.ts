@@ -12,12 +12,12 @@ import { pages } from "@/config/routing/pages.route"
 import { hasCustomBackgrounds } from "@/config/const/limits.const"
 import { getUserById } from "@/api/user"
 import { getOrgById } from "@/api/org"
+import { checkOrgAccess } from "@/lib/org-access"
 
 const handler = async (data: InputType): Promise<ReturnType> => {
     const { userId, orgId: clerkOrgId } = await auth()
-    const orgId = clerkOrgId || userId
 
-    if (!userId || !orgId) {
+    if (!userId) {
         return {
             error: "Не авторизован"
         }
@@ -28,18 +28,6 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     let board
 
     try {
-        const isCustomImage = image && !image.startsWith("/bg/")
-        if (isCustomImage) {
-            const isOrg = orgId.startsWith("org_") || Boolean(clerkOrgId && clerkOrgId === orgId)
-            const profile = isOrg ? await getOrgById(orgId) : await getUserById(orgId)
-
-            if (!hasCustomBackgrounds(profile?.premium)) {
-                return {
-                    error: "Загрузка собственных фонов доступна только на тарифах Notter Gem (Amber и Diamond)"
-                }
-            }
-        }
-
         const existingBoard = await db.board.findUnique({
             where: { id }
         })
@@ -50,14 +38,24 @@ const handler = async (data: InputType): Promise<ReturnType> => {
             }
         }
 
-        const hasAccess =
-            existingBoard.orgId === orgId ||
-            existingBoard.orgId === clerkOrgId ||
-            existingBoard.orgId === userId
+        const hasAccess = await checkOrgAccess(existingBoard.orgId, userId, clerkOrgId)
 
         if (!hasAccess) {
             return {
                 error: "Недостаточно прав для изменения доски"
+            }
+        }
+
+        const isCustomImage = image && !image.startsWith("/bg/")
+        if (isCustomImage) {
+            const boardOrgId = existingBoard.orgId
+            const isOrg = boardOrgId.startsWith("org_")
+            const profile = isOrg ? await getOrgById(boardOrgId) : await getUserById(boardOrgId)
+
+            if (!hasCustomBackgrounds(profile?.premium)) {
+                return {
+                    error: "Загрузка собственных фонов доступна только на тарифах Notter Gem (Amber и Diamond)"
+                }
             }
         }
 
@@ -72,7 +70,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
             entityId: board.id,
             entityTitle: board.title,
             entityType: ENTITY_TYPE.BOARD,
-            action: ACTION.UPDATE
+            action: ACTION.UPDATE,
+            orgId: existingBoard.orgId,
         })
     } catch (error) {
         console.error("[UPDATE_BOARD_BACKGROUND_ERROR]", error)

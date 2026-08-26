@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { checkOrgAccess } from "@/lib/org-access";
 
 export async function GET(
     req: Request,
@@ -9,7 +10,6 @@ export async function GET(
     try {
         const { cardId } = await params
         const { userId, orgId: clerkOrgId } = await auth()
-        const orgId = clerkOrgId || userId
 
         const card = await db.card.findUnique({
             where: {
@@ -34,11 +34,7 @@ export async function GET(
             return new NextResponse("Card not found", { status: 404 })
         }
 
-        const canEdit = !!(
-            (orgId && card.list.board.orgId === orgId) ||
-            (userId && card.list.board.orgId === userId) ||
-            (clerkOrgId && card.list.board.orgId === clerkOrgId)
-        )
+        const canEdit = userId ? await checkOrgAccess(card.list.board.orgId, userId, clerkOrgId) : false
 
         if (!canEdit && !card.list.board.public) {
             return new NextResponse("Unauthorized", { status: 401 })

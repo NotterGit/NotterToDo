@@ -9,6 +9,7 @@ import {
 } from "@/config/const/limits.const"
 import { getUserById } from "@/api/user"
 import { getOrgById } from "@/api/org"
+import { checkOrgAccess } from "@/lib/org-access"
 
 export async function GET(
   request: Request,
@@ -17,7 +18,6 @@ export async function GET(
   try {
     const { cardId } = await params
     const { userId, orgId: clerkOrgId } = await auth()
-    const orgId = clerkOrgId || userId
 
     const card = await db.card.findUnique({
       where: {
@@ -41,11 +41,8 @@ export async function GET(
       return new NextResponse("Card not found", { status: 404 })
     }
 
-    const canView =
-      (orgId && card.list.board.orgId === orgId) ||
-      (userId && card.list.board.orgId === userId) ||
-      (clerkOrgId && card.list.board.orgId === clerkOrgId) ||
-      card.list.board.public
+    const hasAccess = userId ? await checkOrgAccess(card.list.board.orgId, userId, clerkOrgId) : false
+    const canView = hasAccess || card.list.board.public
 
     if (!canView) {
       return new NextResponse("Unauthorized", { status: 401 })

@@ -5,6 +5,7 @@ import { getUserById } from "@/api/user";
 import { getOrgById } from "@/api/org";
 import { isDiamondPlan } from "@/config/const/limits.const";
 import { generateAuditLogCsv } from "@/lib/audit-log-csv";
+import { checkOrgAccess } from "@/lib/org-access";
 import { format } from "date-fns";
 
 export async function GET(request: Request) {
@@ -18,7 +19,7 @@ export async function GET(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const hasAccess = orgId === userId || orgId === clerkOrgId;
+    const hasAccess = await checkOrgAccess(orgId, userId, clerkOrgId);
     if (!hasAccess) {
       return new NextResponse("Forbidden", { status: 403 });
     }

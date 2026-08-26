@@ -3,7 +3,9 @@ import { auth } from "@clerk/nextjs/server"
 import { notFound, redirect } from "next/navigation"
 import BoardNav from "@/components/dashboard/board/board-nav"
 import { BoardBackground } from "@/components/dashboard/board/board-background"
+import { OrgControl } from "@/components/dashboard/org-control"
 import { pages } from "@/config/routing/pages.route"
+import { checkOrgAccess } from "@/lib/org-access"
 import type { BoardIdPageProps } from "@/config/types/main.types"
 
 export async function generateMetadata({
@@ -11,7 +13,6 @@ export async function generateMetadata({
 }: BoardIdPageProps) {
     const { boardId } = await params
     const { userId, orgId: clerkOrgId } = await auth()
-    const orgId = clerkOrgId || userId
 
     const board = await db.board.findUnique({
         where: {
@@ -25,11 +26,7 @@ export async function generateMetadata({
         }
     }
 
-    const isAuthorized = !!(
-        (orgId && board.orgId === orgId) ||
-        (userId && board.orgId === userId) ||
-        (clerkOrgId && board.orgId === clerkOrgId)
-    )
+    const isAuthorized = userId ? await checkOrgAccess(board.orgId, userId, clerkOrgId) : false
     if (!isAuthorized && !board.public) {
         return {
             title: "Доска"
@@ -49,7 +46,6 @@ export default async function OrganizationIdLayout({
 }) {
     const { boardId } = await params
     const { userId, orgId: clerkOrgId } = await auth()
-    const orgId = clerkOrgId || userId
 
     const board = await db.board.findUnique({
         where: {
@@ -57,18 +53,14 @@ export default async function OrganizationIdLayout({
         }
     })
 
-    if(!board) {
+    if (!board) {
         notFound()
     }
 
-    const isOwner = !!(
-        (orgId && board.orgId === orgId) ||
-        (userId && board.orgId === userId) ||
-        (clerkOrgId && board.orgId === clerkOrgId)
-    )
+    const isOwner = userId ? await checkOrgAccess(board.orgId, userId, clerkOrgId) : false
 
     if (!isOwner && !board.public) {
-        if (!orgId) {
+        if (!userId) {
             redirect(pages.AUTH.SIGN_IN)
         }
         notFound()
@@ -76,6 +68,7 @@ export default async function OrganizationIdLayout({
 
     return (
         <BoardBackground image={board.image}>
+            <OrgControl orgId={board.orgId} />
             <BoardNav data={board} isReadOnly={!isOwner} />
             <main className="relative pt-28 h-full">
                 {children}

@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 import { notFound, redirect } from "next/navigation";
 import { ListContainer } from "@/components/dashboard/list/list-container";
 import { pages } from "@/config/routing/pages.route";
+import { checkOrgAccess } from "@/lib/org-access";
 import type { BoardIdPageProps } from "@/config/types/main.types";
 
 export default async function BoardIdPage({
@@ -10,7 +11,6 @@ export default async function BoardIdPage({
 }: BoardIdPageProps) {
   const { boardId } = await params;
   const { userId, orgId: clerkOrgId } = await auth();
-  const orgId = clerkOrgId || userId;
 
   const board = await db.board.findUnique({
     where: {
@@ -22,14 +22,10 @@ export default async function BoardIdPage({
     notFound();
   }
 
-  const isOwner = !!(
-    (orgId && board.orgId === orgId) ||
-    (userId && board.orgId === userId) ||
-    (clerkOrgId && board.orgId === clerkOrgId)
-  );
+  const isOwner = userId ? await checkOrgAccess(board.orgId, userId, clerkOrgId) : false;
 
   if (!isOwner && !board.public) {
-    if (!orgId) {
+    if (!userId) {
       redirect(pages.AUTH.SIGN_IN);
     }
     notFound();

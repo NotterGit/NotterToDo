@@ -23,4 +23,5 @@ export interface CreateAuditLogProps {
   entityType: ENTITY_TYPE;
   entityTitle: string;
   action: ACTION;
+  orgId?: string;
 }

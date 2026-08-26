@@ -9,12 +9,12 @@ import { DeleteCard } from "./schema";
 import { createAuditLog } from "@/lib/audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { pages } from "@/config/routing/pages.route";
+import { checkOrgAccess } from "@/lib/org-access";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId: clerkOrgId } = await auth()
-  const orgId = clerkOrgId || userId
 
-  if (!userId || !orgId) {
+  if (!userId) {
     return {
       error: "Не авторизован"
     }
@@ -24,14 +24,35 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   let card
 
   try {
+    const existingCard = await db.card.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        list: {
+          include: {
+            board: true,
+          }
+        }
+      }
+    })
+
+    if (!existingCard) {
+      return {
+        error: "Карточка не найдена"
+      }
+    }
+
+    const hasAccess = await checkOrgAccess(existingCard.list.board.orgId, userId, clerkOrgId)
+    if (!hasAccess) {
+      return {
+        error: "Недостаточно прав"
+      }
+    }
+
     card = await db.card.delete({
       where: {
         id,
-        list: {
-          board: {
-            orgId,
-          }
-        }
       }
     })
 
@@ -39,7 +60,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       entityId: card.id,
       entityTitle: card.title,
       entityType: ENTITY_TYPE.CARD,
-      action: ACTION.DELETE
+      action: ACTION.DELETE,
+      orgId: existingCard.list.board.orgId,
     })
   } catch {
     return {

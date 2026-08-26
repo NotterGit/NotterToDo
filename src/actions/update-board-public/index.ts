@@ -12,12 +12,12 @@ import { pages } from "@/config/routing/pages.route";
 import { getPlanLimits } from "@/config/const/limits.const";
 import { getUserById } from "@/api/user";
 import { getOrgById } from "@/api/org";
+import { checkOrgAccess } from "@/lib/org-access";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId: clerkOrgId } = await auth()
-  const orgId = clerkOrgId || userId
 
-  if (!userId || !orgId) {
+  if (!userId) {
     return {
       error: "Не авторизован"
     }
@@ -38,10 +38,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       }
     }
 
-    const hasAccess =
-      existingBoard.orgId === orgId ||
-      existingBoard.orgId === clerkOrgId ||
-      existingBoard.orgId === userId
+    const hasAccess = await checkOrgAccess(existingBoard.orgId, userId, clerkOrgId)
 
     if (!hasAccess) {
       return {
@@ -51,7 +48,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 
     if (isPublic && !existingBoard.public) {
       const boardOrgId = existingBoard.orgId
-      const isOrg = boardOrgId.startsWith("org_") || Boolean(clerkOrgId && clerkOrgId === boardOrgId)
+      const isOrg = boardOrgId.startsWith("org_")
       const profile = isOrg ? await getOrgById(boardOrgId) : await getUserById(boardOrgId)
       const planLimits = getPlanLimits(profile?.premium, isOrg)
 
@@ -82,7 +79,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       entityId: board.id,
       entityTitle: board.title,
       entityType: ENTITY_TYPE.BOARD,
-      action: ACTION.UPDATE
+      action: ACTION.UPDATE,
+      orgId: existingBoard.orgId,
     })
   } catch (error) {
     console.error("[UPDATE_BOARD_PUBLIC_ERROR]", error)

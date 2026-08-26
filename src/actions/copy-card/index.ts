@@ -9,12 +9,12 @@ import { CopyCard } from "./schema";
 import { createAuditLog } from "@/lib/audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { pages } from "@/config/routing/pages.route";
+import { checkOrgAccess } from "@/lib/org-access";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId: clerkOrgId } = await auth()
-  const orgId = clerkOrgId || userId
 
-  if (!userId || !orgId) {
+  if (!userId) {
     return {
       error: "Не авторизован"
     }
@@ -27,16 +27,23 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     const cardToCopy = await db.card.findUnique({
       where: {
         id,
+      },
+      include: {
         list: {
-          board: {
-            orgId,
-          },
+          include: {
+            board: true,
+          }
         }
       }
     })
 
     if (!cardToCopy) {
       return { error: "Карточка не найдена" }
+    }
+
+    const hasAccess = await checkOrgAccess(cardToCopy.list.board.orgId, userId, clerkOrgId)
+    if (!hasAccess) {
+      return { error: "Недостаточно прав" }
     }
 
     const lastCard = await db.card.findFirst({
@@ -60,7 +67,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       entityId: card.id,
       entityTitle: card.title,
       entityType: ENTITY_TYPE.CARD,
-      action: ACTION.CREATE
+      action: ACTION.CREATE,
+      orgId: cardToCopy.list.board.orgId,
     })
   } catch {
     return {

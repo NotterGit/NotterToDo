@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { getUserById } from "@/api/user";
 import { getOrgById } from "@/api/org";
 import { isDiamondPlan } from "@/config/const/limits.const";
+import { checkOrgAccess } from "@/lib/org-access";
 import { format } from "date-fns";
 
 export async function GET(
@@ -42,10 +43,8 @@ export async function GET(
       return new NextResponse("Board not found", { status: 404 });
     }
 
-    const hasAccess =
-      board.public ||
-      board.orgId === userId ||
-      board.orgId === clerkOrgId;
+    const hasOrgAccess = await checkOrgAccess(board.orgId, userId, clerkOrgId);
+    const hasAccess = board.public || hasOrgAccess;
 
     if (!hasAccess) {
       return new NextResponse("Forbidden", { status: 403 });

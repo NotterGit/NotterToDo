@@ -51,7 +51,7 @@ export function Heading() {
         </div>
       </div>
 
-      <div className="mt-6 flex justify-center md:mt-0">
+      <div className="mt-6 flex justify-center md:mt-0 drop-shadow-xl drop-shadow-white/15">
         <Image
           src={images.LANDING}
           alt="Notter ToDo"

@@ -9,6 +9,7 @@ import { CreateList } from "./schema";
 import { createAuditLog } from "@/lib/audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { pages } from "@/config/routing/pages.route";
+import { checkOrgAccess } from "@/lib/org-access";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId: clerkOrgId } = await auth()
@@ -28,20 +29,26 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     const board = await db.board.findUnique({
       where: {
         id: boardId,
-        orgId
       }
     })
 
-    if(!board){
-      return{
+    if (!board) {
+      return {
         error: "Доска не найдена"
       }
     }
 
+    const hasAccess = await checkOrgAccess(board.orgId, userId, clerkOrgId)
+    if (!hasAccess) {
+      return {
+        error: "Недостаточно прав"
+      }
+    }
+
     const lastList = await db.list.findFirst({
-      where: {boardId: boardId},
-      orderBy: {order: "desc"},
-      select: {order: true}
+      where: { boardId: boardId },
+      orderBy: { order: "desc" },
+      select: { order: true }
     })
 
     const newOrder = lastList ? lastList.order + 1 : 1
@@ -58,7 +65,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       entityId: list.id,
       entityTitle: list.title,
       entityType: ENTITY_TYPE.LIST,
-      action: ACTION.CREATE
+      action: ACTION.CREATE,
+      orgId: board.orgId,
     })
   } catch {
     return {

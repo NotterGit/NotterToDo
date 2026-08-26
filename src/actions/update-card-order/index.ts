@@ -9,12 +9,12 @@ import { UpdateCardOrder } from "./schema";
 import { createAuditLog } from "@/lib/audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { pages } from "@/config/routing/pages.route";
+import { checkOrgAccess } from "@/lib/org-access";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId: clerkOrgId } = await auth()
-  const orgId = clerkOrgId || userId
 
-  if (!userId || !orgId) {
+  if (!userId) {
     return {
       error: "Не авторизован"
     }
@@ -25,15 +25,27 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   let cards
 
   try {
+    const board = await db.board.findUnique({
+      where: { id: boardId }
+    })
+
+    if (!board) {
+      return {
+        error: "Доска не найдена"
+      }
+    }
+
+    const hasAccess = await checkOrgAccess(board.orgId, userId, clerkOrgId)
+    if (!hasAccess) {
+      return {
+        error: "Недостаточно прав"
+      }
+    }
+
     const transaction = items.map((card) =>
       db.card.update({
         where: {
           id: card.id,
-          list: {
-            board: {
-              orgId
-            }
-          }
         },
         data: {
           order: card.order,
@@ -44,18 +56,13 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 
     cards = await db.$transaction(transaction)
 
-    const board = await db.board.findUnique({
-      where: { id: boardId, orgId }
+    await createAuditLog({
+      entityTitle: board.title,
+      entityId: board.id,
+      entityType: ENTITY_TYPE.BOARD,
+      action: ACTION.UPDATE,
+      orgId: board.orgId,
     })
-
-    if (board) {
-      await createAuditLog({
-        entityTitle: board.title,
-        entityId: board.id,
-        entityType: ENTITY_TYPE.BOARD,
-        action: ACTION.UPDATE
-      })
-    }
   } catch {
     return {
         error: "Не удалось переместить"

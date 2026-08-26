@@ -6,7 +6,7 @@ export async function createAuditLog(props: CreateAuditLogProps) {
   try {
     const { orgId: clerkOrgId } = await auth();
     const user = await currentUser();
-    const orgId = clerkOrgId || user?.id;
+    const orgId = props.orgId || clerkOrgId || user?.id;
 
     if (!user || !orgId) {
       throw new Error("User not found!");
