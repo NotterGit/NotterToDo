@@ -63,12 +63,14 @@ const handler = async (data: InputType): Promise<ReturnType> => {
           create: (lists || []).map((list, listIndex) => ({
             title: list.title,
             order: typeof list.order === "number" ? list.order : listIndex + 1,
+            color: list.color || null,
             cards: {
               create: (list.cards || []).map((card, cardIndex) => ({
                 title: card.title,
                 order:
                   typeof card.order === "number" ? card.order : cardIndex + 1,
                 description: card.description || "",
+                color: card.color || null,
               })),
             },
           })),

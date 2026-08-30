@@ -14,6 +14,9 @@ import type { CardWithList } from "@/config/types/main.types";
 import { useAccountProfile } from "@/hooks/use-account-profile";
 import { hasExtendedAuditLog } from "@/config/const/limits.const";
 
+import { getItemColor } from "@/config/const/colors.const";
+import { cn } from "@/lib/utils";
+
 export function CardModal() {
     const id = useCardModal((state) => state.id)
     const isOpen = useCardModal((state) => state.isOpen)
@@ -29,6 +32,7 @@ export function CardModal() {
     const isOrg = orgId?.startsWith("org_") ?? false
     const { data: profile } = useAccountProfile(orgId, isOrg)
     const isExtended = hasExtendedAuditLog(profile?.premium)
+    const colorConfig = getItemColor(cardData?.color)
 
     const { data: auditLogsData } = useQuery<AuditLog[]>({
         queryKey: ["card-logs", id],
@@ -42,6 +46,9 @@ export function CardModal() {
             onOpenChange={onClose}
         >
             <DialogContent className="max-w-3xl sm:max-w-3xl max-h-[90vh] overflow-y-auto">
+                {colorConfig && (
+                    <div className={cn("h-2.5 -mx-6 -mt-6 mb-2 rounded-t-xl shrink-0 transition-colors", colorConfig.card.bar)} />
+                )}
                 {!cardData ? (
                     <Header.Skeleton/>
                 ) : (

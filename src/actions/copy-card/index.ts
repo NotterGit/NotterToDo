@@ -59,6 +59,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         title: `${cardToCopy.title} - Копия`,
         description: cardToCopy.description,
         order: newOrder,
+        color: cardToCopy.color,
         listId: cardToCopy.listId
       }
     })

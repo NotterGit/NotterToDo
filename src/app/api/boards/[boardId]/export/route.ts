@@ -72,10 +72,12 @@ export async function GET(
         lists: board.lists.map((list) => ({
           title: list.title,
           order: list.order,
+          color: list.color,
           cards: list.cards.map((card) => ({
             title: card.title,
             order: card.order,
             description: card.description || "",
+            color: card.color,
           })),
         })),
       },
