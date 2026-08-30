@@ -16,6 +16,8 @@ model Board {
   updateAt  DateTime @updatedAt
   lists     List[]
   public    Boolean  @default(false)
+
+  @@index([orgId])
 }
 
 model List {
@@ -29,7 +31,7 @@ model List {
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  @@index([boardId])
+  @@index([boardId, order])
 }
 
 model Card {
@@ -43,7 +45,7 @@ model Card {
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  @@index([listId])
+  @@index([listId, order])
 }
 
 enum ACTION {
@@ -70,4 +72,8 @@ model AuditLog {
   userName String @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([orgId, createdAt])
+  @@index([orgId, entityId, entityType])
+  @@index([userId])
 }

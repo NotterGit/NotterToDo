@@ -11,7 +11,7 @@ import { AlignLeft } from "lucide-react";
 import { useParams } from "next/navigation";
 import { ElementRef, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { useEventListener, useOnClickOutside } from "usehooks-ts";
+import { useOnClickOutside } from "usehooks-ts";
 import type { DescriptionProps } from "@/config/types/modals.types";
 
 export function Description({
@@ -36,13 +36,12 @@ export function Description({
         setIsEditing(false)
     }
 
-    const onKeyDown = (e: KeyboardEvent) => {
+    const onTextareaKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === "Escape") {
-        disableEditing()
+            disableEditing()
         }
     }
 
-    useEventListener("keydown", onKeyDown)
     useOnClickOutside(formRef as React.RefObject<HTMLElement>, disableEditing)
 
     const { execute } = useAction(updateCard, {
@@ -93,6 +92,7 @@ export function Description({
                             placeholder="Добавьте более подробное описание"
                             defaultValue={data.description || undefined}
                             onClick={() => {}}
+                            onKeyDown={onTextareaKeyDown}
                             ref={textareaRef}
                         />
                         <div className="flex items-center gap-x-2">

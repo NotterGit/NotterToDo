@@ -1,15 +1,14 @@
-"use client"
-
+import { memo } from "react"
 import { Draggable } from "@hello-pangea/dnd"
 import { useCardModal } from "@/hooks/use-card-modal"
 import type { CardItemProps } from "@/config/types/main.types"
 import { getItemColor } from "@/config/const/colors.const"
 import { cn } from "@/lib/utils"
 
-export function CardItem({
+export const CardItem = memo(function CardItem({
     data, index, isReadOnly = false
 }: CardItemProps) {
-    const cardModal = useCardModal()
+    const onOpen = useCardModal((state) => state.onOpen)
     const colorConfig = getItemColor(data.color)
 
     return (
@@ -23,7 +22,7 @@ export function CardItem({
                             : "bg-card dark:bg-zinc-900 dark:text-neutral-100 border-border/60 dark:border-white/10 hover:border-yellow-400/50 dark:hover:border-yellow-400/40"
                     )}
                     role="button"
-                    onClick={() => cardModal.onOpen(data.id)}
+                    onClick={() => onOpen(data.id)}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
@@ -38,4 +37,4 @@ export function CardItem({
             )}
         </Draggable>
     )
-}
+})

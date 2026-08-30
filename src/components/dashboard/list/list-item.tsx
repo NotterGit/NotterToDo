@@ -1,7 +1,7 @@
 "use client"
 
 import { ListHeader } from "./list-header"
-import { ElementRef, useRef, useState } from "react"
+import { ElementRef, memo, useRef, useState } from "react"
 import { CardForm } from "../card/card-form"
 import { cn } from "@/lib/utils"
 import { CardItem } from "../card/card-item"
@@ -10,7 +10,7 @@ import type { ListItemProps } from "@/config/types/main.types"
 
 import { getItemColor } from "@/config/const/colors.const"
 
-export function ListItem({
+export const ListItem = memo(function ListItem({
     data, index, isReadOnly = false, isWrapped = false
 }: ListItemProps) {
     const textareaRef = useRef<ElementRef<"textarea">>(null)
@@ -99,4 +99,4 @@ export function ListItem({
             )}
         </Draggable>
     )
-}
+})

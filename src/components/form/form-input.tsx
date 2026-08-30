@@ -9,7 +9,7 @@ import { Input } from "../ui/input"
 import type { FormInputProps } from "@/config/types/components.types"
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(({
-    id, label, type, placeholder, required, disabled, errors, className, defaultValue = "", onBlur
+    id, label, type, placeholder, required, disabled, errors, className, defaultValue = "", onBlur, onKeyDown
 }, ref) => {
     const { pending } = useFormStatus()
 
@@ -26,6 +26,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(({
                 ) : null}
                 <Input
                     onBlur={onBlur}
+                    onKeyDown={onKeyDown}
                     defaultValue={defaultValue}
                     ref={ref}
                     required={required}

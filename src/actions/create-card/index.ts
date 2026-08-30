@@ -29,9 +29,14 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       where: {
         id: listId,
       },
-      include: {
-        board: true,
-      }
+      select: {
+        id: true,
+        board: {
+          select: {
+            orgId: true,
+          },
+        },
+      },
     })
 
     if (!list) {

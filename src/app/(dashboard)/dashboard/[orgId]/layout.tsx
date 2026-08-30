@@ -1,6 +1,10 @@
 import { auth, currentUser } from "@clerk/nextjs/server"
 import { OrgControl } from "@/components/dashboard/org-control"
-import { startCase } from "lodash"
+function formatOrgSlug(slug: string): string {
+    return slug
+        .replace(/[-_]+/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+}
 
 export async function generateMetadata() {
     const { orgSlug } = await auth()
@@ -8,7 +12,7 @@ export async function generateMetadata() {
 
     if (orgSlug) {
         return {
-            title: startCase(orgSlug || "organization")
+            title: formatOrgSlug(orgSlug)
         }
     }
 

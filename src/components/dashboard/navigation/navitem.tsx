@@ -1,5 +1,4 @@
-"use client"
-
+import { memo, useMemo } from "react"
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -14,13 +13,24 @@ import type { NavItemProps, Organization } from "@/config/types/main.types"
 
 export type { Organization }
 
-export function NavItem({ isExpanded, isActive, organization, onExpand }: NavItemProps) {
+function SkeletonNavItem() {
+    return (
+        <div className="flex items-center gap-x-2 p-2 rounded-xl">
+            <div className="w-7 h-7 relative shrink-0">
+                <Skeleton className="h-full w-full rounded-lg"/>
+            </div>
+            <Skeleton className="h-7 w-full rounded-lg"/>
+        </div>
+    )
+}
+
+function NavItemBase({ isExpanded, isActive, organization, onExpand }: NavItemProps) {
     const router = useRouter()
     const pathname = usePathname()
     const { organization: activeOrg } = useOrganization()
     const { setActive } = useOrganizationList()
 
-    const routes = [
+    const routes = useMemo(() => [
         {
             label: "Доски",
             icon: <Layout className="h-4 w-4 mr-2"/>,
@@ -36,7 +46,7 @@ export function NavItem({ isExpanded, isActive, organization, onExpand }: NavIte
             icon: <Gem className="h-4 w-4 mr-2"/>,
             href: links.NOTTER_GEM
         }
-    ]
+    ], [organization.id])
 
     const onClick = async (href: string) => {
         if (setActive) {
@@ -101,13 +111,6 @@ export function NavItem({ isExpanded, isActive, organization, onExpand }: NavIte
     )
 }
 
-NavItem.Skeleton = function SkeletonNavItem() {
-    return (
-        <div className="flex items-center gap-x-2 p-2 rounded-xl">
-            <div className="w-7 h-7 relative shrink-0">
-                <Skeleton className="h-full w-full rounded-lg"/>
-            </div>
-            <Skeleton className="h-7 w-full rounded-lg"/>
-        </div>
-    )
-}
+export const NavItem = Object.assign(memo(NavItemBase), {
+    Skeleton: SkeletonNavItem
+})

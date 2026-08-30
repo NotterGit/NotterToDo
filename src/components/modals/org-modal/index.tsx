@@ -16,6 +16,10 @@ export function OrgModal() {
         onClose()
     }, [pathname, onClose])
 
+    if (!isOpen) {
+        return null
+    }
+
     return (
         <Dialog
             open={isOpen}
