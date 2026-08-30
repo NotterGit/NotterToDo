@@ -14,7 +14,10 @@ export function ListItem({
     data, index, isReadOnly = false, isWrapped = false
 }: ListItemProps) {
     const textareaRef = useRef<ElementRef<"textarea">>(null)
-    const colorConfig = getItemColor(data.color)
+    const [previewColor, setPreviewColor] = useState<string | null | undefined>(undefined)
+
+    const displayColor = previewColor !== undefined ? previewColor : data.color
+    const colorConfig = getItemColor(displayColor)
 
     const [isEditing, setIsEditing] = useState(false)
 
@@ -47,14 +50,19 @@ export function ListItem({
                             "w-full rounded-2xl shadow-xl pb-2 flex flex-col transition-colors duration-150 overflow-hidden",
                             colorConfig
                                 ? cn(colorConfig.list.bg, "border")
-                                : "bg-[#f1f2f4]/95 dark:bg-zinc-950/95 border border-white/60 dark:border-white/10",
+                                : "bg-[#f1f2f4] dark:bg-zinc-950 border border-white/60 dark:border-white/10",
                             isWrapped ? "max-h-[75vh]" : "max-h-full"
                         )}
                     >
                         {colorConfig && (
                             <div className={cn("h-1.5 w-full shrink-0", colorConfig.list.bar)} />
                         )}
-                        <ListHeader data={data} onAddCard={enableEditing} isReadOnly={isReadOnly}/>
+                        <ListHeader
+                            data={data}
+                            onAddCard={enableEditing}
+                            isReadOnly={isReadOnly}
+                            onColorPreviewChange={setPreviewColor}
+                        />
                         <Droppable droppableId={data.id} type="card" isDropDisabled={isReadOnly}>
                             {(provided) => (
                                 <ol

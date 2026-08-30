@@ -61,11 +61,13 @@ export interface ListHeaderProps {
   data: List;
   onAddCard: () => void;
   isReadOnly?: boolean;
+  onColorPreviewChange?: (color: string | null | undefined) => void;
 }
 
 export interface ListOptionsProps {
   data: List;
   onAddCard: () => void;
+  onColorPreviewChange?: (color: string | null | undefined) => void;
 }
 
 export interface ListWrapperProps {

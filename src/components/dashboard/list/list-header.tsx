@@ -8,8 +8,8 @@ import { ListOptions } from "./list-options"
 import type { ListHeaderProps } from "@/config/types/main.types"
 
 export function ListHeader({
-    data, onAddCard, isReadOnly = false
-}: ListHeaderProps) {
+    data, onAddCard, isReadOnly = false, onColorPreviewChange
+}: ListHeaderProps & { onColorPreviewChange?: (color: string | null | undefined) => void }) {
     const [title, setTitle] = useState(data.title)
     const [isEditing, setIsEditing] = useState(false)
 
@@ -101,6 +101,7 @@ export function ListHeader({
                     <ListOptions
                         data={data}
                         onAddCard={onAddCard}
+                        onColorPreviewChange={onColorPreviewChange}
                     />
                 </div>
             )}

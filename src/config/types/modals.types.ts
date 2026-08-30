@@ -17,6 +17,7 @@ export interface ActivityProps {
 
 export interface ActionsProps {
   data: CardWithList;
+  onPreviewColorChange?: (color: string | null | undefined) => void;
 }
 
 export interface ParsedCard {

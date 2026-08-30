@@ -17,10 +17,10 @@ export function CardItem({
             {(provided) => (
                 <div 
                     className={cn(
-                        "break-words whitespace-normal border bg-card dark:bg-zinc-900 dark:text-neutral-100 rounded-xl shadow-sm hover:shadow-md transition-[border-color,box-shadow,background-color] duration-150 py-2.5 px-3 text-sm font-medium select-none relative",
+                        "break-words whitespace-normal border rounded-xl shadow-xs hover:shadow-md transition-[border-color,box-shadow,background-color] duration-150 text-sm font-medium select-none relative overflow-hidden",
                         colorConfig
                             ? cn(colorConfig.card.bg, colorConfig.card.hoverBorder)
-                            : "border-border/60 dark:border-white/10 hover:border-yellow-400/50 dark:hover:border-yellow-400/40"
+                            : "bg-card dark:bg-zinc-900 dark:text-neutral-100 border-border/60 dark:border-white/10 hover:border-yellow-400/50 dark:hover:border-yellow-400/40"
                     )}
                     role="button"
                     onClick={() => cardModal.onOpen(data.id)}
@@ -29,9 +29,11 @@ export function CardItem({
                     ref={provided.innerRef}
                 >
                     {colorConfig && (
-                        <div className={cn("h-1.5 w-8 rounded-full mb-1.5", colorConfig.card.bar)} />
+                        <div className={cn("h-1.5 w-full shrink-0", colorConfig.card.bar)} />
                     )}
-                    {data.title}
+                    <div className="py-2.5 px-3">
+                        {data.title}
+                    </div>
                 </div>
             )}
         </Draggable>

@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useCardModal } from "@/hooks/use-card-modal";
 import { fetcher } from "@/lib/fetcher";
@@ -21,6 +22,13 @@ export function CardModal() {
     const id = useCardModal((state) => state.id)
     const isOpen = useCardModal((state) => state.isOpen)
     const onClose = useCardModal((state) => state.onClose)
+    const [previewColor, setPreviewColor] = useState<string | null | undefined>(undefined)
+
+    useEffect(() => {
+        if (!isOpen) {
+            setPreviewColor(undefined)
+        }
+    }, [isOpen, id])
 
     const { data: cardData } = useQuery<CardWithList>({
         queryKey: ["card", id],
@@ -32,7 +40,8 @@ export function CardModal() {
     const isOrg = orgId?.startsWith("org_") ?? false
     const { data: profile } = useAccountProfile(orgId, isOrg)
     const isExtended = hasExtendedAuditLog(profile?.premium)
-    const colorConfig = getItemColor(cardData?.color)
+    const activeColorId = previewColor !== undefined ? previewColor : cardData?.color
+    const colorConfig = getItemColor(activeColorId)
 
     const { data: auditLogsData } = useQuery<AuditLog[]>({
         queryKey: ["card-logs", id],
@@ -70,7 +79,10 @@ export function CardModal() {
                     {cardData && cardData.canEdit === false ? null : !cardData ? (
                         <Actions.Skeleton/>
                     ) : (
-                        <Actions data={cardData}/>
+                        <Actions
+                            data={cardData}
+                            onPreviewColorChange={setPreviewColor}
+                        />
                     )}
                 </div>
             </DialogContent>
