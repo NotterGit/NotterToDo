@@ -2,13 +2,19 @@
 
 import { copyCard } from "@/actions/copy-card";
 import { deleteCard } from "@/actions/delete-card";
+import { updateCard } from "@/actions/update-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ColorPicker } from "@/components/dashboard/color-picker";
+import { getItemColor } from "@/config/const/colors.const";
 import { useAction } from "@/hooks/use-action";
 import { useCardModal } from "@/hooks/use-card-modal";
-import { Copy, Trash } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { Copy, Palette, Trash } from "lucide-react";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
+import { cn } from "@/lib/utils";
 import type { ActionsProps } from "@/config/types/modals.types";
 
 export default function Actions({
@@ -16,6 +22,8 @@ export default function Actions({
 }: ActionsProps) {
     const params = useParams()
     const cardModal = useCardModal()
+    const queryClient = useQueryClient()
+    const currentColor = getItemColor(data.color)
 
     const { execute: executeCopyCard, isLoading: isLoadingCopy } = useAction(copyCard, {
         onSuccess: () => {
@@ -27,9 +35,33 @@ export default function Actions({
             cardModal.onClose()
         }
     })
+    const { execute: executeUpdateCard, isLoading: isLoadingUpdate } = useAction(updateCard, {
+        onSuccess: (updatedCard) => {
+            queryClient.invalidateQueries({
+                queryKey: ["card", updatedCard.id]
+            })
+            queryClient.invalidateQueries({
+                queryKey: ["card-logs", updatedCard.id]
+            })
+        }
+    })
 
     if (data.canEdit === false) {
         return null
+    }
+
+    const onColorChange = (color: string | null) => {
+        const boardId = params.boardId as string
+
+        toast.promise(executeUpdateCard({
+            id: data.id,
+            boardId,
+            color,
+        }), {
+            loading: "Обновление цвета...",
+            success: "Цвет карточки обновлен",
+            error: (err) => err || "Не удалось обновить цвет"
+        })
     }
 
     const onCopy = () => {
@@ -63,6 +95,33 @@ export default function Actions({
       <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
         Действия
       </p>
+      <Popover>
+        <PopoverTrigger>
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-full justify-start rounded-xl font-medium"
+            disabled={isLoadingUpdate}
+          >
+            {currentColor ? (
+              <span className={cn("w-3.5 h-3.5 rounded-full mr-1.5 shrink-0", currentColor.swatch)} />
+            ) : (
+              <Palette className="h-4 w-4 mr-1.5" />
+            )}
+            Цвет
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-64 p-3" side="bottom" align="start">
+          <p className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-2">
+            Цвет карточки
+          </p>
+          <ColorPicker
+            value={data.color}
+            onChange={onColorChange}
+            disabled={isLoadingUpdate}
+          />
+        </PopoverContent>
+      </Popover>
       <Button
         variant="outline"
         size="sm"
