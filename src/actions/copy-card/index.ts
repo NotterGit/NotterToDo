@@ -28,13 +28,22 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       where: {
         id,
       },
-      include: {
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        color: true,
+        listId: true,
         list: {
-          include: {
-            board: true,
-          }
-        }
-      }
+          select: {
+            board: {
+              select: {
+                orgId: true,
+              },
+            },
+          },
+        },
+      },
     })
 
     if (!cardToCopy) {
@@ -59,6 +68,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         title: `${cardToCopy.title} - Копия`,
         description: cardToCopy.description,
         order: newOrder,
+        color: cardToCopy.color,
         listId: cardToCopy.listId
       }
     })

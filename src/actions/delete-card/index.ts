@@ -28,13 +28,19 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       where: {
         id,
       },
-      include: {
+      select: {
+        id: true,
+        title: true,
         list: {
-          include: {
-            board: true,
-          }
-        }
-      }
+          select: {
+            board: {
+              select: {
+                orgId: true,
+              },
+            },
+          },
+        },
+      },
     })
 
     if (!existingCard) {

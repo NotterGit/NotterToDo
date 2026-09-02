@@ -3,13 +3,12 @@ import { FormInput } from "@/components/form/form-input"
 import { useAction } from "@/hooks/use-action"
 import { ElementRef, useRef, useState } from "react"
 import toast from "react-hot-toast"
-import { useEventListener } from "usehooks-ts"
 import { ListOptions } from "./list-options"
 import type { ListHeaderProps } from "@/config/types/main.types"
 
 export function ListHeader({
-    data, onAddCard, isReadOnly = false
-}: ListHeaderProps) {
+    data, onAddCard, isReadOnly = false, onColorPreviewChange
+}: ListHeaderProps & { onColorPreviewChange?: (color: string | null | undefined) => void }) {
     const [title, setTitle] = useState(data.title)
     const [isEditing, setIsEditing] = useState(false)
 
@@ -60,13 +59,11 @@ export function ListHeader({
         formRef.current?.requestSubmit()
     }
 
-    const onKeyDown = (e: KeyboardEvent) => {
+    const onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Escape") {
             formRef.current?.requestSubmit()
         }
     }
-
-    useEventListener("keydown", onKeyDown)
     
     return (
         <div className="pt-2 px-2 text-sm font-semibold flex justify-between items-start gap-x-1.5 shrink-0">
@@ -81,6 +78,7 @@ export function ListHeader({
                     <FormInput
                         ref={inputRef}
                         onBlur={onBlur}
+                        onKeyDown={onInputKeyDown}
                         id="title"
                         placeholder="Введите название списка"
                         defaultValue={title}
@@ -101,6 +99,7 @@ export function ListHeader({
                     <ListOptions
                         data={data}
                         onAddCard={onAddCard}
+                        onColorPreviewChange={onColorPreviewChange}
                     />
                 </div>
             )}

@@ -24,6 +24,9 @@ export function useSyncAccount() {
     };
   }, [getToken]);
 
+  const userIdentifier = user ? `${user.id}:${user.username}:${user.imageUrl}` : "";
+  const orgIdentifier = organization ? `${organization.id}:${organization.slug}:${organization.imageUrl}` : "";
+
   useEffect(() => {
     if (!isSignedIn || !isLoadedUser || !user) {
       return;
@@ -32,7 +35,7 @@ export function useSyncAccount() {
     const isOrg = Boolean(organization && isLoadedOrg);
     const entityId = isOrg ? organization!.id : user.id;
 
-    const sync = async () => {
+    const timeoutId = setTimeout(async () => {
       if (isSyncingRef.current) return;
       isSyncingRef.current = true;
 
@@ -131,15 +134,17 @@ export function useSyncAccount() {
       } finally {
         isSyncingRef.current = false;
       }
-    };
+    }, 300);
 
-    sync();
+    return () => clearTimeout(timeoutId);
   }, [
     isSignedIn,
     isLoadedUser,
     user,
-    organization,
+    userIdentifier,
     isLoadedOrg,
+    organization,
+    orgIdentifier,
     queryClient,
   ]);
 }

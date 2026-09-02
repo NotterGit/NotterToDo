@@ -1,17 +1,23 @@
 "use client"
 
 import { ListHeader } from "./list-header"
-import { ElementRef, useRef, useState } from "react"
+import { ElementRef, memo, useRef, useState } from "react"
 import { CardForm } from "../card/card-form"
 import { cn } from "@/lib/utils"
 import { CardItem } from "../card/card-item"
 import { Draggable, Droppable } from "@hello-pangea/dnd"
 import type { ListItemProps } from "@/config/types/main.types"
 
-export function ListItem({
+import { getItemColor } from "@/config/const/colors.const"
+
+export const ListItem = memo(function ListItem({
     data, index, isReadOnly = false, isWrapped = false
 }: ListItemProps) {
     const textareaRef = useRef<ElementRef<"textarea">>(null)
+    const [previewColor, setPreviewColor] = useState<string | null | undefined>(undefined)
+
+    const displayColor = previewColor !== undefined ? previewColor : data.color
+    const colorConfig = getItemColor(displayColor)
 
     const [isEditing, setIsEditing] = useState(false)
 
@@ -41,11 +47,22 @@ export function ListItem({
                     <div 
                         {...provided.dragHandleProps}
                         className={cn(
-                            "w-full rounded-2xl bg-[#f1f2f4]/95 dark:bg-zinc-950/95 border border-white/60 dark:border-white/10 shadow-xl pb-2 flex flex-col",
+                            "w-full rounded-2xl shadow-xl pb-2 flex flex-col transition-colors duration-150 overflow-hidden",
+                            colorConfig
+                                ? cn(colorConfig.list.bg, "border")
+                                : "bg-[#f1f2f4] dark:bg-zinc-950 border border-white/60 dark:border-white/10",
                             isWrapped ? "max-h-[75vh]" : "max-h-full"
                         )}
                     >
-                        <ListHeader data={data} onAddCard={enableEditing} isReadOnly={isReadOnly}/>
+                        {colorConfig && (
+                            <div className={cn("h-1.5 w-full shrink-0", colorConfig.list.bar)} />
+                        )}
+                        <ListHeader
+                            data={data}
+                            onAddCard={enableEditing}
+                            isReadOnly={isReadOnly}
+                            onColorPreviewChange={setPreviewColor}
+                        />
                         <Droppable droppableId={data.id} type="card" isDropDisabled={isReadOnly}>
                             {(provided) => (
                                 <ol
@@ -82,4 +99,4 @@ export function ListItem({
             )}
         </Draggable>
     )
-}
+})

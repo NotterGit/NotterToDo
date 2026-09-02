@@ -7,15 +7,23 @@ import { FormSubmit } from "@/components/form/form-button";
 import { Separator } from "@/components/ui/separator";
 import { useAction } from "@/hooks/use-action";
 import { deleteList } from "@/actions/delete-list";
-import toast from "react-hot-toast";
-import { ElementRef, useRef } from "react";
+import { updateList } from "@/actions/update-list";
 import { copyList } from "@/actions/copy-list";
+import toast from "react-hot-toast";
+import { ElementRef, useEffect, useRef, useState } from "react";
 import type { ListOptionsProps } from "@/config/types/main.types";
+import { ColorPicker } from "../color-picker";
 
 export function ListOptions({
-    data, onAddCard
-}: ListOptionsProps) {
+    data, onAddCard, onColorPreviewChange
+}: ListOptionsProps & { onColorPreviewChange?: (color: string | null | undefined) => void }) {
     const closeRef = useRef<ElementRef<"button">>(null)
+    const [isOpen, setIsOpen] = useState(false)
+    const [selectedColor, setSelectedColor] = useState<string | null>(data.color)
+
+    useEffect(() => {
+        setSelectedColor(data.color)
+    }, [data.color])
     
     const { execute: executeDelete } = useAction(deleteList, {
         onSuccess: () => {
@@ -28,6 +36,36 @@ export function ListOptions({
             closeRef.current?.click()
         }
     })
+
+    const { execute: executeUpdate, isLoading: isLoadingUpdate } = useAction(updateList)
+
+    const handleOpenChange = (open: boolean) => {
+        setIsOpen(open)
+        if (open) {
+            setSelectedColor(data.color)
+            onColorPreviewChange?.(data.color)
+        } else {
+            const newColor = selectedColor
+            onColorPreviewChange?.(undefined)
+
+            if (newColor !== data.color) {
+                toast.promise(executeUpdate({
+                    id: data.id,
+                    boardId: data.boardId,
+                    color: newColor,
+                }), {
+                    loading: "Обновление цвета...",
+                    success: "Цвет списка обновлен",
+                    error: (err) => err || "Не удалось обновить цвет"
+                })
+            }
+        }
+    }
+
+    const handleColorClick = (color: string | null) => {
+        setSelectedColor(color)
+        onColorPreviewChange?.(color)
+    }
 
     const onDelete = (formData: FormData) => {
         const id = formData.get("id") as string;
@@ -52,13 +90,15 @@ export function ListOptions({
     }
 
     return (
-        <Popover>
-            <PopoverTrigger>
-                <Button className="h-8 w-8 p-0 shrink-0 rounded-lg hover:bg-black/5 dark:hover:bg-white/10" variant="ghost">
-                    <MoreHorizontal className="h-4 w-4" />
-                </Button>
-            </PopoverTrigger>
-            <PopoverContent className="px-0 pt-3 pb-3 gap-1" side="bottom" align="start">
+        <Popover open={isOpen} onOpenChange={handleOpenChange}>
+            <PopoverTrigger
+                render={
+                    <Button className="h-8 w-8 p-0 shrink-0 rounded-lg hover:bg-black/5 dark:hover:bg-white/10" variant="ghost">
+                        <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                }
+            />
+            <PopoverContent className="px-0 pt-3 pb-3 gap-1 w-64" side="bottom" align="start">
                 <div className="text-sm font-medium text-center text-neutral-600 dark:text-neutral-300">
                     Действия со списком
                 </div>
@@ -89,7 +129,20 @@ export function ListOptions({
                     </FormSubmit>
                 </form>
 
-                <Separator className="h-[1px] my-0.5"/>
+                <Separator className="h-[1px] my-1"/>
+
+                <div className="px-5 py-1 text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+                    Цвет списка
+                </div>
+                <div className="px-4 py-1">
+                    <ColorPicker
+                        value={selectedColor}
+                        onChange={handleColorClick}
+                        disabled={isLoadingUpdate}
+                    />
+                </div>
+
+                <Separator className="h-[1px] my-1"/>
 
                 <form action={onDelete}>
                     <input hidden id="id" name="id" value={data.id} />

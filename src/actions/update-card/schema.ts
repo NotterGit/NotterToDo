@@ -11,8 +11,9 @@ export const UpdateCard = z.object({
     ),
     title: z.optional(z.string({
         message: "Название обязательно"
-    }).min(3, {
+    }).min(1, {
         message: "Название слишком короткое"
     })),
+    color: z.optional(z.string().nullable()),
     id: z.string()
 })

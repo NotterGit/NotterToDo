@@ -17,17 +17,20 @@ export interface ActivityProps {
 
 export interface ActionsProps {
   data: CardWithList;
+  onPreviewColorChange?: (color: string | null | undefined) => void;
 }
 
 export interface ParsedCard {
   title: string;
   order?: number;
   description?: string;
+  color?: string | null;
 }
 
 export interface ParsedList {
   title: string;
   order?: number;
+  color?: string | null;
   cards?: ParsedCard[];
 }
 

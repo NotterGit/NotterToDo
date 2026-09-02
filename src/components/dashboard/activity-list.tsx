@@ -7,6 +7,7 @@ import { getUserById } from "@/api/user";
 import { getOrgById } from "@/api/org";
 import {
   FREE_AUDIT_LOG_LIMIT,
+  EXTENDED_AUDIT_LOG_LIMIT,
   getPlanLimits,
   hasExtendedAuditLog,
 } from "@/config/const/limits.const";
@@ -36,7 +37,7 @@ export async function ActivityList({ orgId: propOrgId }: ActivityListProps = {})
     orderBy: {
       createdAt: "desc"
     },
-    take: isExtended ? undefined : FREE_AUDIT_LOG_LIMIT
+    take: isExtended ? EXTENDED_AUDIT_LOG_LIMIT : FREE_AUDIT_LOG_LIMIT
   })
 
   return (

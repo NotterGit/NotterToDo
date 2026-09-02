@@ -1,4 +1,3 @@
-import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs/server"
 import { notFound, redirect } from "next/navigation"
 import BoardNav from "@/components/dashboard/board/board-nav"
@@ -6,6 +5,7 @@ import { BoardBackground } from "@/components/dashboard/board/board-background"
 import { OrgControl } from "@/components/dashboard/org-control"
 import { pages } from "@/config/routing/pages.route"
 import { checkOrgAccess } from "@/lib/org-access"
+import { getCachedBoard } from "@/lib/board-queries"
 import type { BoardIdPageProps } from "@/config/types/main.types"
 
 export async function generateMetadata({
@@ -14,11 +14,7 @@ export async function generateMetadata({
     const { boardId } = await params
     const { userId, orgId: clerkOrgId } = await auth()
 
-    const board = await db.board.findUnique({
-        where: {
-            id: boardId
-        }
-    })
+    const board = await getCachedBoard(boardId)
 
     if (!board) {
         return {
@@ -47,11 +43,7 @@ export default async function OrganizationIdLayout({
     const { boardId } = await params
     const { userId, orgId: clerkOrgId } = await auth()
 
-    const board = await db.board.findUnique({
-        where: {
-            id: boardId
-        }
-    })
+    const board = await getCachedBoard(boardId)
 
     if (!board) {
         notFound()
