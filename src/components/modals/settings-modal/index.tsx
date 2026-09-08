@@ -21,7 +21,8 @@ import { useLandingRedirect } from "@/hooks/use-landing-redirect"
 import { useBoardWrapLists } from "@/hooks/use-board-wrap-lists"
 
 export function SettingsModal() {
-  const { isOpen, onClose } = useSettingsModal()
+  const isOpen = useSettingsModal((state) => state.isOpen)
+  const onClose = useSettingsModal((state) => state.onClose)
   const { blur, setBlur } = useBoardBlur()
   const { enabled: landingRedirectEnabled, setEnabled: setLandingRedirectEnabled } = useLandingRedirect()
   const { wrapLists, setWrapLists } = useBoardWrapLists()
@@ -42,7 +43,7 @@ export function SettingsModal() {
     signOut({ redirectUrl: pages.ROOT })
   }
 
-  if (!isMounted) {
+  if (!isMounted || !isOpen) {
     return null
   }
 

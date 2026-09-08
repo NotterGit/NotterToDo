@@ -13,10 +13,16 @@ const SUPPORTED_IMAGE_EXTENSIONS = new Set([
   ".gif",
 ])
 
+let cachedCollections: BgCollection[] | null = null
+
 export function getBackgroundCollections(): BgCollection[] {
+  if (cachedCollections && process.env.NODE_ENV === "production") {
+    return cachedCollections
+  }
+
   const publicBgPath = path.join(process.cwd(), "public", "bg")
 
-  return bgCollectionsConfig
+  const collections = bgCollectionsConfig
     .map((collection) => {
       const collectionDirPath = path.join(publicBgPath, collection.folder)
       let images: string[] = []
@@ -45,4 +51,7 @@ export function getBackgroundCollections(): BgCollection[] {
       }
     })
     .filter((collection) => collection.images.length > 0)
+
+  cachedCollections = collections
+  return collections
 }

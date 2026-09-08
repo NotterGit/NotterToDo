@@ -29,9 +29,15 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         id,
         boardId,
       },
-      include: {
-        board: true,
-      }
+      select: {
+        id: true,
+        title: true,
+        board: {
+          select: {
+            orgId: true,
+          },
+        },
+      },
     })
 
     if (!existingList) {

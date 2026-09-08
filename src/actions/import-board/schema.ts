@@ -8,6 +8,7 @@ export const CardImportSchema = z.object({
   }),
   order: z.number().optional(),
   description: z.string().optional(),
+  color: z.string().optional().nullable(),
 });
 
 export const ListImportSchema = z.object({
@@ -17,6 +18,7 @@ export const ListImportSchema = z.object({
     message: "Название списка не может быть пустым",
   }),
   order: z.number().optional(),
+  color: z.string().optional().nullable(),
   cards: z.array(CardImportSchema).optional(),
 });
 

@@ -57,12 +57,14 @@ const handler = async (data: InputType): Promise<ReturnType> => {
             boardId: listToCopy.boardId,
             title: `${listToCopy.title} - Копия`,
             order: newOrder,
+            color: listToCopy.color,
             cards: {
               createMany: {
                 data: listToCopy.cards.map((card) => ({
                   title: card.title,
                   description: card.description,
-                  order: card.order
+                  order: card.order,
+                  color: card.color
                 }))
               }
             }

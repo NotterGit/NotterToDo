@@ -35,12 +35,14 @@ export async function parseBoardFile(selectedFile: File): Promise<ParsedBoardDat
         return {
           title: typeof listObj.title === "string" ? listObj.title : `Список ${lIdx + 1}`,
           order: typeof listObj.order === "number" ? listObj.order : lIdx + 1,
+          color: typeof listObj.color === "string" ? listObj.color : null,
           cards: cardsRaw.map((c: unknown, cIdx: number) => {
             const cardObj = c && typeof c === "object" ? (c as Record<string, unknown>) : {};
             return {
               title: typeof cardObj.title === "string" ? cardObj.title : `Карточка ${cIdx + 1}`,
               order: typeof cardObj.order === "number" ? cardObj.order : cIdx + 1,
               description: typeof cardObj.description === "string" ? cardObj.description : "",
+              color: typeof cardObj.color === "string" ? cardObj.color : null,
             };
           }),
         };

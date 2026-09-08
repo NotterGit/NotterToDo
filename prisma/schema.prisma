@@ -16,19 +16,22 @@ model Board {
   updateAt  DateTime @updatedAt
   lists     List[]
   public    Boolean  @default(false)
+
+  @@index([orgId])
 }
 
 model List {
   id String @id @default(uuid())
   title String
   order Int
+  color String?
   boardId String
   board Board @relation(fields: [boardId], references: [id], onDelete: Cascade)
   cards Card[]
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  @@index([boardId])
+  @@index([boardId, order])
 }
 
 model Card {
@@ -36,12 +39,13 @@ model Card {
   title String
   order Int
   description String
+  color String?
   listId String
   list List @relation(fields: [listId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  @@index([listId])
+  @@index([listId, order])
 }
 
 enum ACTION {
@@ -68,4 +72,8 @@ model AuditLog {
   userName String @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([orgId, createdAt])
+  @@index([orgId, entityId, entityType])
+  @@index([userId])
 }

@@ -12,6 +12,7 @@ export interface FormInputProps {
   className?: string;
   defaultValue?: string;
   onBlur?: () => void;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 }
 
 export interface FormTextareaProps {

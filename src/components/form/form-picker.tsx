@@ -47,6 +47,7 @@ export const FormPicker = ({
     const { data: collections, isLoading } = useQuery<BgCollection[]>({
         queryKey: ["board-backgrounds"],
         queryFn: () => fetcher(API.BACKGROUNDS),
+        staleTime: Infinity,
     })
 
     useEffect(() => {

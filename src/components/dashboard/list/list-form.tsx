@@ -3,7 +3,7 @@
 import { Plus, X } from "lucide-react"
 import { ListWrapper } from "./list-wapper"
 import { ElementRef, useRef, useState } from "react";
-import { useEventListener, useOnClickOutside } from "usehooks-ts";
+import { useOnClickOutside } from "usehooks-ts";
 import { FormInput } from "@/components/form/form-input";
 import { useParams, useRouter } from "next/navigation";
 import { FormSubmit } from "@/components/form/form-button";
@@ -43,13 +43,12 @@ export default function ListForm({ isWrapped = false }: ListFormProps) {
         }
     })
 
-    const onKeyDown = (e: KeyboardEvent) => {
+    const onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Escape") {
             disableEditing()
         }
     }
 
-    useEventListener("keydown", onKeyDown)
     useOnClickOutside(formRef as React.RefObject<HTMLElement>, disableEditing)
 
     const onSubmit = (formData: FormData) => {
@@ -76,6 +75,7 @@ export default function ListForm({ isWrapped = false }: ListFormProps) {
                 >
                     <FormInput
                         ref={inputRef}
+                        onKeyDown={onInputKeyDown}
                         errors={fieldErrors}
                         id="title"
                         className="text-sm px-2.5 py-1.5 font-medium border-transparent hover:border-input focus:border-input transition rounded-xl" 

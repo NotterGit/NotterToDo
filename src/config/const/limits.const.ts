@@ -2,6 +2,7 @@ export const MAX_FREE_BOARDS = 5;
 export const MAX_FREE_PUBLIC_BOARDS = 3;
 export const AUDIT_LOG_LIMIT = 3;
 export const FREE_AUDIT_LOG_LIMIT = 20;
+export const EXTENDED_AUDIT_LOG_LIMIT = 200;
 export const FREE_CARD_AUDIT_LOG_LIMIT = 3;
 export const EXTENDED_CARD_AUDIT_LOG_LIMIT = 50;
 

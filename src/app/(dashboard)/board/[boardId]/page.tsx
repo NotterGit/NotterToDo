@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import { ListContainer } from "@/components/dashboard/list/list-container";
 import { pages } from "@/config/routing/pages.route";
 import { checkOrgAccess } from "@/lib/org-access";
+import { getCachedBoard } from "@/lib/board-queries";
 import type { BoardIdPageProps } from "@/config/types/main.types";
 
 export default async function BoardIdPage({
@@ -12,11 +13,7 @@ export default async function BoardIdPage({
   const { boardId } = await params;
   const { userId, orgId: clerkOrgId } = await auth();
 
-  const board = await db.board.findUnique({
-    where: {
-      id: boardId
-    }
-  });
+  const board = await getCachedBoard(boardId);
 
   if (!board) {
     notFound();
