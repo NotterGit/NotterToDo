@@ -77,3 +77,62 @@ model AuditLog {
   @@index([orgId, entityId, entityType])
   @@index([userId])
 }
+
+// Notter Models (Preserved in shared database)
+model Document {
+  id               String     @id @default(uuid())
+  title            String
+  userId           String
+  userName         String?
+  creatorName      String?
+  shortId          String     @unique
+  isShort          Boolean    @default(false)
+  isArchived       Boolean    @default(false)
+  archivedTime     DateTime?
+  isPinned         Boolean    @default(false)
+  parentDocumentId String?
+  parentDocument   Document?  @relation("DocumentHierarchy", fields: [parentDocumentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  children         Document[] @relation("DocumentHierarchy")
+  content          String?    @db.LongText
+  coverImage       String?    @db.Text
+  icon             String?
+  isPublished      Boolean    @default(false)
+  lastEditor       String?
+  lastEditTime     String?
+  verified         Boolean    @default(false)
+  views            Int        @default(0)
+  order            Int        @default(0)
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  @@index([userId])
+  @@index([userId, parentDocumentId])
+  @@index([parentDocumentId])
+  @@index([userId, isArchived, order])
+  @@index([userId, isArchived, isPublished])
+  @@index([userId, isArchived, archivedTime])
+  @@map("Documents")
+}
+
+enum NOTE_ENTITY_TYPE {
+  DOCUMENT
+  SETTINGS
+  WORKSPACE
+}
+
+model NoteAuditLog {
+  id          String           @id @default(uuid())
+  orgId       String
+  action      ACTION
+  entityId    String
+  entityType  NOTE_ENTITY_TYPE
+  entityTitle String
+  userId      String
+  userImage   String?          @db.Text
+  userName    String?          @db.Text
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([orgId])
+  @@map("NoteAuditLogs")
+}

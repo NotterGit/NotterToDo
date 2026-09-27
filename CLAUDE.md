@@ -13,7 +13,7 @@
 - **Framework**: Next.js 15 (App Router, Server Actions), React 19, TypeScript
 - **Styling**: Tailwind CSS v4, `clsx`, `tailwind-merge` (`cn` helper)
 - **UI**: Radix / Base UI / shadcn-style, Lucide icons, `tw-animate-css`
-- **Database**: MariaDB / MySQL via Prisma 7 (`@prisma/client`, `@prisma/adapter-mariadb`)
+- **Database**: MariaDB / MySQL via Prisma 7 (`@prisma/client`, `@prisma/adapter-mariadb`), shared database with Notter (preserving Document, NoteAuditLog models)
 - **Auth**: Clerk (`@clerk/nextjs`, `@clerk/themes`)
 - **State**: Zustand (modals, UI state), TanStack React Query (client cache/fetching)
 - **DnD**: `@hello-pangea/dnd`
@@ -27,7 +27,7 @@
 
 ```
 /
-├── prisma/schema.prisma         # Models: Board, List, Card, AuditLog. Enums: ACTION, ENTITY_TYPE
+├── prisma/schema.prisma         # Models: Board, List, Card, AuditLog, Document, NoteAuditLog. Enums: ACTION, ENTITY_TYPE, NOTE_ENTITY_TYPE
 ├── src/
 │   ├── actions/                 # Modular Server Actions (one directory per action)
 │   │   └── <action-name>/       # index.ts (handler), schema.ts (Zod), types.ts (ActionState)
