@@ -12,6 +12,10 @@ const nextConfig = {
                 hostname: "db.api.qual.su",
             },
             {
+                protocol: "https",
+                hostname: "api.qualsu.ru",
+            },
+            {
                 protocol: "http",
                 hostname: "localhost",
             },
@@ -26,6 +30,10 @@ const nextConfig = {
             {
                 protocol: "https",
                 hostname: "*.qual.su",
+            },
+            {
+                protocol: "https",
+                hostname: "*.qualsu.ru",
             },
             {
                 protocol: "https",
